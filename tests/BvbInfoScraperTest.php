@@ -8,14 +8,9 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
         $content = file_get_contents(__DIR__ . '/2014SeasonTournaments.html');
         $tournamentUrls = BvbInfoScraper::getSeasonTournamentUrls($content);
 
-        $count = 0;
-        foreach ($tournamentUrls as $node) {
-            $count++;
-        }
-
-        $this->assertSame('Tournament.asp?ID=2975', $tournamentUrls[0]->value);
-        $this->assertSame('Tournament.asp?ID=2988', $tournamentUrls[13]->value);
-        $this->assertSame(14, $count);
+        $this->assertSame('Tournament.asp?ID=2975', $tournamentUrls[0]);
+        $this->assertSame('Tournament.asp?ID=2988', $tournamentUrls[13]);
+        $this->assertSame(14, count($tournamentUrls));
     }
 
     public function testGetMatchResults()

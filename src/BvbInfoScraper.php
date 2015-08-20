@@ -5,12 +5,20 @@ class BvbInfoScraper
 {
     /**
      * @param string $xmlContent
-     * @return \DOMAttr[]
+     * @return string[]
      */
     public static function getSeasonTournamentUrls($xmlContent)
     {
         $xpath = '//a[contains(@href, "Tournament")]/@href';
-        return static::getDomNodeList($xmlContent, $xpath);
+        $nodes = static::getDomNodeList($xmlContent, $xpath);
+
+        $urls = [];
+
+        foreach ($nodes as $node) {
+            $urls[] = $node->value;
+        }
+
+        return $urls;
     }
 
     /**
