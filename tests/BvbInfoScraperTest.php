@@ -27,18 +27,23 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
         $this->verifyMatch($matches[2], 11097, 'Mike Claman', 1924, 'Matt Heath', '16-21', '21-10', '15-11');
         $this->verifyMatch($matches[74], 7335, 'Brad Keenan', 190, 'Jake Gibb', '16-21', '21-19', '18-16');
 
-        //<br>Match 29: <b><a href="player.asp?ID=7335">Brad Keenan</a> / <a href="player.asp?ID=5323">John Mayer</a> (6)</b> def. <a href="player.asp?ID=190">Jake Gibb</a> / <a href="player.asp?ID=5327">Casey Patterson</a> (1) 16-21, 21-19, 18-16 (1:06)
-
-
         $this->assertSame(75, count($matches));
     }
 
-    private function verifyMatch(Match $match, $playerAID, $playerAName, $playerBID, $playerBName, $score1, $score2, $score3)
-    {
-        $this->assertSame($playerAID, $match->getTeamA()->getPlayerA()->getVbId());
-        $this->assertSame($playerAName, $match->getTeamA()->getPlayerA()->getName());
-        $this->assertSame($playerBID, $match->getTeamB()->getPlayerA()->getVbId());
-        $this->assertSame($playerBName, $match->getTeamB()->getPlayerA()->getName());
+    private function verifyMatch(
+        Match $match,
+        $teamAPlayerAID,
+        $teamAPlayerAName,
+        $teamBPlayerAID,
+        $teamBPlayerAName,
+        $score1,
+        $score2,
+        $score3
+    ) {
+        $this->assertSame($teamAPlayerAID, $match->getTeamA()->getPlayerA()->getVbId());
+        $this->assertSame($teamAPlayerAName, $match->getTeamA()->getPlayerA()->getName());
+        $this->assertSame($teamBPlayerAID, $match->getTeamB()->getPlayerA()->getVbId());
+        $this->assertSame($teamBPlayerAName, $match->getTeamB()->getPlayerA()->getName());
         $this->assertSame($score1, (string) $match->getSetScore(1));
         $this->assertSame($score2, (string) $match->getSetScore(2));
         $this->assertSame($score3, (string) $match->getSetScore(3));
