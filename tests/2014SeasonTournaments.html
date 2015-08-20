@@ -1,0 +1,358 @@
+<!-- http://bvbinfo.com/Season.asp?AssocID=1&Gender=B&Year=2014 -->
+
+<!--
+//*****************************************************************************
+//
+//		Season.asp
+//		This page handles season pages
+//
+//		Input (query string):
+//		AssocID - ID of the association
+//		Gender - Gender
+//		Year - Year
+//
+//		Version 1.0
+//
+//		Created by Dennis Wagner - 3/1/2001
+//
+//		Revisions:
+//
+//*****************************************************************************
+-->
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="seasonstyle.css">
+
+</head>
+<body bgcolor="#ffffff" topmargin="0">
+
+<!-- Build the header -->
+
+
+<table width="900" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF">
+    <tr height="30" valign="bottom">
+        <td align="center"><img SRC="images/bvbinfo2003.jpg" WIDTH="400" HEIGHT="40"></td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+<table width="900" border="0" cellspacing="1" cellpadding="0">
+    <tr align="center">
+    </tr>
+    <form id="form1" name="form1">
+        <tr align="center" valign="bottom">
+            <td class="clsHeadlineCenter">&nbsp;</td>
+            <td width="13%" class="clsHeadlineCenter">Tour News</td>
+            <td class="clsHeadlineCenter" colspan="13">Search the Database</td>
+        </tr>
+        <tr align="center" valign="center">
+            <td class="clsNav" TITLE="Home"><a href="default1.asp">Home</a></td>
+            <td align="left">
+                <select name="Tours" style="width:100%" onChange="location.href=this.options[this.selectedIndex].value">
+                    <option selected>-- Choose --</option>
+                    <option value="TourNews.asp?AssocID=1">AVP</option>
+                    <option value="TourNews.asp?AssocID=21">NVL</option>
+                    <!--option value="TourNews.asp?AssocID=23">Pro Beach</option-->
+                    <!--option value="TourNews.asp?AssocID=20">USAV IDQ</option-->
+                    <!--option value="TourNews.asp?AssocID=22">Wide Open</option-->
+                    <option value="TourNews.asp?AssocID=17">NORCECA</option>
+                    <option value="TourNews.asp?AssocID=3">FIVB</option>
+                    <option value="TourNews.asp?AssocID=10">FIVB C&S</option>
+                    <option value="TourNews.asp?AssocID=15">FIVB AGWC</option>
+                    <option value="TourNews.asp?AssocID=11">CEV</option>
+                    <option value="TourNews.asp?AssocID=18">CEV C&S</option>
+                    <option value="TourNews.asp?AssocID=19">CEV Under Age</option>
+                    <!--option value="http://66.29.222.66">NCAA Sand Volleyball</option-->
+                </select>
+            </td>
+            <td class="clsNav" TITLE="Player Profiles"><a href="player.asp">Players</a></td>
+            <td>|</td>
+            <!--		<td class="clsNav" TITLE="Player Head-to-Head"><a href="PlayerHeadToHead.asp">Head-to-Head</a></td>		<td>|</td>		-->
+            <td class="clsNav" TITLE="Season Summaries"><a href="season.asp">Seasons</a></td>
+            <td>|</td>
+            <td class="clsNav" TITLE="Tournament Results"><a href="tournament.asp">Tournaments</a></td>
+            <td>|</td>
+            <td class="clsNav" TITLE="Season Rankings"><a href="ranking.asp">Rankings</a></td>
+            <td>|</td>
+            <td class="clsNav" TITLE="Career Leaders"><a href="leader.asp">Leaders</a></td>
+            <td>|</td>
+            <td class="clsNav" TITLE="Awards"><a href="award.asp">Awards</a></td>
+            <td>|</td>
+            <td class="clsNav" TITLE="Beach Volleyball History"><a href="history.asp">History</a></td>
+        </tr>
+        <tr>
+            <td colspan="99" height="2"><hr color="#333399"></td>
+        </tr>
+        <tr>
+            <td colspan="99" align="right">
+                <a href="https://twitter.com/BVBInfo" class="twitter-follow-button" data-show-count="false">Follow @BVBInfo</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            </td>
+        </tr>
+    </form>
+</table>
+
+
+
+<!-- Build the page Navigation -->
+
+<table border="0" cellpadding="4">
+    <tr>
+        <td>
+            <!-- Start Page Content -->
+
+            <table border="0" cellpadding="6" cellspacing="0" bgcolor="#cccccc">
+                <tr align="center">
+                    <td align="right">AVP: </td>
+                    <form name="formSeasonSelect">
+                        <td>
+                            <select name="SeasonList" size="1" onchange="window.location.href='Season.asp?AssocID=1&Gender=' + this.options[this.selectedIndex].value">
+                                <option value="M&Year=2014&Process=IndivSummary">Men's Indiv Summary
+                                <option value="M&Year=2014&Process=TeamSummary">Men's Team Summary
+                                <option value="W&Year=2014&Process=IndivSummary">Women's Indiv Summary
+                                <option value="W&Year=2014&Process=TeamSummary">Women's Team Summary
+                                <option value="B&Year=1984">AVP 1984
+                                <option value="B&Year=1985">AVP 1985
+                                <option value="B&Year=1986">AVP 1986
+                                <option value="B&Year=1987">AVP 1987
+                                <option value="B&Year=1988">AVP 1988
+                                <option value="B&Year=1989">AVP 1989
+                                <option value="B&Year=1990">AVP 1990
+                                <option value="B&Year=1991">AVP 1991
+                                <option value="B&Year=1992">AVP 1992
+                                <option value="B&Year=1993">AVP 1993
+                                <option value="B&Year=1994">AVP 1994
+                                <option value="B&Year=1995">AVP 1995
+                                <option value="B&Year=1996">AVP 1996
+                                <option value="B&Year=1997">AVP 1997
+                                <option value="B&Year=1998">AVP 1998
+                                <option value="B&Year=1999">AVP 1999
+                                <option value="B&Year=2000">AVP 2000
+                                <option value="B&Year=2001">AVP 2001
+                                <option value="B&Year=2002">AVP 2002
+                                <option value="B&Year=2003">AVP 2003
+                                <option value="B&Year=2004">AVP 2004
+                                <option value="B&Year=2005">AVP 2005
+                                <option value="B&Year=2006">AVP 2006
+                                <option value="B&Year=2007">AVP 2007
+                                <option value="B&Year=2008">AVP 2008
+                                <option value="B&Year=2009">AVP 2009
+                                <option value="B&Year=2010">AVP 2010
+                                <option value="B&Year=2011">AVP 2011
+                                <option value="B&Year=2012">AVP 2012
+                                <option value="B&Year=2013">AVP 2013
+                                <option value="B&Year=2014" selected>AVP 2014
+                                <option value="B&Year=2015">AVP 2015
+                            </select>
+                        </td>
+                    </form>
+                </tr>
+            </table>
+            <script language="JavaScript">
+                <!--
+                document.title=" AVP Pro Beach Tour 2014 Season Summary";
+                -->
+            </script>
+            <table border="0" cellpadding="4">
+                <tr>
+                    <td colspan="99" class="clsSeasonHeader">
+                        AVP Pro Beach Tour 2014 Season Summary
+                    </td>
+                </tr>
+                <tr class="clsSeasonDataHeader" align="center">
+                    <td>Date</td>
+                    <td align="left">Location</td>
+                    <td>Gender</td>
+                    <td>1st</td>
+                    <td>2nd</td>
+                    <td>3rd</td>
+                    <td>4th</td>
+                </tr>
+                <tr align="center" valign="bottom">
+
+                    <td nowrap align="left">May 29-Jun 1</td>
+                    <td align="left"><a href="Tournament.asp?ID=2975">St. Petersburg</a></td>
+                    <td>M</td>
+                    <td nowrap><a href="Player.asp?ID=7335">Brad Keenan</a> /<br><a href="Player.asp?ID=5323">John Mayer</a></td>
+                    <td nowrap><a href="Player.asp?ID=190">Jake Gibb</a> /<br><a href="Player.asp?ID=5327">Casey Patterson</a></td>
+                    <td nowrap><a href="Player.asp?ID=5214">Phil Dalhausser</a> /<br><a href="Player.asp?ID=1163">Sean Rosenthal</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=13699">Tri Bourne</a> /<br><a href="Player.asp?ID=1981">John Hyden</a></td>
+                </tr>
+                <tr class="clsGreyBarRow" align="center" valign="bottom">
+
+                    <td nowrap align="left">May 29-Jun 1</td>
+                    <td align="left"><a href="Tournament.asp?ID=2976">St. Petersburg</a></td>
+                    <td>W</td>
+                    <td nowrap><a href="Player.asp?ID=7389">April Ross</a> /<br><a href="Player.asp?ID=1923">Kerri Walsh Jennings</a></td>
+                    <td nowrap><a href="Player.asp?ID=5237">Lauren Fendrick</a> /<br><a href="Player.asp?ID=8047">Brooke Sweat</a></td>
+                    <td nowrap><a href="Player.asp?ID=8458">Emily Day</a> /<br><a href="Player.asp?ID=9309">Summer Ross</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=7817">Lane Carico</a> /<br><a href="Player.asp?ID=6428">Brittany Hochevar</a></td>
+                </tr>
+                <tr align="center" valign="bottom">
+
+                    <td nowrap align="left">Jul 3-6</td>
+                    <td align="left"><a href="Tournament.asp?ID=2977">Milwaukee</a></td>
+                    <td>M</td>
+                    <td nowrap><a href="Player.asp?ID=13699">Tri Bourne</a> /<br><a href="Player.asp?ID=1981">John Hyden</a></td>
+                    <td nowrap><a href="Player.asp?ID=5214">Phil Dalhausser</a> /<br><a href="Player.asp?ID=1163">Sean Rosenthal</a></td>
+                    <td nowrap><a href="Player.asp?ID=190">Jake Gibb</a> /<br><a href="Player.asp?ID=5327">Casey Patterson</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=11268">Ryan Doherty</a> /<br><a href="Player.asp?ID=1931">Nick Lucena</a></td>
+                </tr>
+                <tr class="clsGreyBarRow" align="center" valign="bottom">
+
+                    <td nowrap align="left">Jul 3-6</td>
+                    <td align="left"><a href="Tournament.asp?ID=2978">Milwaukee</a></td>
+                    <td>W</td>
+                    <td nowrap><a href="Player.asp?ID=7389">April Ross</a> /<br><a href="Player.asp?ID=1923">Kerri Walsh Jennings</a></td>
+                    <td nowrap><a href="Player.asp?ID=5237">Lauren Fendrick</a> /<br><a href="Player.asp?ID=8047">Brooke Sweat</a></td>
+                    <td nowrap><a href="Player.asp?ID=7817">Lane Carico</a> /<br><a href="Player.asp?ID=6428">Brittany Hochevar</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=6488">Jennifer Fopma</a> /<br><a href="Player.asp?ID=7825">Whitney Pavlik</a></td>
+                </tr>
+                <tr align="center" valign="bottom">
+
+                    <td nowrap align="left">Aug 7-10</td>
+                    <td align="left"><a href="Tournament.asp?ID=2979">Salt Lake City</a></td>
+                    <td>M</td>
+                    <td nowrap><a href="Player.asp?ID=190">Jake Gibb</a> /<br><a href="Player.asp?ID=5327">Casey Patterson</a></td>
+                    <td nowrap><a href="Player.asp?ID=11268">Ryan Doherty</a> /<br><a href="Player.asp?ID=1931">Nick Lucena</a></td>
+                    <td nowrap><a href="Player.asp?ID=7831">Theo Brunner</a> /<br><a href="Player.asp?ID=111">Todd Rogers</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=13699">Tri Bourne</a> /<br><a href="Player.asp?ID=1981">John Hyden</a></td>
+                </tr>
+                <tr class="clsGreyBarRow" align="center" valign="bottom">
+
+                    <td nowrap align="left">Aug 7-10</td>
+                    <td align="left"><a href="Tournament.asp?ID=2980">Salt Lake City</a></td>
+                    <td>W</td>
+                    <td nowrap><a href="Player.asp?ID=7389">April Ross</a> /<br><a href="Player.asp?ID=1923">Kerri Walsh Jennings</a></td>
+                    <td nowrap><a href="Player.asp?ID=5237">Lauren Fendrick</a> /<br><a href="Player.asp?ID=8047">Brooke Sweat</a></td>
+                    <td nowrap><a href="Player.asp?ID=8457">Heather McGuire</a> /<br><a href="Player.asp?ID=7825">Whitney Pavlik</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=8458">Emily Day</a> /<br><a href="Player.asp?ID=9309">Summer Ross</a></td>
+                </tr>
+                <tr align="center" valign="bottom">
+
+                    <td nowrap align="left">Aug 14-17</td>
+                    <td align="left"><a href="Tournament.asp?ID=2981">Manhattan Beach</a></td>
+                    <td>M</td>
+                    <td nowrap><a href="Player.asp?ID=5214">Phil Dalhausser</a> /<br><a href="Player.asp?ID=1163">Sean Rosenthal</a></td>
+                    <td nowrap><a href="Player.asp?ID=7831">Theo Brunner</a> /<br><a href="Player.asp?ID=111">Todd Rogers</a></td>
+                    <td nowrap><a href="Player.asp?ID=13699">Tri Bourne</a> /<br><a href="Player.asp?ID=1981">John Hyden</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=7335">Brad Keenan</a> /<br><a href="Player.asp?ID=5323">John Mayer</a></td>
+                </tr>
+                <tr class="clsGreyBarRow" align="center" valign="bottom">
+
+                    <td nowrap align="left">Aug 14-17</td>
+                    <td align="left"><a href="Tournament.asp?ID=2982">Manhattan Beach</a></td>
+                    <td>W</td>
+                    <td nowrap><a href="Player.asp?ID=7389">April Ross</a> /<br><a href="Player.asp?ID=1923">Kerri Walsh Jennings</a></td>
+                    <td nowrap><a href="Player.asp?ID=5237">Lauren Fendrick</a> /<br><a href="Player.asp?ID=8047">Brooke Sweat</a></td>
+                    <td nowrap><a href="Player.asp?ID=7817">Lane Carico</a> /<br><a href="Player.asp?ID=8154">Kim DiCello</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=8458">Emily Day</a> /<br><a href="Player.asp?ID=9309">Summer Ross</a></td>
+                </tr>
+                <tr align="center" valign="bottom">
+
+                    <td nowrap align="left">Aug 28-31</td>
+                    <td align="left"><a href="Tournament.asp?ID=2983">Cincinnati</a></td>
+                    <td>M</td>
+                    <td nowrap><a href="Player.asp?ID=190">Jake Gibb</a> /<br><a href="Player.asp?ID=5327">Casey Patterson</a></td>
+                    <td nowrap><a href="Player.asp?ID=11268">Ryan Doherty</a> /<br><a href="Player.asp?ID=1931">Nick Lucena</a></td>
+                    <td nowrap><a href="Player.asp?ID=9288">Jeremy Casebeer</a> /<br><a href="Player.asp?ID=1035">Casey Jennings</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=13699">Tri Bourne</a> /<br><a href="Player.asp?ID=1981">John Hyden</a></td>
+                </tr>
+                <tr class="clsGreyBarRow" align="center" valign="bottom">
+
+                    <td nowrap align="left">Aug 28-31</td>
+                    <td align="left"><a href="Tournament.asp?ID=2984">Cincinnati</a></td>
+                    <td>W</td>
+                    <td nowrap><a href="Player.asp?ID=7389">April Ross</a> /<br><a href="Player.asp?ID=1923">Kerri Walsh Jennings</a></td>
+                    <td nowrap><a href="Player.asp?ID=5237">Lauren Fendrick</a> /<br><a href="Player.asp?ID=8047">Brooke Sweat</a></td>
+                    <td nowrap><a href="Player.asp?ID=7817">Lane Carico</a> /<br><a href="Player.asp?ID=8154">Kim DiCello</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=6428">Brittany Hochevar</a> /<br><a href="Player.asp?ID=14111">Ali McColloch</a></td>
+                </tr>
+                <tr align="center" valign="bottom">
+
+                    <td nowrap align="left">Sep 5-7</td>
+                    <td align="left"><a href="Tournament.asp?ID=2985">Atlantic City</a></td>
+                    <td>M</td>
+                    <td nowrap><a href="Player.asp?ID=190">Jake Gibb</a> /<br><a href="Player.asp?ID=5327">Casey Patterson</a></td>
+                    <td nowrap><a href="Player.asp?ID=11268">Ryan Doherty</a> /<br><a href="Player.asp?ID=1931">Nick Lucena</a></td>
+                    <td nowrap><a href="Player.asp?ID=8338">Adrian Carambula</a> /<br><a href="Player.asp?ID=10939">Stafford Slick</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=6042">Billy Allen</a> /<br><a href="Player.asp?ID=13453">Trevor Crabb</a></td>
+                </tr>
+                <tr class="clsGreyBarRow" align="center" valign="bottom">
+
+                    <td nowrap align="left">Sep 5-7</td>
+                    <td align="left"><a href="Tournament.asp?ID=2986">Atlantic City</a></td>
+                    <td>W</td>
+                    <td nowrap><a href="Player.asp?ID=7389">April Ross</a> /<br><a href="Player.asp?ID=1923">Kerri Walsh Jennings</a></td>
+                    <td nowrap><a href="Player.asp?ID=8458">Emily Day</a> /<br><a href="Player.asp?ID=9309">Summer Ross</a></td>
+                    <td nowrap><a href="Player.asp?ID=7817">Lane Carico</a> /<br><a href="Player.asp?ID=8154">Kim DiCello</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=9003">Kathryn Piening</a> /<br><a href="Player.asp?ID=8052">Megan Wallin-Brockway</a></td>
+                </tr>
+                <tr align="center" valign="bottom">
+
+                    <td nowrap align="left">Sep 18-21</td>
+                    <td align="left"><a href="Tournament.asp?ID=2987">Huntington Beach</a></td>
+                    <td>M</td>
+                    <td nowrap><a href="Player.asp?ID=190">Jake Gibb</a> /<br><a href="Player.asp?ID=5327">Casey Patterson</a></td>
+                    <td nowrap><a href="Player.asp?ID=13699">Tri Bourne</a> /<br><a href="Player.asp?ID=1981">John Hyden</a></td>
+                    <td nowrap><a href="Player.asp?ID=11268">Ryan Doherty</a> /<br><a href="Player.asp?ID=1931">Nick Lucena</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=8338">Adrian Carambula</a> /<br><a href="Player.asp?ID=10939">Stafford Slick</a></td>
+                </tr>
+                <tr class="clsGreyBarRow" align="center" valign="bottom">
+
+                    <td nowrap align="left">Sep 18-21</td>
+                    <td align="left"><a href="Tournament.asp?ID=2988">Huntington Beach</a></td>
+                    <td>W</td>
+                    <td nowrap><a href="Player.asp?ID=7389">April Ross</a> /<br><a href="Player.asp?ID=1923">Kerri Walsh Jennings</a></td>
+                    <td nowrap><a href="Player.asp?ID=8457">Heather McGuire</a> /<br><a href="Player.asp?ID=7825">Whitney Pavlik</a></td>
+                    <td nowrap><a href="Player.asp?ID=5237">Lauren Fendrick</a> /<br><a href="Player.asp?ID=8047">Brooke Sweat</a></td>
+                    <td nowrap><span class="clsSeasonFinish">[ 3rd ]</span><br><a href="Player.asp?ID=7817">Lane Carico</a> /<br><a href="Player.asp?ID=8154">Kim DiCello</a></td>
+                </tr>
+            </table>
+            <P>
+
+
+                <!-- End Page Content -->
+        </td>
+    </tr>
+</table>
+
+<br>
+<table>
+    <tr>
+        <td align="right"><a href="#top">^top^</a></td>
+    </tr>
+    <tr>
+        <td width="900"><hr color="#333399"></td>
+    </tr>
+    <tr>
+        <td>
+            Copyright © 1999-2015 Beach Volleyball Database.
+            <br>Please read <a href="disclaimer.asp">disclaimer</a> before using data or photographs.
+        </td>
+    </tr>
+    <tr><td></td></tr>
+    <tr>
+        <td><a href="mailto:%61%64%6D%69%6E%34%40%62%76%62%69%6E%66%6F%2E%63%6F%6D">E-mail administrator</a></td>
+    </tr>
+</table>
+<!-- Start Alexa Certify Javascript -->
+<script type="text/javascript">
+    _atrk_opts = { atrk_acct:"tpvbk1acFH00W5", domain:"bvbinfo.com",dynamic: true};
+    (function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+</script>
+<noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=tpvbk1acFH00W5" style="display:none" height="1" width="1" alt="" /></noscript>
+<!-- End Alexa Certify Javascript -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-13195921-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

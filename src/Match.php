@@ -1,0 +1,66 @@
+<?php
+namespace pdt256\vbscraper;
+
+use RuntimeException;
+
+class Match
+{
+    /** @var Team */
+    private $teamA;
+
+    /** @var Team */
+    private $teamB;
+
+    /** @var SetScore[] */
+    private $setScores;
+
+    /** @var int */
+    private $gameTimeLengthInSeconds;
+
+    public function getTeamA()
+    {
+        return $this->teamA;
+    }
+
+    public function setTeamA(Team $teamA)
+    {
+        $this->teamA = $teamA;
+    }
+
+    public function getTeamB()
+    {
+        return $this->teamB;
+    }
+
+    public function setTeamB(Team $teamB)
+    {
+        $this->teamB = $teamB;
+    }
+
+    public function getSetScores()
+    {
+        return $this->setScores;
+    }
+
+    public function addSetScore(SetScore $setScore)
+    {
+        if (count($this->setScores) === 3) {
+            throw new RuntimeException('Exceeded maximum set scores.');
+        }
+
+        $this->setScores[] = $setScore;
+    }
+
+    public function getGameTimeLengthInSeconds()
+    {
+        return $this->gameTimeLengthInSeconds;
+    }
+
+    /**
+     * @param int $gameTimeLengthInSeconds
+     */
+    public function setGameTimeLengthInSeconds($gameTimeLengthInSeconds)
+    {
+        $this->gameTimeLengthInSeconds = (int) $gameTimeLengthInSeconds;
+    }
+}
