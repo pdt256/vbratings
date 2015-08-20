@@ -63,4 +63,18 @@ class Match
     {
         $this->gameTimeLengthInSeconds = (int) $gameTimeLengthInSeconds;
     }
+
+    /**
+     * @param int $set
+     * @return mixed
+     */
+    public function getSetScore($set)
+    {
+        $index = (int) $set - 1;
+        if (! isset($this->setScores[$index])) {
+            return null;
+        }
+
+        return $this->setScores[$index];
+    }
 }

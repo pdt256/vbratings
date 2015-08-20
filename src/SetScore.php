@@ -41,4 +41,9 @@ class SetScore
     {
         $this->teamBScore = (int) $teamBScore;
     }
+
+    public function __toString()
+    {
+        return $this->getTeamAScore() . '-' . $this->getTeamBScore();
+    }
 }
