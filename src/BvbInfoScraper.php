@@ -103,25 +103,4 @@ class BvbInfoScraper
         $domXpath = new \DOMXPath($domDocument);
         return $domXpath->query($xpath);
     }
-
-    /**
-     * @param $matches
-     */
-    private static function viewMatchData($matches, $index)
-    {
-        print_r([
-            $matches['team1PlayerAID'][$index],
-            $matches['team1PlayerAName'][$index],
-            $matches['team1PlayerBID'][$index],
-            $matches['team1PlayerBName'][$index],
-            $matches['team2PlayerAID'][$index],
-            $matches['team2PlayerAName'][$index],
-            $matches['team2PlayerBID'][$index],
-            $matches['team2PlayerBName'][$index],
-            $matches['score1'][$index],
-            $matches['score2'][$index],
-            $matches['score3'][$index],
-            $matches['time'][$index],
-        ]);
-    }
 }
