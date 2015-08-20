@@ -28,21 +28,21 @@ class BvbInfoScraper
     public static function getMatches($xmlContent)
     {
         $regex = '/
-            Match\s\d*:
+            Match\s\d+:
             .*
-            ID=(?<team1PlayerAID>\d*)"\>(?<team1PlayerAName>.*)\<\/a\>
+            ID=(?<team1PlayerAID>\d+)"\>(?<team1PlayerAName>.+)\<\/a\>
             .*
-            ID=(?<team1PlayerBID>\d*)"\>(?<team1PlayerBName>.*)\<\/a\>
+            ID=(?<team1PlayerBID>\d+)"\>(?<team1PlayerBName>.+)\<\/a\>
             .*
-            ID=(?<team2PlayerAID>\d*)"\>(?<team2PlayerAName>.*)\<\/a\>
+            ID=(?<team2PlayerAID>\d+)"\>(?<team2PlayerAName>.+)\<\/a\>
             .*
-            ID=(?<team2PlayerBID>\d*)"\>(?<team2PlayerBName>.*)\<\/a\>
+            ID=(?<team2PlayerBID>\d+)"\>(?<team2PlayerBName>.+)\<\/a\>
             .*
             \)
             \s(?<score1>\d+-\d+)
             ,\s(?<score2>\d+-\d+)
             (,\s(?<score3>\d+-\d+))?
-            \s\((?<time>\d*:\d*)\)
+            \s\((?<time>\d+:\d+)\)
         /x';
 
         preg_match_all($regex, $xmlContent, $regexMatches);
