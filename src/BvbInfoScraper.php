@@ -7,13 +7,29 @@ class BvbInfoScraper
      * @param string $xmlContent
      * @return string[]
      */
+    public static function getSeasonUrls($xmlContent)
+    {
+        $xpath = '//a[contains(@href, "Season")]/@href';
+        $nodes = static::getDomNodeList($xmlContent, $xpath);
+
+        $urls = [];
+        foreach ($nodes as $node) {
+            $urls[] = $node->value;
+        }
+
+        return $urls;
+    }
+
+    /**
+     * @param string $xmlContent
+     * @return string[]
+     */
     public static function getSeasonTournamentUrls($xmlContent)
     {
         $xpath = '//a[contains(@href, "Tournament")]/@href';
         $nodes = static::getDomNodeList($xmlContent, $xpath);
 
         $urls = [];
-
         foreach ($nodes as $node) {
             $urls[] = $node->value;
         }
