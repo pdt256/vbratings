@@ -3,7 +3,7 @@ namespace pdt256\vbscraper;
 
 class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetSeaonTournamentUrls()
+    public function testGetSeasonTournamentUrls()
     {
         $content = file_get_contents(__DIR__ . '/2014SeasonTournaments.html');
         $tournamentUrls = BvbInfoScraper::getSeasonTournamentUrls($content);
@@ -13,7 +13,7 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(14, count($tournamentUrls));
     }
 
-    public function testGetMatchResults()
+    public function testGetMatches()
     {
         $content = file_get_contents(__DIR__ . '/2014StPTournament.html');
         $matches = BvbInfoScraper::getMatches($content);
