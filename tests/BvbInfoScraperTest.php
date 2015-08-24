@@ -49,7 +49,7 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
 
         // Around Forfeit multi-line issue
         $this->verifyMatch($matches[40], 6908, 'Paul Araiza', 11236, 'Michael Boag', '21-19', '19-21', '19-17');
-        $this->verifyMatch($matches[41], 10332, 'Adam Cabbage', 2457, 'Matt Heagy', '', '', '');
+        $this->verifyMatch($matches[41], 10332, 'Adam Cabbage', 2457, 'Matt Heagy', 'forfeit', '', '');
         $this->verifyMatch($matches[42], 8143, 'Hawk Hatcher', 6274, 'Robert deAurora', '21-15', '21-17', '');
         $this->verifyMatch($matches[43], 2035, 'John Moran', 15804, 'Michael Brunsting', '21-18', '21-17', '');
     }
@@ -69,10 +69,8 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($teamBPlayerAID, $match->getTeamB()->getPlayerA()->getVbId());
         $this->assertSame($teamBPlayerAName, $match->getTeamB()->getPlayerA()->getName());
 
-        if ($score1 !== 'forfeit') {
-            $this->assertSame($score1, (string) $match->getSetScore(1));
-            $this->assertSame($score2, (string) $match->getSetScore(2));
-            $this->assertSame($score3, (string) $match->getSetScore(3));
-        }
+        $this->assertSame($score1, (string) $match->getSetScore(1));
+        $this->assertSame($score2, (string) $match->getSetScore(2));
+        $this->assertSame($score3, (string) $match->getSetScore(3));
     }
 }

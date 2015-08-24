@@ -98,7 +98,9 @@ class BvbInfoScraper
             $match->setTeamA($teamA);
             $match->setTeamB($teamB);
 
-            if ($regexMatch['forfeit'] !== 'Forfeit') {
+            if ($regexMatch['forfeit'] === 'Forfeit') {
+                $match->addSetScore(new SetScore('forfeit'));
+            } else {
                 $match->addSetScore(new SetScore($regexMatch['score1']));
                 $match->addSetScore(new SetScore($regexMatch['score2']));
 

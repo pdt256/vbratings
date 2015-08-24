@@ -9,11 +9,18 @@ class SetScore
     /** @var int */
     private $teamBScore;
 
+    /** @var bool */
+    private $isTeamBForfeit;
+
     public function __construct($scoreAsString)
     {
-        list($teamAScore, $teamBScore) = explode('-', $scoreAsString);
-        $this->setTeamAScore($teamAScore);
-        $this->setTeamBScore($teamBScore);
+        if ($scoreAsString === 'forfeit') {
+            $this->setIsTeamBForfeit(true);
+        } else {
+            list($teamAScore, $teamBScore) = explode('-', $scoreAsString);
+            $this->setTeamAScore($teamAScore);
+            $this->setTeamBScore($teamBScore);
+        }
     }
 
     public function getTeamAScore()
@@ -42,8 +49,25 @@ class SetScore
         $this->teamBScore = (int) $teamBScore;
     }
 
+    public function isTeamBForfeit()
+    {
+        return $this->isTeamBForfeit;
+    }
+
+    /**
+     * @param bool $isTeamBForfeit
+     */
+    public function setIsTeamBForfeit($isTeamBForfeit)
+    {
+        $this->isTeamBForfeit = (bool) $isTeamBForfeit;
+    }
+
     public function __toString()
     {
-        return $this->getTeamAScore() . '-' . $this->getTeamBScore();
+        if ($this->isTeamBForfeit()) {
+            return 'forfeit';
+        } else {
+            return $this->getTeamAScore() . '-' . $this->getTeamBScore();
+        }
     }
 }
