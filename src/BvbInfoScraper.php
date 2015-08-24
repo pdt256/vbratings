@@ -69,41 +69,40 @@ class BvbInfoScraper
             )
         /xm';
 
-        preg_match_all($regex, $xmlContent, $regexMatches);
+        preg_match_all($regex, $xmlContent, $regexMatches, PREG_SET_ORDER);
 
         $matches = [];
 
-        $total = count($regexMatches['team1PlayerAID']);
-        for ($i = 0; $i < $total; $i++) {
+        foreach ($regexMatches as $regexMatch) {
             $teamA = new Team;
             $teamA->setPlayerA(new Player(
-                $regexMatches['team1PlayerAID'][$i],
-                $regexMatches['team1PlayerAName'][$i]
+                $regexMatch['team1PlayerAID'],
+                $regexMatch['team1PlayerAName']
             ));
             $teamA->setPlayerB(new Player(
-                $regexMatches['team1PlayerBID'][$i],
-                $regexMatches['team1PlayerBName'][$i]
+                $regexMatch['team1PlayerBID'],
+                $regexMatch['team1PlayerBName']
             ));
 
             $teamB = new Team;
             $teamB->setPlayerA(new Player(
-                $regexMatches['team2PlayerAID'][$i],
-                $regexMatches['team2PlayerAName'][$i]
+                $regexMatch['team2PlayerAID'],
+                $regexMatch['team2PlayerAName']
             ));
             $teamB->setPlayerB(new Player(
-                $regexMatches['team2PlayerBID'][$i],
-                $regexMatches['team2PlayerBName'][$i]
+                $regexMatch['team2PlayerBID'],
+                $regexMatch['team2PlayerBName']
             ));
 
             $match = new Match;
             $match->setTeamA($teamA);
             $match->setTeamB($teamB);
 
-            if ($regexMatches['forfeit'][$i] !== 'Forfeit') {
-                $match->addSetScore(new SetScore($regexMatches['score1'][$i]));
-                $match->addSetScore(new SetScore($regexMatches['score2'][$i]));
+            if ($regexMatch['forfeit'] !== 'Forfeit') {
+                $match->addSetScore(new SetScore($regexMatch['score1']));
+                $match->addSetScore(new SetScore($regexMatch['score2']));
 
-                $score3 = $regexMatches['score3'][$i];
+                $score3 = $regexMatch['score3'];
                 if ($score3 !== '') {
                     $match->addSetScore(new SetScore($score3));
                 }
