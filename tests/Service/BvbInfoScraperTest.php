@@ -1,5 +1,7 @@
 <?php
-namespace pdt256\vbscraper;
+namespace pdt256\vbscraper\Service;
+
+use pdt256\vbscraper\Entity;
 
 class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
 {
@@ -55,7 +57,7 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
     }
 
     private function verifyMatch(
-        Match $match,
+        Entity\Match $match,
         $teamAPlayerAID,
         $teamAPlayerAName,
         $teamBPlayerAID,

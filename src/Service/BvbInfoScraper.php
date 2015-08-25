@@ -1,5 +1,10 @@
 <?php
-namespace pdt256\vbscraper;
+namespace pdt256\vbscraper\Service;
+
+use pdt256\vbscraper\Entity\Match;
+use pdt256\vbscraper\Entity\Player;
+use pdt256\vbscraper\Entity\SetScore;
+use pdt256\vbscraper\Entity\Team;
 
 class BvbInfoScraper
 {
@@ -39,7 +44,7 @@ class BvbInfoScraper
 
     /**
      * @param string $xmlContent
-     * @return Match[]
+     * @return \pdt256\vbscraper\Entity\Match[]
      */
     public static function getMatches($xmlContent)
     {

@@ -1,5 +1,5 @@
 <?php
-namespace pdt256\vbscraper;
+namespace pdt256\vbscraper\Entity;
 
 use RuntimeException;
 
