@@ -2,6 +2,8 @@
 namespace pdt256\vbscraper\Entity;
 
 use RuntimeException;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Match
 {
@@ -16,6 +18,18 @@ class Match
 
     /** @var int */
     private $gameTimeLengthInSeconds;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('teamA', new Assert\Valid);
+        $metadata->addPropertyConstraint('teamB', new Assert\Valid);
+        $metadata->addPropertyConstraint('setScores', new Assert\Valid);
+
+        $metadata->addPropertyConstraint('gameTimeLengthInSeconds', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+    }
 
     public function getTeamA()
     {

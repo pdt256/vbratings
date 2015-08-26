@@ -32,7 +32,7 @@ class ImportResult
         return $this->failedRows;
     }
 
-    public function addFailedRow(array $failedRow)
+    public function addFailedRow($failedRow)
     {
         $this->failedRows[] = $failedRow;
     }

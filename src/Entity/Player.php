@@ -1,6 +1,9 @@
 <?php
 namespace pdt256\vbscraper\Entity;
 
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Player
 {
     /** @var string */
@@ -8,6 +11,19 @@ class Player
 
     /** @var int */
     private $vbId;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\Length([
+            'max' => 128,
+        ]));
+
+        $metadata->addPropertyConstraint('vbId', new Assert\NotNull);
+        $metadata->addPropertyConstraint('vbId', new Assert\Range([
+            'min' => 0,
+            'max' => 65535,
+        ]));
+    }
 
     /**
      * @param int $vbId

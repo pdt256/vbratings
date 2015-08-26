@@ -1,6 +1,10 @@
 <?php
 namespace pdt256\vbscraper\Entity;
 
+use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class SetScore
 {
     /** @var int */
@@ -11,6 +15,27 @@ class SetScore
 
     /** @var bool */
     private $isTeamBForfeit;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+//        $callback = function ($object, ExecutionContextInterface $context) {
+//            if (! $object->isTeamBForfeit()) {
+//                $metadata = $context->getMetadata();
+//                $metadata->addPropertyConstraint('teamAScore', new Assert\NotNull);
+//                $metadata->addPropertyConstraint('teamAScore', new Assert\Range([
+//                    'min' => 0,
+//                    'max' => 64,
+//                ]));
+//
+//                $metadata->addPropertyConstraint('teamAScore', new Assert\NotNull);
+//                $metadata->addPropertyConstraint('teamBScore', new Assert\Range([
+//                    'min' => 0,
+//                    'max' => 64,
+//                ]));
+//            }
+//        };
+//        $metadata->addConstraint(new Assert\Callback($callback));
+    }
 
     public function __construct($scoreAsString)
     {
