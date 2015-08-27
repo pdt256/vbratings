@@ -14,9 +14,6 @@ class MatchTest extends \PHPUnit_Framework_TestCase
 
         $importResult = $matchImporter->import($matches);
 
-//        print_r($importResult->getErrorMessages());
-//        print_r($importResult->getFailedRows());
-
         $this->assertTrue($importResult instanceof ImportResult);
         $this->assertSame(103, $importResult->getSuccessCount());
         $this->assertSame(0, $importResult->getFailedCount());
