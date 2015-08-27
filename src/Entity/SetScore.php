@@ -2,10 +2,11 @@
 namespace pdt256\vbscraper\Entity;
 
 use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\GroupSequenceProviderInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class SetScore
+class SetScore implements GroupSequenceProviderInterface
 {
     /** @var int */
     private $teamAScore;
@@ -16,36 +17,52 @@ class SetScore
     /** @var bool */
     private $isTeamBForfeit;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    public function __construct()
     {
-//        $callback = function ($object, ExecutionContextInterface $context) {
-//            if (! $object->isTeamBForfeit()) {
-//                $metadata = $context->getMetadata();
-//                $metadata->addPropertyConstraint('teamAScore', new Assert\NotNull);
-//                $metadata->addPropertyConstraint('teamAScore', new Assert\Range([
-//                    'min' => 0,
-//                    'max' => 64,
-//                ]));
-//
-//                $metadata->addPropertyConstraint('teamAScore', new Assert\NotNull);
-//                $metadata->addPropertyConstraint('teamBScore', new Assert\Range([
-//                    'min' => 0,
-//                    'max' => 64,
-//                ]));
-//            }
-//        };
-//        $metadata->addConstraint(new Assert\Callback($callback));
+        $this->isTeamBForfeit = false;
     }
 
-    public function __construct($scoreAsString)
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        if ($scoreAsString === 'forfeit') {
-            $this->setIsTeamBForfeit(true);
-        } else {
-            list($teamAScore, $teamBScore) = explode('-', $scoreAsString);
-            $this->setTeamAScore($teamAScore);
-            $this->setTeamBScore($teamBScore);
+        $metadata->setGroupSequenceProvider(true);
+
+        $metadata->addPropertyConstraint('teamAScore', new Assert\NotNull([
+            'groups' => 'SetScore',
+        ]));
+
+        $metadata->addPropertyConstraint('teamAScore', new Assert\Range([
+            'min' => 0,
+            'max' => 64,
+            'groups' => 'SetScore',
+        ]));
+
+        $metadata->addPropertyConstraint('teamBScore', new Assert\NotNull([
+            'groups' => 'SetScore',
+        ]));
+
+        $metadata->addPropertyConstraint('teamBScore', new Assert\Range([
+            'min' => 0,
+            'max' => 64,
+            'groups' => 'SetScore',
+        ]));
+    }
+
+    public function getGroupSequence()
+    {
+        $groups = ['SetScore'];
+
+        if ($this->isTeamBForfeit()) {
+            $groups = ['Forfeit'];
         }
+
+        return $groups;
+    }
+
+    public function setScoresByString($scoreAsString)
+    {
+        list($teamAScore, $teamBScore) = explode('-', $scoreAsString);
+        $this->setTeamAScore($teamAScore);
+        $this->setTeamBScore($teamBScore);
     }
 
     public function getTeamAScore()

@@ -5,6 +5,7 @@ use RuntimeException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 class Match
 {
     /** @var Team */
@@ -63,6 +64,13 @@ class Match
         }
 
         $this->setScores[] = $setScore;
+    }
+
+    public function addSetScoreByString($scoreAsString)
+    {
+        $setScore = new SetScore;
+        $setScore->setScoresByString($scoreAsString);
+        $this->addSetScore($setScore);
     }
 
     public function getGameTimeLengthInSeconds()
