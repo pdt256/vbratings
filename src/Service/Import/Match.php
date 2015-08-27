@@ -9,7 +9,7 @@ class Match
 {
     /**
      * @param Entity\Match[] $matches
-     * @return ImportResult
+     * @return MatchImportResult
      */
     public function import(array $matches)
     {
@@ -17,7 +17,7 @@ class Match
             ->addMethodMapping('loadValidatorMetadata')
             ->getValidator();
 
-        $importResult = new ImportResult;
+        $importResult = new MatchImportResult;
 
         foreach ($matches as $match) {
             try {

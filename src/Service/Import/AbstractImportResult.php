@@ -1,13 +1,12 @@
 <?php
 namespace pdt256\vbscraper\Service\Import;
 
-class ImportResult
+abstract class AbstractImportResult
 {
+    protected $failedRows = [];
+
     /** @var int */
     private $successCount = 0;
-
-    /** @var array[] */
-    private $failedRows = [];
 
     /** @var string[] */
     private $errorMessages = [];
@@ -27,19 +26,12 @@ class ImportResult
         $this->successCount++;
     }
 
-    public function getFailedRows()
-    {
-        return $this->failedRows;
-    }
-
-    public function addFailedRow($failedRow)
-    {
-        $this->failedRows[] = $failedRow;
-    }
-
+    /**
+     * @param string $errorMessage
+     */
     public function addErrorMessage($errorMessage)
     {
-        $this->errorMessages[] = $errorMessage;
+        $this->errorMessages[] = (string) $errorMessage;
     }
 
     public function getErrorMessages()
