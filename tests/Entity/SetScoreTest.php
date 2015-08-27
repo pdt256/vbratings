@@ -18,16 +18,15 @@ class SetScoreTest extends \PHPUnit_Framework_TestCase
 
         $validationErrors = $validator->validate($setScore);
 
+        $this->assertSame(2, $validationErrors->count());
         $this->assertSame('teamAScore', $validationErrors->get(0)->getPropertyPath());
         $this->assertSame('teamBScore', $validationErrors->get(1)->getPropertyPath());
     }
 
-    public function testPassesValidationWithWrongScoreWithForfeit()
+    public function testPassesValidationWithNullScoreWithForfeit()
     {
         $setScore = new SetScore;
-        $setScore->setTeamAScore(-1);
-        $setScore->setTeamBScore(-1);
-        $setScore->setIsTeamBForfeit(true);
+        $setScore->setTeamBForfeit();
 
         $validator = Validation::createValidatorBuilder()
             ->addMethodMapping('loadValidatorMetadata')

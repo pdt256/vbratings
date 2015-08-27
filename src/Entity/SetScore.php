@@ -15,11 +15,11 @@ class SetScore implements GroupSequenceProviderInterface
     private $teamBScore;
 
     /** @var bool */
-    private $isTeamBForfeit;
+    private $teamBForfeit;
 
     public function __construct()
     {
-        $this->isTeamBForfeit = false;
+        $this->unsetTeamBForfeit();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -36,6 +36,10 @@ class SetScore implements GroupSequenceProviderInterface
         $metadata->addPropertyConstraint('teamBScore', new Assert\Range([
             'min' => 0,
             'max' => 64,
+        ]));
+
+        $metadata->addPropertyConstraint('teamBForfeit', new Assert\NotNull([
+            'groups' => ['SetScore', 'Forfeit'],
         ]));
     }
 
@@ -85,15 +89,17 @@ class SetScore implements GroupSequenceProviderInterface
 
     public function isTeamBForfeit()
     {
-        return $this->isTeamBForfeit;
+        return $this->teamBForfeit;
     }
 
-    /**
-     * @param bool $isTeamBForfeit
-     */
-    public function setIsTeamBForfeit($isTeamBForfeit)
+    public function setTeamBForfeit()
     {
-        $this->isTeamBForfeit = (bool) $isTeamBForfeit;
+        $this->teamBForfeit = true;
+    }
+
+    public function unsetTeamBForfeit()
+    {
+        $this->teamBForfeit = false;
     }
 
     public function __toString()
