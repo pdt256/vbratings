@@ -26,24 +26,16 @@ class SetScore implements GroupSequenceProviderInterface
     {
         $metadata->setGroupSequenceProvider(true);
 
-        $metadata->addPropertyConstraint('teamAScore', new Assert\NotNull([
-            'groups' => 'SetScore',
-        ]));
-
+        $metadata->addPropertyConstraint('teamAScore', new Assert\NotNull);
         $metadata->addPropertyConstraint('teamAScore', new Assert\Range([
             'min' => 0,
             'max' => 64,
-            'groups' => 'SetScore',
         ]));
 
-        $metadata->addPropertyConstraint('teamBScore', new Assert\NotNull([
-            'groups' => 'SetScore',
-        ]));
-
+        $metadata->addPropertyConstraint('teamBScore', new Assert\NotNull);
         $metadata->addPropertyConstraint('teamBScore', new Assert\Range([
             'min' => 0,
             'max' => 64,
-            'groups' => 'SetScore',
         ]));
     }
 
