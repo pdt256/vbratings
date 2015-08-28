@@ -40,6 +40,7 @@ class MatchImporterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(0, $importResult->getSuccessCount());
         $this->assertSame(1, $importResult->getFailedCount());
         $this->assertSame(1, count($failedRows));
+        $this->assertSame(1, count($importResult->getErrorMessages()));
         $this->assertSame($invalidMatch, $failedRows[0]);
     }
 
