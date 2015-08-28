@@ -5,7 +5,7 @@ use pdt256\vbscraper\Entity;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
-class Match
+class MatchImporter
 {
     /**
      * @param Entity\Match[] $matches

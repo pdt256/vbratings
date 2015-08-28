@@ -19,12 +19,16 @@ class Match
     /** @var int */
     private $gameTimeLengthInSeconds;
 
+    public function __construct()
+    {
+        $this->setScores = [];
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('teamA', new Assert\Valid);
         $metadata->addPropertyConstraint('teamB', new Assert\Valid);
         $metadata->addPropertyConstraint('setScores', new Assert\Valid);
-
         $metadata->addPropertyConstraint('gameTimeLengthInSeconds', new Assert\Range([
             'min' => 0,
             'max' => 65535,
