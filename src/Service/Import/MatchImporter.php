@@ -2,11 +2,21 @@
 namespace pdt256\vbscraper\Service\Import;
 
 use pdt256\vbscraper\Entity;
+use pdt256\vbscraper\EntityRepository;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
 class MatchImporter
 {
+
+    /** @var EntityRepository\MatchInterface */
+    private $matchRepository;
+
+    public function __construct(EntityRepository\MatchInterface $matchRepository)
+    {
+        $this->matchRepository = $matchRepository;
+    }
+
     /**
      * @param Entity\Match[] $matches
      * @return MatchImportResult
@@ -26,7 +36,7 @@ class MatchImporter
                     throw new ValidatorException('Invalid Match ' . (string) $errors);
                 }
 
-                // $this->matchRepository->create($match);
+                $this->matchRepository->create($match);
                 $importResult->incrementSuccess();
             } catch (\Exception $e) {
                 $importResult->addFailedRow($match);

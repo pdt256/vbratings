@@ -1,57 +1,58 @@
 <?php
 namespace pdt256\vbscraper\Service\Import;
 
-use Symfony\Component\Validator\Exception\ValidatorException;
-use Symfony\Component\Validator\Validation;
-
 use pdt256\vbscraper\Service\BvbInfoScraper;
 use pdt256\vbscraper\Entity\Match;
 use pdt256\vbscraper\Entity\Team;
 use pdt256\vbscraper\Entity\Player;
 use pdt256\vbscraper\Entity\SetScore;
+use pdt256\vbscraper\tests\Helper\EntityRepository\FakeMatch;
+use pdt256\vbscraper\tests\Helper;
 
-class MatchImporterTest extends \PHPUnit_Framework_TestCase
+class MatchImporterTest extends Helper\DoctrineTestCase
 {
-    public function testImport()
+    protected $metaDataClassNames = [
+        'vbscraper:Match',
+    ];
+
+    /** @var MatchImporter */
+    protected $matchImporter;
+
+    public function setUp()
     {
-        $matchImporter = new MatchImporter;
-
-        $matches = [$this->getValidMatch()];
-
-        $importResult = $matchImporter->import($matches);
-
-        $this->assertTrue($importResult instanceof MatchImportResult);
-        $this->assertSame(1, $importResult->getSuccessCount());
-        $this->assertSame(0, $importResult->getFailedCount());
+        $this->matchImporter = new MatchImporter($this->repository()->getMatch());
     }
 
-    public function testImportWithFailedRow()
+    public function testImportWithValidAndInvalid()
     {
-        $matchImporter = new MatchImporter;
-
+        $validMatch = $this->getValidMatch();
         $invalidMatch = $this->getInvalidMatch();
-        $matches = [$invalidMatch];
+        $matches = [
+            $validMatch,
+            $invalidMatch
+        ];
 
-        $importResult = $matchImporter->import($matches);
+        $this->setCountLogger();
+
+        $importResult = $this->matchImporter->import($matches);
 
         $failedRows = $importResult->getFailedRows();
 
         $this->assertTrue($importResult instanceof MatchImportResult);
-        $this->assertSame(0, $importResult->getSuccessCount());
+        $this->assertSame(1, $importResult->getSuccessCount());
         $this->assertSame(1, $importResult->getFailedCount());
         $this->assertSame(1, count($failedRows));
         $this->assertSame(1, count($importResult->getErrorMessages()));
         $this->assertSame($invalidMatch, $failedRows[0]);
+        $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testImportFromTournament()
     {
-        $matchImporter = new MatchImporter;
-
         $content = file_get_contents(__DIR__ . '/../2015ManhattanTournament.html');
         $matches = BvbInfoScraper::getMatches($content);
 
-        $importResult = $matchImporter->import($matches);
+        $importResult = $this->matchImporter->import($matches);
 
         $this->assertTrue($importResult instanceof MatchImportResult);
         $this->assertSame(103, $importResult->getSuccessCount());

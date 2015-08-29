@@ -5,8 +5,10 @@ use RuntimeException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Match
+class Match implements EntityInterface
 {
+    use IdTrait, TimeTrait;
+
     /** @var Team */
     private $teamA;
 
@@ -22,6 +24,7 @@ class Match
     public function __construct()
     {
         $this->setScores = [];
+        $this->setCreated();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
