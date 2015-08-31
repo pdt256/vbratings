@@ -35,16 +35,24 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
 
         $this->verifyMatch(
             $matches[0],
-            new Player(2718, 'Joe Cash'), new Player(10141, 'Roger Corbitt'),
-            new Player(9024, 'Jonathan Alvarez'), new Player(13516, 'Shaun Dawson'),
-            '21-9', '21-14', ''
+            new Player(2718, 'Joe Cash'),
+            new Player(10141, 'Roger Corbitt'),
+            new Player(9024, 'Jonathan Alvarez'),
+            new Player(13516, 'Shaun Dawson'),
+            '21-9',
+            '21-14',
+            ''
         );
 
         $this->verifyMatch(
             $matches[74],
-            new Player(7335, 'Brad Keenan'), new Player(5323, 'John Mayer'),
-            new Player(190, 'Jake Gibb'), new Player(5327, 'Casey Patterson'),
-            '16-21', '21-19', '18-16'
+            new Player(7335, 'Brad Keenan'),
+            new Player(5323, 'John Mayer'),
+            new Player(190, 'Jake Gibb'),
+            new Player(5327, 'Casey Patterson'),
+            '16-21',
+            '21-19',
+            '18-16'
         );
     }
 
@@ -57,27 +65,43 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
 
         $this->verifyMatch(
             $matches[40],
-            new Player(6908, 'Paul Araiza'), new Player(10333, 'Alejandro Parra'),
-            new Player(11236, 'Michael Boag'), new Player(6277, 'Dan Newman'),
-            '21-19', '19-21', '19-17'
+            new Player(6908, 'Paul Araiza'),
+            new Player(10333, 'Alejandro Parra'),
+            new Player(11236, 'Michael Boag'),
+            new Player(6277, 'Dan Newman'),
+            '21-19',
+            '19-21',
+            '19-17'
         );
         $this->verifyMatch(
             $matches[41],
-            new Player(10332, 'Adam Cabbage'), new Player(13455, 'Jake Rosener'),
-            new Player(2457, 'Matt Heagy'), new Player(13522, 'Jorge Martinez'),
-            'forfeit', '', ''
+            new Player(10332, 'Adam Cabbage'),
+            new Player(13455, 'Jake Rosener'),
+            new Player(2457, 'Matt Heagy'),
+            new Player(13522, 'Jorge Martinez'),
+            'forfeit',
+            '',
+            ''
         );
         $this->verifyMatch(
             $matches[42],
-            new Player(8143, 'Hawk Hatcher'), new Player(14828, 'Clay Paullin'),
-            new Player(6274, 'Robert deAurora'), new Player(10199, 'Ozz Borges'),
-            '21-15', '21-17', ''
+            new Player(8143, 'Hawk Hatcher'),
+            new Player(14828, 'Clay Paullin'),
+            new Player(6274, 'Robert deAurora'),
+            new Player(10199, 'Ozz Borges'),
+            '21-15',
+            '21-17',
+            ''
         );
         $this->verifyMatch(
             $matches[43],
-            new Player(2035, 'John Moran'), new Player(4825, 'Gregg Weaver'),
-            new Player(15804, 'Michael Brunsting'), new Player(9301, 'Hylas Smith'),
-            '21-18', '21-17', ''
+            new Player(2035, 'John Moran'),
+            new Player(4825, 'Gregg Weaver'),
+            new Player(15804, 'Michael Brunsting'),
+            new Player(9301, 'Hylas Smith'),
+            '21-18',
+            '21-17',
+            ''
         );
     }
 
