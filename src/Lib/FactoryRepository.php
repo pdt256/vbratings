@@ -15,21 +15,6 @@ class FactoryRepository
     }
 
     /**
-     * @param EntityManager $entityManager
-     * @return self
-     */
-    public static function getInstance(EntityManager $entityManager)
-    {
-        static $factoryRepository = null;
-
-        if ($factoryRepository === null) {
-            $factoryRepository = new static($entityManager);
-        }
-
-        return $factoryRepository;
-    }
-
-    /**
      * @return EntityRepository\MatchInterface
      */
     public function getMatch()
