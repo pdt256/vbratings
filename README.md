@@ -1,5 +1,7 @@
 Volleyball Score Scraper
 ========================
+[![Build Status](https://travis-ci.org/pdt256/vbscraper.svg?branch=master)](https://travis-ci.org/pdt256/vbscraper)
+[![License](https://img.shields.io/github/license/pdt256/vbscraper.svg)](https://github.com/pdt256/vbscraper/blob/master/LICENSE.txt)
 
 ## Introduction
 
