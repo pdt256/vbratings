@@ -18,6 +18,12 @@
             </options>
         </id>
 
+        <field name="gameTimeLengthInSeconds" type="smallint" nullable="true">
+            <options>
+                <option name="unsigned">true</option>
+            </options>
+        </field>
+
         <field name="created" type="integer">
             <options>
                 <option name="unsigned">true</option>

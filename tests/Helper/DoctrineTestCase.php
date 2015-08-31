@@ -2,7 +2,12 @@
 namespace pdt256\vbscraper\tests\Helper;
 
 use Doctrine;
+use pdt256\vbscraper\Entity\Match;
+use pdt256\vbscraper\Entity\Player;
+use pdt256\vbscraper\Entity\SetScore;
+use pdt256\vbscraper\Entity\Team;
 use pdt256\vbscraper\Lib\FactoryRepository;
+use pdt256\vbscraper\Doctrine\Extensions\TablePrefix;
 
 abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -107,5 +112,26 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
     protected function rollback()
     {
         $this->entityManager->getConnection()->rollback();
+    }
+
+    protected function getDummyMatch()
+    {
+        $teamA = new Team();
+        $teamA->setPlayerA(new Player(1, 'John Doe'));
+        $teamA->setPlayerB(new Player(2, 'James Doe'));
+
+        $teamB = new Team();
+        $teamB->setPlayerA(new Player(3, 'John Smith'));
+        $teamB->setPlayerB(new Player(4, 'James Smith'));
+
+        $setScore = new SetScore;
+        $setScore->setScoresByString('21-18');
+
+        $match = new Match;
+        $match->setTeamA($teamA);
+        $match->setTeamB($teamB);
+        $match->addSetScore($setScore);
+
+        return $match;
     }
 }

@@ -3,10 +3,7 @@ namespace pdt256\vbscraper\Service\Import;
 
 use pdt256\vbscraper\Service\BvbInfoScraper;
 use pdt256\vbscraper\Entity\Match;
-use pdt256\vbscraper\Entity\Team;
-use pdt256\vbscraper\Entity\Player;
 use pdt256\vbscraper\Entity\SetScore;
-use pdt256\vbscraper\tests\Helper\EntityRepository\FakeMatch;
 use pdt256\vbscraper\tests\Helper;
 
 class MatchImporterTest extends Helper\DoctrineTestCase
@@ -25,7 +22,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
 
     public function testImportWithValidAndInvalid()
     {
-        $validMatch = $this->getValidMatch();
+        $validMatch = $this->getDummyMatch();
         $invalidMatch = $this->getInvalidMatch();
         $matches = [
             $validMatch,
@@ -57,27 +54,6 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertTrue($importResult instanceof MatchImportResult);
         $this->assertSame(103, $importResult->getSuccessCount());
         $this->assertSame(0, $importResult->getFailedCount());
-    }
-
-    private function getValidMatch()
-    {
-        $teamA = new Team();
-        $teamA->setPlayerA(new Player(1, 'John Doe'));
-        $teamA->setPlayerB(new Player(2, 'James Doe'));
-
-        $teamB = new Team();
-        $teamB->setPlayerA(new Player(3, 'John Smith'));
-        $teamB->setPlayerB(new Player(4, 'James Smith'));
-
-        $setScore = new SetScore;
-        $setScore->setScoresByString('21-18');
-
-        $match = new Match;
-        $match->setTeamA($teamA);
-        $match->setTeamB($teamB);
-        $match->addSetScore($setScore);
-
-        return $match;
     }
 
     private function getInvalidMatch()
