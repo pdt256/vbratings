@@ -49,11 +49,14 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $content = file_get_contents(__DIR__ . '/../2015ManhattanTournament.html');
         $matches = BvbInfoScraper::getMatches($content);
 
+        $this->setCountLogger();
+
         $importResult = $this->matchImporter->import($matches);
 
         $this->assertTrue($importResult instanceof MatchImportResult);
         $this->assertSame(103, $importResult->getSuccessCount());
         $this->assertSame(0, $importResult->getFailedCount());
+        $this->assertSame(309, $this->countSQLLogger->getTotalQueries());
     }
 
     private function getInvalidMatch()
