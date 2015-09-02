@@ -116,11 +116,11 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getDummyMatch()
     {
-        $teamA = new Team();
+        $teamA = new Team;
         $teamA->setPlayerA(new Player(1, 'John Doe'));
         $teamA->setPlayerB(new Player(2, 'James Doe'));
 
-        $teamB = new Team();
+        $teamB = new Team;
         $teamB->setPlayerA(new Player(3, 'John Smith'));
         $teamB->setPlayerB(new Player(4, 'James Smith'));
 
