@@ -21,7 +21,10 @@ class CountSQLLogger implements SQLLogger
     public function startQuery($sql, array $params = null, array $types = null)
     {
         //$this->displaySql($sql, $params);
-        $this->totalQueries++;
+
+        if (! $this->isTransactionSQL($sql)) {
+            $this->totalQueries++;
+        }
     }
 
     private function displaySql($sql, $params = null)
@@ -31,10 +34,19 @@ class CountSQLLogger implements SQLLogger
             $values = json_encode(array_values($params));
         }
 
-        echo $sql . ' ' . $values . PHP_EOL;
+        echo $sql . ' ' . $values . PHP_EOL . PHP_EOL;
     }
 
     public function stopQuery()
     {
+    }
+
+    /**
+     * @param string $sql
+     * @return bool
+     */
+    private function isTransactionSQL($sql)
+    {
+        return substr($sql, 0, 1) === '"';
     }
 }

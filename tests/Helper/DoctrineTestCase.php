@@ -62,7 +62,6 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
 
         $this->entityManager = Doctrine\ORM\EntityManager::create($dbParams, $config);
         $this->entityManagerConfiguration = $this->entityManager->getConnection()->getConfiguration();
-        $this->entityManagerConfiguration->setAutoCommit(false);
     }
 
     private function setupTestSchema()
