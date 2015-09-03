@@ -1,7 +1,6 @@
 <?php
 namespace pdt256\vbscraper\Entity;
 
-use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\GroupSequenceProviderInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;

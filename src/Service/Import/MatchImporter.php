@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Validation;
 
 class MatchImporter
 {
-
     /** @var EntityRepository\MatchInterface */
     private $matchRepository;
 
@@ -19,12 +18,6 @@ class MatchImporter
 
     /** @var EntityRepository\PlayerInterface */
     private $playerRepository;
-
-    /** @var Player[] */
-    private $cachedPlayers = [];
-
-    /** @var Team[] */
-    private $cachedTeams = [];
 
     public function __construct(
         EntityRepository\MatchInterface $matchRepository,
