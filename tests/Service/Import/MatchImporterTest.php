@@ -47,7 +47,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertSame(1, count($failedRows));
         $this->assertSame(1, count($importResult->getErrorMessages()));
         $this->assertSame($invalidMatch, $failedRows[0]);
-        $this->assertSame(13, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(27, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testImportWithDuplicate()
@@ -69,7 +69,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertSame(0, $importResult->getFailedCount());
         $this->assertSame(0, count($failedRows));
         $this->assertSame(0, count($importResult->getErrorMessages()));
-        $this->assertSame(19, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(33, $this->countSQLLogger->getTotalQueries());
     }
 
     public function xtestImportFromTournament()
@@ -84,7 +84,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertTrue($importResult instanceof MatchImportResult);
         $this->assertSame(103, $importResult->getSuccessCount());
         $this->assertSame(0, $importResult->getFailedCount());
-        $this->assertSame(949, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1611, $this->countSQLLogger->getTotalQueries());
     }
 
     private function getInvalidMatch()

@@ -21,10 +21,7 @@ class CountSQLLogger implements SQLLogger
     public function startQuery($sql, array $params = null, array $types = null)
     {
         //$this->displaySql($sql, $params);
-
-        if (! $this->isTransactionSQL($sql)) {
-            $this->totalQueries++;
-        }
+        $this->totalQueries++;
     }
 
     private function displaySql($sql, $params = null)
@@ -39,14 +36,5 @@ class CountSQLLogger implements SQLLogger
 
     public function stopQuery()
     {
-    }
-
-    /**
-     * @param string $sql
-     * @return bool
-     */
-    private function isTransactionSQL($sql)
-    {
-        return substr($sql, 0, 1) === '"';
     }
 }
