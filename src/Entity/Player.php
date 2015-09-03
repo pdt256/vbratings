@@ -18,6 +18,18 @@ class Player implements EntityInterface
     /** @var Team[] */
     private $teams;
 
+    /**
+     * @param int $vbId
+     * @param string $name
+     */
+    public function __construct($vbId, $name)
+    {
+        $this->setCreated();
+        $this->teams = new ArrayCollection;
+        $this->setVbId($vbId);
+        $this->setName($name);
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('name', new Assert\Length([
@@ -29,18 +41,6 @@ class Player implements EntityInterface
             'min' => 0,
             'max' => 65535,
         ]));
-    }
-
-    /**
-     * @param int $vbId
-     * @param string $name
-     */
-    public function __construct($vbId, $name)
-    {
-        $this->setCreated();
-        $this->teams = new ArrayCollection;
-        $this->setVbId($vbId);
-        $this->setName($name);
     }
 
     public function getName()

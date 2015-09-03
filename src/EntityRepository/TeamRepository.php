@@ -20,6 +20,24 @@ class TeamRepository extends AbstractEntityRepository implements TeamInterface
         $this->deleteEntity($entity);
     }
 
+    public function find($id)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $team = $qb
+            ->select('team')
+            ->from('vbscraper:Team', 'team')
+
+            ->leftJoin('team.playerA', 'playerA')
+            ->leftJoin('team.playerB', 'playerB')
+
+            ->where('team.id = :id')->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $team;
+    }
+
     public function findOneByPlayers($playerA, $playerB)
     {
         $qb = $this->getQueryBuilder();

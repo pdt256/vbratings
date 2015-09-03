@@ -115,10 +115,10 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
         $score2,
         $score3
     ) {
-        $this->assertEquals($teamAPlayerA, $match->getTeamA()->getPlayerA());
-        $this->assertEquals($teamAPlayerB, $match->getTeamA()->getPlayerB());
-        $this->assertEquals($teamBPlayerA, $match->getTeamB()->getPlayerA());
-        $this->assertEquals($teamBPlayerB, $match->getTeamB()->getPlayerB());
+        $this->assertEquals((string) $teamAPlayerA, (string) $match->getTeamA()->getPlayerA());
+        $this->assertEquals((string) $teamAPlayerB, (string) $match->getTeamA()->getPlayerB());
+        $this->assertEquals((string) $teamBPlayerA, (string) $match->getTeamB()->getPlayerA());
+        $this->assertEquals((string) $teamBPlayerB, (string) $match->getTeamB()->getPlayerB());
         $this->assertSame($score1, (string) $match->getSetScore(1));
         $this->assertSame($score2, (string) $match->getSetScore(2));
         $this->assertSame($score3, (string) $match->getSetScore(3));

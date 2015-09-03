@@ -37,6 +37,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($match->getSetscore(1) instanceof SetSCore);
         $this->assertSame(null, $match->getSetScore(3));
         $this->assertSame(5, $match->getGameTimeLengthInSeconds());
+        $this->assertSame('[(1) John Doe, (2) James Doe] def [(3) John Smith, (4) James Smith]', $match->__toString());
     }
 
     /**

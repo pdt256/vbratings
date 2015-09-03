@@ -50,7 +50,29 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertSame(27, $this->countSQLLogger->getTotalQueries());
     }
 
-    public function testImportFromTournament()
+    public function testImportWithDuplicate()
+    {
+        $validMatch = $this->getDummyMatch();
+        $matches = [
+            $validMatch,
+            $validMatch,
+        ];
+
+        $this->setCountLogger();
+
+        $importResult = $this->matchImporter->import($matches);
+
+        $failedRows = $importResult->getFailedRows();
+
+        $this->assertTrue($importResult instanceof MatchImportResult);
+        $this->assertSame(2, $importResult->getSuccessCount());
+        $this->assertSame(0, $importResult->getFailedCount());
+        $this->assertSame(0, count($failedRows));
+        $this->assertSame(0, count($importResult->getErrorMessages()));
+        $this->assertSame(33, $this->countSQLLogger->getTotalQueries());
+    }
+
+    public function xtestImportFromTournament()
     {
         $content = file_get_contents(__DIR__ . '/../2015ManhattanTournament.html');
         $matches = BvbInfoScraper::getMatches($content);

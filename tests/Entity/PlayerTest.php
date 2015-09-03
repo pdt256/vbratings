@@ -16,5 +16,6 @@ class PlayerTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validator->validate($player));
         $this->assertSame('John Doe', $player->getname());
         $this->assertSame(123, $player->getVbId());
+        $this->assertSame('(123) John Doe', $player->__toString());
     }
 }
