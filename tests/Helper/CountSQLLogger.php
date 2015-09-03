@@ -34,7 +34,7 @@ class CountSQLLogger implements SQLLogger
             $values = json_encode(array_values($params));
         }
 
-        echo $sql . ' ' . $values . PHP_EOL . PHP_EOL;
+        echo $sql . ' ' . $values . PHP_EOL;
     }
 
     public function stopQuery()
