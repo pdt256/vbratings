@@ -27,8 +27,6 @@ class MatchRepositoryTest extends Helper\DoctrineTestCase
     {
         $match = $this->setupMatch();
 
-        $this->assertSame(null, $match->getId());
-        $this->matchRepository->create($match);
         $this->assertSame(1, $match->getId());
 
         $match->setGameTimeLengthInSeconds(1);

@@ -2,6 +2,7 @@
 namespace pdt256\vbscraper\EntityRepository;
 
 use Doctrine;
+use Doctrine\ORM\QueryBuilder;
 use pdt256\vbscraper\Entity\EntityInterface;
 
 abstract class AbstractEntityRepository extends Doctrine\ORM\EntityRepository
@@ -25,5 +26,10 @@ abstract class AbstractEntityRepository extends Doctrine\ORM\EntityRepository
         $entityManager = $this->getEntityManager();
         $entityManager->remove($entity);
         $entityManager->flush();
+    }
+
+    public function getQueryBuilder()
+    {
+        return new QueryBuilder($this->getEntityManager());
     }
 }

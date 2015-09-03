@@ -5,18 +5,18 @@ use pdt256\vbscraper\Entity\Match;
 
 class MatchRepository extends AbstractEntityRepository implements MatchInterface
 {
-    public function create(Match & $user)
+    public function create(Match & $entity)
     {
-        $this->createEntity($user);
+        $this->createEntity($entity);
     }
 
-    public function update(Match & $user)
+    public function update(Match & $entity)
     {
-        $this->updateEntity($user);
+        $this->updateEntity($entity);
     }
 
-    public function delete(Match & $user)
+    public function delete(Match & $entity)
     {
-        $this->deleteEntity($user);
+        $this->deleteEntity($entity);
     }
 }

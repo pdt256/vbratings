@@ -21,4 +21,20 @@ class FactoryRepository
     {
         return $this->entityManager->getRepository('vbscraper:Match');
     }
+
+    /**
+     * @return EntityRepository\TeamInterface
+     */
+    public function getTeam()
+    {
+        return $this->entityManager->getRepository('vbscraper:Team');
+    }
+
+    /**
+     * @return EntityRepository\PlayerInterface
+     */
+    public function getPlayer()
+    {
+        return $this->entityManager->getRepository('vbscraper:Player');
+    }
 }

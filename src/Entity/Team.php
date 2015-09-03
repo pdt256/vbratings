@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Team
+class Team implements EntityInterface
 {
     use IdTrait, TimeTrait;
 
@@ -48,5 +48,10 @@ class Team
     public function setPlayerB(Player $playerB)
     {
         $this->playerB = $playerB;
+    }
+
+    public function __toString()
+    {
+        return '[' . (string) $this->getPlayerA() . ', ' . (string) $this->getPlayerB() . ']';
     }
 }

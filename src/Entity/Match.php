@@ -105,4 +105,9 @@ class Match implements EntityInterface
 
         return $this->setScores[$index];
     }
+
+    public function __toString()
+    {
+        return (string) $this->getTeamA() . ' def ' . (string) $this->getTeamB();
+    }
 }

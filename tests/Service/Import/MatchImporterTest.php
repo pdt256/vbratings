@@ -10,6 +10,8 @@ class MatchImporterTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
         'vbscraper:Match',
+        'vbscraper:Team',
+        'vbscraper:Player',
     ];
 
     /** @var MatchImporter */
@@ -17,7 +19,11 @@ class MatchImporterTest extends Helper\DoctrineTestCase
 
     public function setUp()
     {
-        $this->matchImporter = new MatchImporter($this->repository()->getMatch());
+        $this->matchImporter = new MatchImporter(
+            $this->repository()->getMatch(),
+            $this->repository()->getTeam(),
+            $this->repository()->getPlayer()
+        );
     }
 
     public function testImportWithValidAndInvalid()
@@ -41,7 +47,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertSame(1, count($failedRows));
         $this->assertSame(1, count($importResult->getErrorMessages()));
         $this->assertSame($invalidMatch, $failedRows[0]);
-        $this->assertSame(3, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(27, $this->countSQLLogger->getTotalQueries());
     }
 
     public function testImportFromTournament()
@@ -56,7 +62,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertTrue($importResult instanceof MatchImportResult);
         $this->assertSame(103, $importResult->getSuccessCount());
         $this->assertSame(0, $importResult->getFailedCount());
-        $this->assertSame(309, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1611, $this->countSQLLogger->getTotalQueries());
     }
 
     private function getInvalidMatch()

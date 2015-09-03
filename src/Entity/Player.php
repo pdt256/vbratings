@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Player
+class Player implements EntityInterface
 {
     use IdTrait, TimeTrait;
 
@@ -67,5 +67,10 @@ class Player
     public function setVbId($vbId)
     {
         $this->vbId = (int) $vbId;
+    }
+
+    public function __toString()
+    {
+        return '(' . $this->getVbId() . ') ' . $this->getName();
     }
 }

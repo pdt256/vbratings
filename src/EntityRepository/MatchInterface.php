@@ -1,17 +1,17 @@
 <?php
 namespace pdt256\vbscraper\EntityRepository;
 
-use pdt256\vbscraper\Entity;
+use pdt256\vbscraper\Entity\Match;
 
 interface MatchInterface
 {
-    public function create(Entity\Match & $attribute);
-    public function update(Entity\Match & $attribute);
-    public function delete(Entity\Match & $attribute);
+    public function create(Match & $entity);
+    public function update(Match & $entity);
+    public function delete(Match & $entity);
 
     /**
      * @param int $id
-     * @return Entity\Match
+     * @return Match
      */
     public function find($id);
 }
