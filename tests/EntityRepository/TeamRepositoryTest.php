@@ -49,7 +49,7 @@ class TeamRepositoryTest extends Helper\DoctrineTestCase
         $team = $this->teamRepository->find(1);
 
         $this->assertTrue($team instanceof Team);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 
     private function setupTeam()

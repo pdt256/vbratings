@@ -56,7 +56,7 @@ class MatchRepositoryTest extends Helper\DoctrineTestCase
         $teamB->getPlayerB()->getCreated();
 
         $this->assertTrue($match instanceof Match);
-        $this->assertSame(2, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(2, $this->getTotalQueries());
     }
 
     private function setupMatch()

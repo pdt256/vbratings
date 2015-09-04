@@ -44,7 +44,7 @@ class PlayerRepositoryTest extends Helper\DoctrineTestCase
         $player = $this->playerRepository->find(1);
 
         $this->assertTrue($player instanceof Player);
-        $this->assertSame(1, $this->countSQLLogger->getTotalQueries());
+        $this->assertSame(1, $this->getTotalQueries());
     }
 
     private function setupPlayer()

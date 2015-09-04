@@ -98,6 +98,11 @@ abstract class DoctrineTestCase extends \PHPUnit_Framework_TestCase
         $this->entityManagerConfiguration->setSQLLogger($sqlLogger);
     }
 
+    protected function getTotalQueries()
+    {
+        return $this->countSQLLogger->getTotalQueries();
+    }
+
     protected function repository()
     {
         return new FactoryRepository($this->entityManager);
