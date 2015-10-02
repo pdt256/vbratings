@@ -69,6 +69,7 @@ class Match implements EntityInterface
             throw new RuntimeException('Exceeded maximum set scores.');
         }
 
+        $setScore->addMatch($this);
         $this->setScores[] = $setScore;
     }
 

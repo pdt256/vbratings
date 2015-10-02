@@ -10,6 +10,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
         'vbscraper:Match',
+        'vbscraper:SetScore',
         'vbscraper:Team',
         'vbscraper:Player',
     ];
@@ -47,7 +48,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertSame(1, count($failedRows));
         $this->assertSame(1, count($importResult->getErrorMessages()));
         $this->assertSame($invalidMatch, $failedRows[0]);
-        $this->assertSame(15, $this->getTotalQueries());
+        $this->assertSame(16, $this->getTotalQueries());
     }
 
     public function testImportWithDuplicate()
@@ -69,7 +70,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertSame(0, $importResult->getFailedCount());
         $this->assertSame(0, count($failedRows));
         $this->assertSame(0, count($importResult->getErrorMessages()));
-        $this->assertSame(21, $this->getTotalQueries());
+        $this->assertSame(22, $this->getTotalQueries());
     }
 
     public function xtestImportFromTournament()

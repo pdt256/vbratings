@@ -36,6 +36,12 @@
             </options>
         </field>
 
+        <one-to-many field="setScores" target-entity="SetScore" mapped-by="match" fetch="EXTRA_LAZY">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+
         <many-to-one field="teamA" target-entity="Team" inversed-by="matches" fetch="EAGER"/>
         <many-to-one field="teamB" target-entity="Team" inversed-by="matches" fetch="EAGER"/>
 

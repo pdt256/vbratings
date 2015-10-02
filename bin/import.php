@@ -18,41 +18,87 @@ $doctrine->setup([
 
 $doctrine->clearDB();
 
-$matchImporter = new MatchImporter(
-    $doctrine->repository()->getMatch(),
-    $doctrine->repository()->getTeam(),
-    $doctrine->repository()->getPlayer()
-);
+class LiveImport
+{
+    private $bvbBase = 'http://bvbinfo.com/';
 
-$bvbBase = 'http://bvbinfo.com/';
+    /** @var MatchImporter */
+    private $matchImporter;
 
-$content = file_get_contents($bvbBase . 'season.asp');
-$seasonUrls = BvbInfoScraper::getSeasonUrls($content);
-
-foreach (array_reverse($seasonUrls) as $seasonUrl) {
-    $seasonUrl = $bvbBase . $seasonUrl;
-
-    $year = (int) substr($seasonUrl, -4);
-    if ($year < 2015) {
-        continue;
+    public function __construct(DoctrineHelper $doctrine)
+    {
+        $this->matchImporter = new MatchImporter(
+            $doctrine->repository()->getMatch(),
+            $doctrine->repository()->getTeam(),
+            $doctrine->repository()->getPlayer()
+        );
     }
 
-    echo 'Season: ' . $seasonUrl . PHP_EOL;
+    public function execute()
+    {
+        $content = file_get_contents($this->bvbBase . 'season.asp');
+        $seasonUrls = BvbInfoScraper::getSeasonUrls($content);
 
-    $content = file_get_contents($seasonUrl);
-    $seasonTournamentUrls = BvbInfoScraper::getSeasonTournamentUrls($content);
+        foreach (array_reverse($seasonUrls) as $seasonUrl) {
+            $seasonUrl = $this->bvbBase . $seasonUrl;
+            $this->importSeason($seasonUrl);
+        }
+    }
 
-//    $seasonUrl = $bvbBase . '/Season.asp?AssocID=1&Year=2015';
-//    $content = file_get_contents($seasonUrl);
-//    $seasonTournamentUrls = BvbInfoScraper::getSeasonTournamentUrls($content);
+    /**
+     * @param $seasonTournamentUrls
+     */
+    public function importSeasonTournamentUrls($seasonTournamentUrls)
+    {
+        foreach ($seasonTournamentUrls as $seasonTournamentUrl) {
+            $seasonTournamentUrl = $this->bvbBase . $seasonTournamentUrl . '&Process=Matches';
+            $this->importTournamentMatches($seasonTournamentUrl);
+        }
+    }
 
-    foreach ($seasonTournamentUrls as $seasonTournamentUrl) {
-        $seasonTournamentUrl = $bvbBase . $seasonTournamentUrl . '&Process=Matches';
+    /**
+     * @param $seasonTournamentUrl
+     */
+    public function importTournamentMatches($seasonTournamentUrl)
+    {
         echo 'Tournament: ' . $seasonTournamentUrl . PHP_EOL;
 
         $content = file_get_contents($seasonTournamentUrl);
         $matches = BvbInfoScraper::getMatches($content);
 
-        $matchImporter->import($matches);
+        $this->matchImporter->import($matches);
+    }
+
+    private function yearIsValidInSeasonUrl($seasonUrl)
+    {
+        $year = (int) substr($seasonUrl, -4);
+        return ($year >= 2015);
+    }
+
+    public function importAVP2015()
+    {
+        $seasonUrl = $this->bvbBase . '/Season.asp?AssocID=1&Year=2015';
+        $this->importSeason($seasonUrl);
+    }
+
+    /**
+     * @param $seasonUrl
+     */
+    private function importSeason($seasonUrl)
+    {
+        if (! $this->yearIsValidInSeasonUrl($seasonUrl)) {
+            return;
+        }
+
+        echo 'Season: ' . $seasonUrl . PHP_EOL;
+
+        $content = file_get_contents($seasonUrl);
+        $seasonTournamentUrls = BvbInfoScraper::getSeasonTournamentUrls($content);
+
+        $this->importSeasonTournamentUrls($seasonTournamentUrls);
     }
 }
+
+$liveImport = new LiveImport($doctrine);
+//$liveImport->execute();
+$liveImport->importAVP2015();

@@ -7,6 +7,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class SetScore implements GroupSequenceProviderInterface
 {
+    use IdTrait;
+
     /** @var int */
     private $teamAScore;
 
@@ -16,9 +18,16 @@ class SetScore implements GroupSequenceProviderInterface
     /** @var bool */
     private $teamBForfeit;
 
-    public function __construct()
+    /** @var Match */
+    private $match;
+
+    public function __construct($scoreAsString = null)
     {
         $this->unsetTeamBForfeit();
+
+        if ($scoreAsString !== null) {
+            $this->setScoresByString($scoreAsString);
+        }
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -108,5 +117,10 @@ class SetScore implements GroupSequenceProviderInterface
         } else {
             return $this->getTeamAScore() . '-' . $this->getTeamBScore();
         }
+    }
+
+    public function addMatch(Match $match)
+    {
+        $this->match = $match;
     }
 }

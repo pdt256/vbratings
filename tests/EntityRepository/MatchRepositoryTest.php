@@ -11,6 +11,7 @@ class MatchRepositoryTest extends Helper\DoctrineTestCase
 {
     protected $metaDataClassNames = [
         'vbscraper:Match',
+        'vbscraper:SetScore',
         'vbscraper:Player',
         'vbscraper:Team',
     ];
@@ -56,7 +57,9 @@ class MatchRepositoryTest extends Helper\DoctrineTestCase
         $teamB->getPlayerB()->getCreated();
 
         $this->assertTrue($match instanceof Match);
-        $this->assertSame(2, $this->getTotalQueries());
+        $this->assertSame(60, $match->getGameTimeLengthInSeconds());
+        $this->assertSame(3, count($match->getSetScores()));
+        $this->assertSame(3, $this->getTotalQueries());
     }
 
     private function setupMatch()
@@ -74,13 +77,13 @@ class MatchRepositoryTest extends Helper\DoctrineTestCase
         $teamB->setPlayerA($player3);
         $teamB->setPlayerB($player4);
 
-        $setScore = new SetScore;
-        $setScore->setScoresByString('21-18');
-
         $match = new Match;
         $match->setTeamA($teamA);
         $match->setTeamB($teamB);
-        $match->addSetScore($setScore);
+        $match->addSetScore(new SetScore('21-18'));
+        $match->addSetScore(new SetScore('16-21'));
+        $match->addSetScore(new SetScore('15-8'));
+        $match->setGameTimeLengthInSeconds(60);
 
         $this->entityManager->persist($player1);
         $this->entityManager->persist($player2);
