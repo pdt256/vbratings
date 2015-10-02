@@ -23,6 +23,10 @@ class FakePlayer extends AbstractFake implements PlayerInterface
     {
     }
 
+    public function persist(Player & $player)
+    {
+    }
+
     public function find($id)
     {
         return $this->getReturnValue();

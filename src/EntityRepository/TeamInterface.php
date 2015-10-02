@@ -9,6 +9,7 @@ interface TeamInterface
     public function create(Team & $entity);
     public function update(Team & $entity);
     public function delete(Team & $entity);
+    public function persist(Team & $team);
 
     /**
      * @param int $id

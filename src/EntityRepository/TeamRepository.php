@@ -20,6 +20,11 @@ class TeamRepository extends AbstractEntityRepository implements TeamInterface
         $this->deleteEntity($entity);
     }
 
+    public function persist(Team & $team)
+    {
+        $this->persistEntity($team);
+    }
+
     public function find($id)
     {
         $qb = $this->getQueryBuilder();

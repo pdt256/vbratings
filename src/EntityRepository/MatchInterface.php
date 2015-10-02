@@ -8,6 +8,8 @@ interface MatchInterface
     public function create(Match & $entity);
     public function update(Match & $entity);
     public function delete(Match & $entity);
+    public function persist(Match & $match);
+    public function flush();
 
     /**
      * @param int $id

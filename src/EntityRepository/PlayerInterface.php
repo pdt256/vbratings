@@ -8,6 +8,7 @@ interface PlayerInterface
     public function create(Player & $entity);
     public function update(Player & $entity);
     public function delete(Player & $entity);
+    public function persist(Player & $player);
 
     /**
      * @param int $id

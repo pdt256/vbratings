@@ -7,24 +7,36 @@ use pdt256\vbscraper\Entity\EntityInterface;
 
 abstract class AbstractEntityRepository extends Doctrine\ORM\EntityRepository
 {
-    public function createEntity(EntityInterface & $entity)
+    protected function createEntity(EntityInterface & $entity)
     {
         $entityManager = $this->getEntityManager();
         $entityManager->persist($entity);
         $entityManager->flush();
     }
 
-    public function updateEntity(EntityInterface & $entity)
+    protected function updateEntity(EntityInterface & $entity)
     {
         $entityManager = $this->getEntityManager();
         $entity = $entityManager->merge($entity);
         $entityManager->flush();
     }
 
-    public function deleteEntity(EntityInterface $entity)
+    protected function deleteEntity(EntityInterface $entity)
     {
         $entityManager = $this->getEntityManager();
         $entityManager->remove($entity);
+        $entityManager->flush();
+    }
+
+    protected function persistEntity($entity)
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($entity);
+    }
+
+    protected function flushEntity()
+    {
+        $entityManager = $this->getEntityManager();
         $entityManager->flush();
     }
 

@@ -51,12 +51,14 @@ class MatchImporter
                 $match->setTeamA($this->createTeamIfNotFound($match->getTeamA()));
                 $match->setTeamB($this->createTeamIfNotFound($match->getTeamB()));
 
-                $this->matchRepository->create($match);
+                $this->matchRepository->persist($match);
                 $importResult->incrementSuccess();
             } catch (\Exception $e) {
                 $importResult->addFailedRow($match);
                 $importResult->addErrorMessage($e->getMessage());
             }
+
+            $this->matchRepository->flush();
         }
 
         return $importResult;
@@ -74,7 +76,7 @@ class MatchImporter
         $teamEntity = $this->teamRepository->findOneByPlayers($team->getPlayerA(), $team->getPlayerB());
 
         if ($teamEntity === null) {
-            $this->teamRepository->create($team);
+            $this->teamRepository->persist($team);
             return $team;
         }
 
@@ -90,7 +92,7 @@ class MatchImporter
         $playerEntity = $this->playerRepository->findOneByVbId($player->getVbId());
 
         if ($playerEntity === null) {
-            $this->playerRepository->create($player);
+            $this->playerRepository->persist($player);
             return $player;
         }
 

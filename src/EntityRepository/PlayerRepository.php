@@ -20,6 +20,11 @@ class PlayerRepository extends AbstractEntityRepository implements PlayerInterfa
         $this->deleteEntity($entity);
     }
 
+    public function persist(Player & $entity)
+    {
+        $this->persistEntity($entity);
+    }
+
     public function find($id)
     {
         return $this->findOneBy(['id' => $id]);
