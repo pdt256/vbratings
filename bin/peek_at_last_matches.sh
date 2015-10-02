@@ -4,7 +4,10 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 sqlite3 $DIR/../data/db.sqlite -batch -separator $'\t' '
 SELECT
     Match.id
-    ,GROUP_CONCAT(SetScore.teamAScore || "-" || SetScore.teamBScore)
+    ,CASE SUM(SetScore.teamBForfeit)
+        WHEN 1 THEN "[Forfeit]"
+        ELSE GROUP_CONCAT(SetScore.teamAScore || "-" || SetScore.teamBScore)
+        END
     ,TAPlayerA.name || "-" || TAPlayerB.name,
     TBPlayerA.name || "-" || TBPlayerB.name
 FROM
