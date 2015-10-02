@@ -1,6 +1,9 @@
 <?php
 namespace pdt256\vbscraper\Service;
 
+use DOMDocument;
+use DOMNodeList;
+use DOMXPath;
 use pdt256\vbscraper\Entity\Match;
 use pdt256\vbscraper\Entity\Player;
 use pdt256\vbscraper\Entity\SetScore;
@@ -44,7 +47,7 @@ class BvbInfoScraper
 
     /**
      * @param string $xmlContent
-     * @return \pdt256\vbscraper\Entity\Match[]
+     * @return Match[]
      */
     public static function getMatches($xmlContent)
     {
@@ -126,15 +129,15 @@ class BvbInfoScraper
     /**
      * @param string $xmlContent
      * @param string $xpath
-     * @return \DOMNodeList
+     * @return DOMNodeList
      */
     private static function getDomNodeList(& $xmlContent, & $xpath)
     {
-        $domDocument = new \DOMDocument();
+        $domDocument = new DOMDocument();
         libxml_use_internal_errors(true);
         $domDocument->loadHTML($xmlContent);
 
-        $domXpath = new \DOMXPath($domDocument);
+        $domXpath = new DOMXPath($domDocument);
         return $domXpath->query($xpath);
     }
 }
