@@ -9,21 +9,21 @@ class BvbInfoScraperTest extends \PHPUnit_Framework_TestCase
     public function testGetSeasonUrls()
     {
         $content = file_get_contents(__DIR__ . '/AllSeasons.html');
-        $tournamentUrls = BvbInfoScraper::getSeasonUrls($content);
+        $seasonUrls = BvbInfoScraper::getSeasonUrls($content);
 
-        $this->assertSame('Season.asp?AssocID=1&Year=2015', $tournamentUrls[0]);
-        $this->assertSame('Season.asp?AssocID=4&Year=1948', $tournamentUrls[240]);
-        $this->assertSame(241, count($tournamentUrls));
+        $this->assertSame('Season.asp?AssocID=1&Year=2015', $seasonUrls[0]);
+        $this->assertSame('Season.asp?AssocID=4&Year=1948', $seasonUrls[240]);
+        $this->assertSame(241, count($seasonUrls));
     }
 
     public function testGetSeasonTournamentUrls()
     {
         $content = file_get_contents(__DIR__ . '/2014SeasonTournaments.html');
-        $tournamentUrls = BvbInfoScraper::getSeasonTournamentUrls($content);
+        $seasonTournamentUrls = BvbInfoScraper::getSeasonTournamentUrls($content);
 
-        $this->assertSame('Tournament.asp?ID=2975', $tournamentUrls[0]);
-        $this->assertSame('Tournament.asp?ID=2988', $tournamentUrls[13]);
-        $this->assertSame(14, count($tournamentUrls));
+        $this->assertSame('Tournament.asp?ID=2975', $seasonTournamentUrls[0]);
+        $this->assertSame('Tournament.asp?ID=2988', $seasonTournamentUrls[13]);
+        $this->assertSame(14, count($seasonTournamentUrls));
     }
 
     public function testGetMatches()
