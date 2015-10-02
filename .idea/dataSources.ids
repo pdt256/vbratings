@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="SQLite -" uuid="dbda7231-d2bb-43ac-a0c0-414180c29376">
+    <database-info product="SQLite" version="3.8.9" jdbc-version="2.1" driver-name="SQLiteJDBC" driver-version="native"/>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed"/>
+    <schema name="" catalog=""/>
+    <table name="Match" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="gameTimeLengthInSeconds" sqlType="SMALLINT UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="teamA_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="teamB_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <index name="IDX_BB9AEA019EA1C0D6" unique="true" columns="teamB_id"/>
+      <index name="IDX_BB9AEA018C146F38" unique="true" columns="teamA_id"/>
+    </table>
+    <table name="Player" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="vbId" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR(128)" precision="2000000000" scale="10" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <index name="UNIQ_9FB57F535E237E06" unique="true" columns="name"/>
+    </table>
+    <table name="SetScore" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="match_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="teamAScore" sqlType="SMALLINT UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="teamBScore" sqlType="SMALLINT UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="teamBForfeit" sqlType="BOOLEAN" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+      <index name="IDX_C2CCE8912ABEACD6" unique="true" columns="match_id"/>
+    </table>
+    <table name="Team" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="created" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="updated" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="playerA_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="playerB_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key columns="id"/>
+      <index name="IDX_64D20921B9130B51" unique="true" columns="playerB_id"/>
+      <index name="IDX_64D20921ABA6A4BF" unique="true" columns="playerA_id"/>
+    </table>
+    <table name="player_team" schema="" catalog="" type="TABLE">
+      <column name="player_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="team_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <primary-key columns="team_id"/>
+      <index name="IDX_66FAF62C296CD8AE" unique="true" columns="team_id"/>
+      <index name="IDX_66FAF62C99E6F5DF" unique="true" columns="player_id"/>
+    </table>
+    <table name="team_match" schema="" catalog="" type="TABLE">
+      <column name="team_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="match_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <primary-key columns="match_id"/>
+      <index name="IDX_BD5D8C452ABEACD6" unique="true" columns="match_id"/>
+      <index name="IDX_BD5D8C45296CD8AE" unique="true" columns="team_id"/>
+    </table>
+  </data-source>
+</component>
