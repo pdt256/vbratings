@@ -73,7 +73,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertSame(22, $this->getTotalQueries());
     }
 
-    public function xtestImportFromTournament()
+    public function testImportFromTournament()
     {
         $content = file_get_contents(__DIR__ . '/../2015ManhattanTournament.html');
         $matches = BvbInfoScraper::getMatches($content);
@@ -85,7 +85,7 @@ class MatchImporterTest extends Helper\DoctrineTestCase
         $this->assertTrue($importResult instanceof MatchImportResult);
         $this->assertSame(103, $importResult->getSuccessCount());
         $this->assertSame(0, $importResult->getFailedCount());
-        $this->assertSame(1155, $this->getTotalQueries());
+        $this->assertSame(1394, $this->getTotalQueries());
     }
 
     private function getInvalidMatch()

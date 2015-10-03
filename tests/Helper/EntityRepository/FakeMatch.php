@@ -31,4 +31,8 @@ class FakeMatch extends AbstractFake implements MatchInterface
     public function persist(Match & $match)
     {
     }
+
+    public function clear()
+    {
+    }
 }

@@ -20,7 +20,7 @@ $doctrine->clearDB();
 
 class LiveImport
 {
-    private $bvbBase = 'http://bvbinfo.com/';
+    public $bvbBase = 'http://bvbinfo.com/';
 
     /** @var MatchImporter */
     private $matchImporter;
@@ -100,5 +100,8 @@ class LiveImport
 }
 
 $liveImport = new LiveImport($doctrine);
-//$liveImport->execute();
-$liveImport->importAVP2015();
+$liveImport->execute();
+//$liveImport->importAVP2015();
+
+// Name collision
+//$liveImport->importTournamentMatches('http://bvbinfo.com/Tournament.asp?ID=3119&Process=Matches');

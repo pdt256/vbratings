@@ -10,6 +10,7 @@ interface MatchInterface
     public function delete(Match & $entity);
     public function persist(Match & $match);
     public function flush();
+    public function clear();
 
     /**
      * @param int $id

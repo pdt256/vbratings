@@ -57,9 +57,10 @@ class MatchImporter
                 $importResult->addFailedRow($match);
                 $importResult->addErrorMessage($e->getMessage());
             }
-
             $this->matchRepository->flush();
         }
+
+        $this->matchRepository->clear();
 
         return $importResult;
     }

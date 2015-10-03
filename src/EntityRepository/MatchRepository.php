@@ -29,4 +29,9 @@ class MatchRepository extends AbstractEntityRepository implements MatchInterface
     {
         $this->flushEntity();
     }
+
+    public function clear()
+    {
+        $this->getEntityManager()->clear();
+    }
 }
