@@ -12,6 +12,9 @@
       <column name="teamA_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
       <column name="teamB_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
       <primary-key columns="id"/>
+      <foreign-key name="#FAKE_Match_1" columns="teamB_id" ref-table="Team" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_Match_2" columns="teamA_id" ref-table="Team" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <exported-key name="#FAKE_SetScore_1" table="SetScore" schema="" catalog="" columns="match_id"/>
       <index name="IDX_BB9AEA019EA1C0D6" unique="true" columns="teamB_id"/>
       <index name="IDX_BB9AEA018C146F38" unique="true" columns="teamA_id"/>
     </table>
@@ -22,6 +25,8 @@
       <column name="created" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
       <column name="updated" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
       <primary-key columns="id"/>
+      <exported-key name="#FAKE_Team_1" table="Team" schema="" catalog="" columns="playerB_id"/>
+      <exported-key name="#FAKE_Team_2" table="Team" schema="" catalog="" columns="playerA_id"/>
       <index name="UNIQ_9FB57F534F276E1F" unique="true" columns="vbId"/>
     </table>
     <table name="SetScore" schema="" catalog="" type="TABLE">
@@ -31,6 +36,7 @@
       <column name="teamBScore" sqlType="SMALLINT UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
       <column name="teamBForfeit" sqlType="BOOLEAN" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
       <primary-key columns="id"/>
+      <foreign-key name="#FAKE_SetScore_1" columns="match_id" ref-table="Match" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
       <index name="IDX_C2CCE8912ABEACD6" unique="true" columns="match_id"/>
     </table>
     <table name="Team" schema="" catalog="" type="TABLE">
@@ -40,22 +46,12 @@
       <column name="playerA_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
       <column name="playerB_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="true" jdbcType="4" def="TlVMTA=="/>
       <primary-key columns="id"/>
+      <foreign-key name="#FAKE_Team_1" columns="playerB_id" ref-table="Player" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_Team_2" columns="playerA_id" ref-table="Player" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <exported-key name="#FAKE_Match_1" table="Match" schema="" catalog="" columns="teamB_id"/>
+      <exported-key name="#FAKE_Match_2" table="Match" schema="" catalog="" columns="teamA_id"/>
       <index name="IDX_64D20921B9130B51" unique="true" columns="playerB_id"/>
       <index name="IDX_64D20921ABA6A4BF" unique="true" columns="playerA_id"/>
-    </table>
-    <table name="player_team" schema="" catalog="" type="TABLE">
-      <column name="player_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
-      <column name="team_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
-      <primary-key columns="team_id"/>
-      <index name="IDX_66FAF62C296CD8AE" unique="true" columns="team_id"/>
-      <index name="IDX_66FAF62C99E6F5DF" unique="true" columns="player_id"/>
-    </table>
-    <table name="team_match" schema="" catalog="" type="TABLE">
-      <column name="team_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
-      <column name="match_id" sqlType="INTEGER UNSIGNED" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
-      <primary-key columns="match_id"/>
-      <index name="IDX_BD5D8C452ABEACD6" unique="true" columns="match_id"/>
-      <index name="IDX_BD5D8C45296CD8AE" unique="true" columns="team_id"/>
     </table>
   </data-source>
 </component>

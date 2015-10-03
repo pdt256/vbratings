@@ -38,7 +38,7 @@
             </options>
         </field>
 
-        <many-to-many field="teams" target-entity="Team" fetch="EXTRA_LAZY"/>
+        <one-to-many field="teams" target-entity="Team" mapped-by="player" fetch="EXTRA_LAZY"/>
 
     </entity>
 
