@@ -10,5 +10,4 @@ class FakeMatch extends AbstractFake implements MatchRepositoryInterface
     {
         $this->setReturnValue(new Match);
     }
-
 }
