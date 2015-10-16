@@ -5,7 +5,7 @@ use RuntimeException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Match implements EntityInterface
+class Match implements EntityInterface, ValidationInterface
 {
     use IdTrait, TimeTrait;
 

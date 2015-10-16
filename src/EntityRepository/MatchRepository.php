@@ -1,37 +1,6 @@
 <?php
 namespace pdt256\vbscraper\EntityRepository;
 
-use pdt256\vbscraper\Entity\Match;
-
-class MatchRepository extends AbstractEntityRepository implements MatchInterface
+class MatchRepository extends AbstractEntityRepository implements MatchRepositoryInterface
 {
-    public function create(Match & $entity)
-    {
-        $this->createEntity($entity);
-    }
-
-    public function update(Match & $entity)
-    {
-        $this->updateEntity($entity);
-    }
-
-    public function delete(Match & $entity)
-    {
-        $this->deleteEntity($entity);
-    }
-
-    public function persist(Match & $entity)
-    {
-        $this->persistEntity($entity);
-    }
-
-    public function flush()
-    {
-        $this->flushEntity();
-    }
-
-    public function clear()
-    {
-        $this->getEntityManager()->clear();
-    }
 }

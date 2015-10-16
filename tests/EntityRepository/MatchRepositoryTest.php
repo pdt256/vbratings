@@ -16,7 +16,7 @@ class MatchRepositoryTest extends Helper\DoctrineTestCase
         'vbscraper:Team',
     ];
 
-    /** @var MatchInterface */
+    /** @var MatchRepositoryInterface */
     protected $matchRepository;
 
     public function setUp()
@@ -43,10 +43,11 @@ class MatchRepositoryTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $this->setupMatch();
+        $this->entityManager->clear();
 
         $this->setCountLogger();
 
-        $match = $this->matchRepository->find(1);
+        $match = $this->matchRepository->findOneById(1);
 
         $teamA = $match->getTeamA();
         $teamA->getPlayerA()->getCreated();
@@ -96,7 +97,6 @@ class MatchRepositoryTest extends Helper\DoctrineTestCase
         $this->matchRepository->create($match);
 
         $this->entityManager->flush();
-        $this->entityManager->clear();
 
         return $match;
     }

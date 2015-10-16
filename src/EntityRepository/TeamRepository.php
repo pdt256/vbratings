@@ -1,31 +1,9 @@
 <?php
 namespace pdt256\vbscraper\EntityRepository;
 
-use pdt256\vbscraper\Entity\Team;
-
-class TeamRepository extends AbstractEntityRepository implements TeamInterface
+class TeamRepository extends AbstractEntityRepository implements TeamRepositoryInterface
 {
-    public function create(Team & $entity)
-    {
-        $this->createEntity($entity);
-    }
-
-    public function update(Team & $entity)
-    {
-        $this->updateEntity($entity);
-    }
-
-    public function delete(Team & $entity)
-    {
-        $this->deleteEntity($entity);
-    }
-
-    public function persist(Team & $team)
-    {
-        $this->persistEntity($team);
-    }
-
-    public function find($id)
+    public function findOneById($id)
     {
         $qb = $this->getQueryBuilder();
 
@@ -40,7 +18,7 @@ class TeamRepository extends AbstractEntityRepository implements TeamInterface
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $team;
+        return $this->returnOrThrowNotFoundException($team);
     }
 
     public function findOneByPlayers($playerA, $playerB)
@@ -59,6 +37,6 @@ class TeamRepository extends AbstractEntityRepository implements TeamInterface
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $team;
+        return $this->returnOrThrowNotFoundException($team);
     }
 }

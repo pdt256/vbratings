@@ -15,7 +15,7 @@ class FactoryRepository
     }
 
     /**
-     * @return EntityRepository\MatchInterface
+     * @return EntityRepository\MatchRepositoryInterface
      */
     public function getMatch()
     {
@@ -23,7 +23,7 @@ class FactoryRepository
     }
 
     /**
-     * @return EntityRepository\TeamInterface
+     * @return EntityRepository\TeamRepositoryInterface
      */
     public function getTeam()
     {
@@ -31,7 +31,7 @@ class FactoryRepository
     }
 
     /**
-     * @return EntityRepository\PlayerInterface
+     * @return EntityRepository\PlayerRepositoryInterface
      */
     public function getPlayer()
     {

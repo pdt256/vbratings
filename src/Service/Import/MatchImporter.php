@@ -4,25 +4,28 @@ namespace pdt256\vbscraper\Service\Import;
 use pdt256\vbscraper\Entity\Player;
 use pdt256\vbscraper\Entity\Match;
 use pdt256\vbscraper\Entity\Team;
-use pdt256\vbscraper\EntityRepository;
+use pdt256\vbscraper\EntityRepository\EntityNotFoundException;
+use pdt256\vbscraper\EntityRepository\MatchRepositoryInterface;
+use pdt256\vbscraper\EntityRepository\PlayerRepositoryInterface;
+use pdt256\vbscraper\EntityRepository\TeamRepositoryInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validation;
 
 class MatchImporter
 {
-    /** @var EntityRepository\MatchInterface */
+    /** @var MatchRepositoryInterface */
     private $matchRepository;
 
-    /** @var EntityRepository\TeamInterface */
+    /** @var TeamRepositoryInterface */
     private $teamRepository;
 
-    /** @var EntityRepository\PlayerInterface */
+    /** @var PlayerRepositoryInterface */
     private $playerRepository;
 
     public function __construct(
-        EntityRepository\MatchInterface $matchRepository,
-        EntityRepository\TeamInterface $teamRepository,
-        EntityRepository\PlayerInterface $playerRepository
+        MatchRepositoryInterface $matchRepository,
+        TeamRepositoryInterface $teamRepository,
+        PlayerRepositoryInterface $playerRepository
     ) {
         $this->matchRepository = $matchRepository;
         $this->teamRepository = $teamRepository;
@@ -74,14 +77,12 @@ class MatchImporter
         $team->setPlayerA($this->createPlayerIfNotFound($team->getPlayerA()));
         $team->setPlayerB($this->createPlayerIfNotFound($team->getPlayerB()));
 
-        $teamEntity = $this->teamRepository->findOneByPlayers($team->getPlayerA(), $team->getPlayerB());
-
-        if ($teamEntity === null) {
+        try {
+            return $this->teamRepository->findOneByPlayers($team->getPlayerA(), $team->getPlayerB());
+        } catch (EntityNotFoundException $e) {
             $this->teamRepository->persist($team);
             return $team;
         }
-
-        return $teamEntity;
     }
 
     /**
@@ -90,13 +91,11 @@ class MatchImporter
      */
     private function createPlayerIfNotFound($player)
     {
-        $playerEntity = $this->playerRepository->findOneByVbId($player->getVbId());
-
-        if ($playerEntity === null) {
+        try {
+            return $this->playerRepository->findOneByVbId($player->getVbId());
+        } catch (EntityNotFoundException $e) {
             $this->playerRepository->persist($player);
             return $player;
         }
-
-        return $playerEntity;
     }
 }

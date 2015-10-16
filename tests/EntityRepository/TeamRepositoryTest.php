@@ -12,7 +12,7 @@ class TeamRepositoryTest extends Helper\DoctrineTestCase
         'vbscraper:Player',
     ];
 
-    /** @var TeamInterface */
+    /** @var TeamRepositoryInterface */
     protected $teamRepository;
 
     public function setUp()
@@ -40,24 +40,32 @@ class TeamRepositoryTest extends Helper\DoctrineTestCase
         $this->assertSame(null, $team->getId());
     }
 
-    public function testFind()
+    public function testFindOneById()
     {
         $this->setupTeam();
+        $this->entityManager->clear();
 
         $this->setCountLogger();
 
-        $team = $this->teamRepository->find(1);
+        $team = $this->teamRepository->findOneById(1);
 
         $this->assertTrue($team instanceof Team);
         $this->assertSame(1, $this->getTotalQueries());
     }
 
+    /**
+     * @expectedException \pdt256\vbscraper\EntityRepository\EntityNotFoundException
+     * @expectedExceptionMessage Team not found
+     */
+    public function testFindOneByIdThrowsException()
+    {
+        $team = $this->teamRepository->findOneById(1);
+    }
+
     private function setupTeam()
     {
         $team = new Team;
-
         $this->teamRepository->create($team);
-
         return $team;
     }
 }

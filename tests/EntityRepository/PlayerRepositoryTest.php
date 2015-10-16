@@ -11,7 +11,7 @@ class PlayerRepositoryTest extends Helper\DoctrineTestCase
         'vbscraper:Team',
     ];
 
-    /** @var PlayerInterface */
+    /** @var PlayerRepositoryInterface */
     protected $playerRepository;
 
     public function setUp()
@@ -38,10 +38,11 @@ class PlayerRepositoryTest extends Helper\DoctrineTestCase
     public function testFind()
     {
         $this->setupPlayer();
+        $this->entityManager->clear();
 
         $this->setCountLogger();
 
-        $player = $this->playerRepository->find(1);
+        $player = $this->playerRepository->findOneById(1);
 
         $this->assertTrue($player instanceof Player);
         $this->assertSame(1, $this->getTotalQueries());

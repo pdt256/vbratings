@@ -1,49 +1,84 @@
 <?php
 namespace pdt256\vbscraper\tests\Helper\EntityRepository;
 
-use pdt256\vbscraper\Entity;
-use Exception;
+use pdt256\vbscraper\Entity\EntityInterface;
+use pdt256\vbscraper\Entity\ValidationInterface;
+use pdt256\vbscraper\EntityRepository\AbstractRepositoryInterface;
+use pdt256\vbscraper\EntityRepository\EntityNotFoundException;
 
-class AbstractFake
+class AbstractFake implements AbstractRepositoryInterface
 {
-    /** @var Entity\EntityInterface */
-    public $returnValue;
+    /** @var ValidationInterface[] */
+    protected $entities = [];
 
-    /** @var Exception|null */
-    public $crudExceptionToThrow;
+    protected $entityName = 'Entity';
 
-    protected function getReturnValue()
+    /**
+     * @param int $id
+     * @return EntityInterface
+     * @throws EntityNotFoundException
+     */
+    public function findOneById($id)
     {
-        return $this->returnValue;
-    }
-
-    protected function getReturnValueAsArray()
-    {
-        if ($this->returnValue === null) {
-            return [];
+        if (isset($this->entities[$id])) {
+            return $this->entities[$id];
         }
 
-        return [$this->returnValue];
+        throw $this->getEntityNotFoundException();
     }
 
-    public function setReturnValue(Entity\EntityInterface $returnValue = null)
+    protected function getEntityNotFoundException()
     {
-        $this->returnValue = $returnValue;
+        return new EntityNotFoundException($this->entityName . ' not found');
     }
 
-    public function setCrudException(Exception $exception)
+    public function getQueryBuilder()
     {
-        $this->crudExceptionToThrow = $exception;
     }
 
-    public function throwCrudExceptionIfSet()
+    public function update(EntityInterface & $entity)
     {
-        if ($this->crudExceptionToThrow !== null) {
-            throw $this->crudExceptionToThrow;
+        if (method_exists($entity, 'setUpdated')) {
+            $entity->setUpdated();
         }
+
+        $this->entities[$entity->getId()] = $entity;
+    }
+
+    public function create(EntityInterface & $entity)
+    {
+        $entity->setId($this->getAutoincrement());
+        $this->entities[$entity->getId()] = $entity;
+    }
+
+    public function delete(EntityInterface $entity)
+    {
+        if (isset($this->entities[$entity->getId()])) {
+            unset($this->entities[$entity->getId()]);
+        }
+    }
+
+    public function persist(EntityInterface & $entity)
+    {
+    }
+
+    public function merge(EntityInterface & $entity)
+    {
     }
 
     public function flush()
     {
+    }
+
+    private function getAutoincrement()
+    {
+        if (count($this->entities) == 0) {
+            return 1;
+        }
+
+        end($this->entities);
+        $lastKey = key($this->entities);
+
+        return $lastKey + 1;
     }
 }
