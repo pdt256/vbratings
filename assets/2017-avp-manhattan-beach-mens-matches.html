@@ -1,0 +1,529 @@
+
+<!-- 
+//*****************************************************************************
+//	
+//		Tournament.asp 
+//		This page handles tournament pages
+//
+//		Input (query string):
+//		ID - ID of the tournament
+//
+//		Version 1.0
+//
+//		Created by Dennis Wagner - 2/22/2001
+//
+//		Revisions:
+//
+//*****************************************************************************	
+-->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="tournamentstyle.css">
+
+</head>
+<body bgcolor="#ffffff" topmargin="0">
+
+<!-- Build the header -->
+
+
+<table width="1025" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF">
+	<tr height="30" valign="bottom">
+		<td align="center"><img SRC="images/bvbinfo2003.jpg" WIDTH="400" HEIGHT="40"></td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="1025" border="0" cellspacing="1" cellpadding="0">
+	<tr align="center">
+	</tr>
+	<form id="form1" name="form1">
+	<tr align="center" valign="bottom">
+		<td class="clsHeadlineCenter">&nbsp;</td>
+		<td width="13%" class="clsHeadlineCenter">Tour News</td>
+		<td class="clsHeadlineCenter" colspan="13">Search the Database</td>
+	</tr>
+	<tr align="center" valign="center">
+		<td class="clsNav" TITLE="Home"><a href="default1.asp">Home</a></td>
+		<td align="left">
+				<select name="Tours" style="width:100%" onChange="location.href=this.options[this.selectedIndex].value">
+					<option selected>-- Choose --</option>
+					<option value="TourNews.asp?AssocID=1">AVP</option>
+					<option value="TourNews.asp?AssocID=25">p1440</option>
+					<!--option value="TourNews.asp?AssocID=21">NVL</option-->
+					<!--option value="TourNews.asp?AssocID=23">Pro Beach</option-->
+					<!--option value="TourNews.asp?AssocID=20">USAV IDQ</option-->
+					<!--option value="TourNews.asp?AssocID=22">Wide Open</option-->
+					<option value="TourNews.asp?AssocID=17">NORCECA</option>
+					<option value="TourNews.asp?AssocID=3">FIVB</option>
+					<!--option value="TourNews.asp?AssocID=10">FIVB C&S</option-->
+					<option value="TourNews.asp?AssocID=15">FIVB AGWC</option>
+					<option value="TourNews.asp?AssocID=11">CEV</option>
+					<option value="TourNews.asp?AssocID=18">CEV C&S</option>
+					<option value="TourNews.asp?AssocID=19">CEV Under Age</option>
+					<!--option value="http://66.29.222.66">NCAA Sand Volleyball</option-->
+				</select>
+		</td>
+		<td class="clsNav" TITLE="Player Profiles"><a href="player.asp">Players</a></td>
+		<td>|</td>
+		<!--		<td class="clsNav" TITLE="Player Head-to-Head"><a href="PlayerHeadToHead.asp">Head-to-Head</a></td>		<td>|</td>		-->
+		<td class="clsNav" TITLE="Season Summaries"><a href="season.asp">Seasons</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Tournament Results"><a href="tournament.asp">Tournaments</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Season Rankings"><a href="ranking.asp">Rankings</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Career Leaders"><a href="leader.asp">Leaders</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Awards"><a href="award.asp">Awards</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Beach Volleyball History"><a href="history.asp">History</a></td>
+	</tr>
+	<tr>
+		<td colspan="99" height="2"><hr color="#333399"></td>
+	</tr>
+	<tr>
+		<td colspan="99" align="right">
+			<a href="https://twitter.com/BVBInfo" class="twitter-follow-button" data-show-count="false">Follow @BVBInfo</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+		</td>
+	</tr>
+	</form>
+</table>
+	
+
+
+<!-- Build the page Navigation -->
+
+<table border="0" cellpadding="4">
+	<tr>
+		<td>	
+<!-- Start Page Content -->
+
+			<table border="0" cellpadding="6" cellspacing="0" bgcolor="#cccccc">
+				<tr>
+					<td align="right" nowrap>Manhattan Beach: </td>
+					<form name="formTournSelect">
+					<td>
+						<select name="TournList" size="1" onchange="window.location.href='Tournament.asp?' + this.options[this.selectedIndex].value">
+							<option value="LocID=85&CategoryID=1&Gender=M&Process=Summary">Summary</option>
+							<option value="LocID=85&CategoryID=1&Gender=M&Process=IndivSummary">Indiv Summary</option>
+							<option value="LocID=85&CategoryID=1&Gender=M&Process=TeamSummary">Team Summary</option>
+							<option value="ID=31">P&R 1960</option>
+							<option value="ID=35">P&R 1961</option>
+							<option value="ID=39">P&R 1962</option>
+							<option value="ID=45">P&R 1963</option>
+							<option value="ID=51">P&R 1964</option>
+							<option value="ID=57">P&R 1965</option>
+							<option value="ID=63">P&R 1966</option>
+							<option value="ID=69">P&R 1967</option>
+							<option value="ID=76">P&R 1968</option>
+							<option value="ID=86">P&R 1969</option>
+							<option value="ID=96">P&R 1970</option>
+							<option value="ID=108">P&R 1971</option>
+							<option value="ID=120">P&R 1972</option>
+							<option value="ID=133">P&R 1973</option>
+							<option value="ID=144">P&R 1974</option>
+							<option value="ID=155">P&R 1975</option>
+							<option value="ID=167">P&R 1976</option>
+							<option value="ID=179">P&R 1977</option>
+							<option value="ID=193">P&R 1978</option>
+							<option value="ID=207">P&R 1979</option>
+							<option value="ID=215">P&R 1979</option>
+							<option value="ID=224">P&R 1980</option>
+							<option value="ID=236">P&R 1980</option>
+							<option value="ID=240">P&R 1981</option>
+							<option value="ID=250">P&R 1981</option>
+							<option value="ID=261">P&R 1982</option>
+							<option value="ID=266">P&R 1982</option>
+							<option value="ID=279">P&R 1983</option>
+							<option value="ID=298">AVP 1984</option>
+							<option value="ID=314">AVP 1985</option>
+							<option value="ID=336">AVP 1986</option>
+							<option value="ID=365">AVP 1987</option>
+							<option value="ID=371">AVP 1987</option>
+							<option value="ID=388">AVP 1988</option>
+							<option value="ID=416">AVP 1989</option>
+							<option value="ID=445">AVP 1990</option>
+							<option value="ID=475">AVP 1991</option>
+							<option value="ID=506">AVP 1992</option>
+							<option value="ID=536">AVP 1993</option>
+							<option value="ID=564">AVP 1994</option>
+							<option value="ID=611">AVP 1995</option>
+							<option value="ID=650">AVP 1996</option>
+							<option value="ID=754">AVP 1999</option>
+							<option value="ID=782">AVP 2000</option>
+							<option value="ID=1116">AVP 2001</option>
+							<option value="ID=1277">AVP 2002</option>
+							<option value="ID=1326">AVP 2003</option>
+							<option value="ID=1473">AVP 2004</option>
+							<option value="ID=1555">AVP 2005</option>
+							<option value="ID=1661">AVP 2006</option>
+							<option value="ID=1712">AVP 2007</option>
+							<option value="ID=1987">AVP 2008</option>
+							<option value="ID=2141">AVP YG 2009</option>
+							<option value="ID=2121">AVP 2009</option>
+							<option value="ID=2564">Pro Beach 2011</option>
+							<option value="ID=2714">Pro Beach 2012</option>
+							<option value="ID=2843">AVP 2013</option>
+							<option value="ID=2981">AVP 2014</option>
+							<option value="ID=3109">AVP 2015</option>
+							<option value="ID=3227">AVP 2016</option>
+							<option value="ID=3332" selected>AVP 2017</option>
+							<option value="ID=3495">AVP 2018</option>
+						</select>
+					</td>
+					</form>
+					<td width="50">&nbsp;</td>
+					<td align="right" nowrap>AVP 2017: </td>
+					<form name="formSeasonSelect">
+					<td>
+						<select name="SeasonList" size="1" onchange="window.location.href= this.options[this.selectedIndex].value">
+							<option value="Season.asp?AssocID=1&Gender=M&Year=2017&Process=Summary">Summary (M)</option>
+							<option value="Season.asp?AssocID=1&Gender=W&Year=2017&Process=Summary">Summary (W)</option>
+							<option value="Season.asp?AssocID=1&Gender=M&Year=2017&Process=IndivSummary">Indiv Summary (M)</option>
+							<option value="Season.asp?AssocID=1&Gender=W&Year=2017&Process=IndivSummary">Indiv Summary (W)</option>
+							<option value="Season.asp?AssocID=1&Gender=M&Year=2017&Process=TeamSummary">Team Summary (M)</option>
+							<option value="Season.asp?AssocID=1&Gender=W&Year=2017&Process=TeamSummary">Team Summary (W)</option>
+							<option value="Tournament.asp?ID=3320">Huntington Beach (M)</option>
+							<option value="Tournament.asp?ID=3321">Huntington Beach (W)</option>
+							<option value="Tournament.asp?ID=3322">Austin (M)</option>
+							<option value="Tournament.asp?ID=3323">Austin (W)</option>
+							<option value="Tournament.asp?ID=3324">New York (M)</option>
+							<option value="Tournament.asp?ID=3325">New York (W)</option>
+							<option value="Tournament.asp?ID=3326">Seattle (M)</option>
+							<option value="Tournament.asp?ID=3327">Seattle (W)</option>
+							<option value="Tournament.asp?ID=3328">San Francisco (M)</option>
+							<option value="Tournament.asp?ID=3329">San Francisco (W)</option>
+							<option value="Tournament.asp?ID=3330">Hermosa Beach (M)</option>
+							<option value="Tournament.asp?ID=3331">Hermosa Beach (W)</option>
+							<option value="Tournament.asp?ID=3332" selected>Manhattan Beach (M)</option>
+							<option value="Tournament.asp?ID=3333">Manhattan Beach (W)</option>
+							<option value="Tournament.asp?ID=3334">Chicago (M)</option>
+							<option value="Tournament.asp?ID=3335">Chicago (W)</option>
+						</select>
+					</td>
+					</form>
+				</tr>
+				<tr>
+					<td align="right" nowrap>Tournament: </td>
+					<form name="formTournResultsSelect">
+					<td>
+						<select name="TournResultsList" size="1" onchange="window.location.href='Tournament.asp?' + this.options[this.selectedIndex].value">
+							<option value="ID=3332">Results</option>
+							<option value="ID=3332&Process=Matches" selected>Matches</option>
+							<option value="ID=3332&Process=QBracket">Qualifier's Bracket</option>
+							<option value="ID=3332&Process=WBracket">Winner's Bracket</option>
+							<option value="ID=3332&Process=CBracket">Contender's Bracket</option>
+							<option value="ID=3332&Process=Stats">Statistics</option>
+						</select>
+					</td>
+					</form>
+				</tr>
+				<tr>
+				</tr>
+			</table>
+<script language="JavaScript">
+<!--
+document.title="Men's AVP $112,500 Manhattan Beach Open August 17-20, 2017";
+-->
+</script>
+				<table border="0" cellpadding="4">
+					<tr>
+						<td colspan="99" class="clsTournHeader" align="center">
+							Men's AVP $112,500 Manhattan Beach Open<BR>
+							August 17-20, 2017
+						</td>
+					</tr>
+					<tr>
+						<td nowrap>
+<P>
+<div class="clsTournBracketHeader">Qualifier Bracket</div>
+<P>
+<u>Round 1</u><br>Match 2: <b><a href="player.asp?ID=7376">Matt Motter</a> / <a href="player.asp?ID=2037">Matt Olson</a> (Q65)</b> def. <a href="player.asp?ID=17858">Parker Anderson</a> / <a href="player.asp?ID=17468">Kailum Rinaldi</a> (Q64) 21-9, 21-9 (0:34)
+<br>Match 3: <b><a href="player.asp?ID=11745">Connor Hughes</a> / <a href="player.asp?ID=15817">Travis Woloson</a> (Q33)</b> def. <a href="player.asp?ID=17083">Logan Glave</a> / <a href="player.asp?ID=18012">Luke Salm</a> (Q96) 21-7, 21-7 (0:34)
+<br>Match 4: <b><a href="player.asp?ID=11237">Philip Burrow</a> / <a href="player.asp?ID=18008">Alex Diaz</a> (Q32)</b> def. <a href="player.asp?ID=18033">Christopher Griebenow</a> / <a href="player.asp?ID=18032">Christopher Shaffer</a> (Q97) 21-13, 21-18 (0:45)
+<br>Match 6: <b><a href="player.asp?ID=17457">Cole Fiers</a> / <a href="player.asp?ID=15449">Hagen Smith</a> (Q48)</b> def. <a href="player.asp?ID=17964">Luke Turner</a> / <a href="player.asp?ID=17965">Sam Walton</a> (Q81) 21-4, 21-6 (0:30)
+<br>Match 7: <b><a href="player.asp?ID=16326">Eric Beranek</a> / <a href="player.asp?ID=5204">Matt Prosser</a> (Q49)</b> def. <a href="player.asp?ID=13698">Kibbee Jelks</a> / <a href="player.asp?ID=16001">Clay Messenger</a> (Q80) 21-17, 22-20 (0:51)
+<br>Match 10: <b><a href="player.asp?ID=13414">Christopher Austin</a> / <a href="player.asp?ID=8143">Hawk Hatcher</a> (Q73)</b> def. <a href="player.asp?ID=6274">Robert deAurora</a> / <a href="player.asp?ID=7060">Aaron Wexler</a> (Q56) 21-12, 21-13 (0:44)
+<br>Match 11: <b><a href="player.asp?ID=10604">Luke Myers</a> / <a href="player.asp?ID=1932">Justin Phipps</a> (Q41)</b> def. <a href="player.asp?ID=18021">Madison Hayden</a> / <a href="player.asp?ID=14019">Steven Irvin</a> (Q88) 19-21, 21-17, 15-9 (1:03)
+<br>Match 12: <b><a href="player.asp?ID=122">David Smith</a> / <a href="player.asp?ID=16315">Nathan Yang</a> (30, Q24)</b> def. <a href="player.asp?ID=2609">Kevin Jones</a> / <a href="player.asp?ID=15920">Curt Lee</a> (Q105) 21-12, 21-11 (0:45)
+<br>Match 13: <b><a href="player.asp?ID=17826">Rowdy Lennon</a> / <a href="player.asp?ID=17246">John Schwengel</a> (Q25)</b> def. <a href="player.asp?ID=7040">Tyler Caldwell</a> / <a href="player.asp?ID=18024">Austin Zahn</a> (Q104) 21-16, 21-17 (0:36)
+<br>Match 14: <b><a href="player.asp?ID=6685">Alex Padilla</a> / <a href="player.asp?ID=9157">Patrick Volosin</a> (Q89)</b> def. <a href="player.asp?ID=17776">Chris Dedo</a> / <a href="player.asp?ID=17777">Evan Murray</a> (Q40) 21-18, 20-22, 18-16 (1:12)
+<br>Match 15: <b><a href="player.asp?ID=6271">Bill Strickland</a> / <a href="player.asp?ID=2029">Aaron Wachtfogel</a> (Q72)</b> def. <a href="player.asp?ID=18042">Tyler Bird</a> / <a href="player.asp?ID=17561">Miles Partain</a> (Q57) 19-21, 21-15, 15-11 (1:05)
+<br>Match 18: <b><a href="player.asp?ID=2457">Matt Heagy</a> / <a href="player.asp?ID=5910">Jeremie Holmes</a> (Q69)</b> def. <a href="player.asp?ID=1989">Gary Barnes</a> / <a href="player.asp?ID=15921">Riley Theunissen</a> (Q60) 21-14, 21-16 (0:42)
+<br>Match 19: <b><a href="player.asp?ID=17824">Daniel Kranda</a> / <a href="player.asp?ID=14972">Tanner Woods</a> (Q37)</b> def. <a href="player.asp?ID=17265">Ryan Charterina</a> / <a href="player.asp?ID=17266">John Eddins</a> (Q92) 21-19, 21-11 (0:40)
+<br>Match 20: <b><a href="player.asp?ID=14824">Abel Gustafson</a> / <a href="player.asp?ID=11744">Garrett Wilson</a> (31, Q28)</b> def. <a href="player.asp?ID=10793">Jordon Dyer</a> / <a href="player.asp?ID=2638">Christian Love</a> (Q101) 21-9, 21-12 (0:38)
+<br>Match 22: <b><a href="player.asp?ID=16330">Roy McFarland</a> / <a href="player.asp?ID=157">Dan Ortega</a> (Q85)</b> def. <a href="player.asp?ID=16372">Billy Marcozzi</a> / <a href="player.asp?ID=4857">Neil Mayo</a> (Q44) 21-13, 21-6 (0:34)
+<br>Match 23: <b><a href="player.asp?ID=15384">Devon Burki</a> / <a href="player.asp?ID=16983">Tanner Smith</a> (Q53)</b> def. <a href="player.asp?ID=10590">Mark Schuermann</a> / <a href="player.asp?ID=18027">Adam Schulz</a> (Q76) 21-17, 21-15 (0:38)
+<br>Match 26: <b><a href="player.asp?ID=10330">Alexi Gabriel</a> / <a href="player.asp?ID=16729">Anthony Unger</a> (Q52)</b> def. <a href="player.asp?ID=11285">Rory Jones</a> / <a href="player.asp?ID=16737">McKay Smith</a> (Q77) 21-16, 18-21, 15-12 (1:09)
+<br>Match 27: <b><a href="player.asp?ID=2010">Brian Chapman</a> / <a href="player.asp?ID=18204">Matthew Ellis</a> (Q45)</b> def. <a href="player.asp?ID=15917">Bobby Bomberg</a> / <a href="player.asp?ID=18034">Daniel Willis</a> (Q84) 21-18, 21-14 (0:48)
+<br>Match 29: <b><a href="player.asp?ID=17820">Troy Field</a> / <a href="player.asp?ID=10188">Orlando Irizarry</a> (32, Q29)</b> def. <a href="player.asp?ID=5067">Vince Fierro</a> / <a href="player.asp?ID=18035">JP Reilly</a> (Q100) 21-14, 21-7 (0:38)
+<br>Match 30: <b><a href="player.asp?ID=17458">Chris Flood</a> / <a href="player.asp?ID=16897">Rob McLean</a> (Q36)</b> def. <a href="player.asp?ID=2744">Dhiraj Coats</a> / <a href="player.asp?ID=18017">Austin Wilmot</a> (Q93) 21-11, 21-13 (0:36)
+<br>Match 31: <b><a href="player.asp?ID=2405">Mike DiPierro</a> / <a href="player.asp?ID=3141">Steve VanZwieten</a> (Q61)</b> def. <a href="player.asp?ID=14116">Cullen Irons</a> / <a href="player.asp?ID=7591">Andrew McGuire</a> (Q68) 21-23, 21-18, 15-13 (1:05)
+<br>Match 34: <b><a href="player.asp?ID=2496">Kristopher Fraser</a> / <a href="player.asp?ID=15590">Christopher Vaughan</a> (Q67)</b> def. <a href="player.asp?ID=3252">Josh Crouch</a> / <a href="player.asp?ID=5976">Jeff Nurenberg</a> (Q62) 21-10, 21-5 (0:29)
+<br>Match 35: <b><a href="player.asp?ID=17074">Andrew Brown</a> / <a href="player.asp?ID=17247">Sasha von Rauner</a> (Q94)</b> def. <a href="player.asp?ID=2747">Mika Hunkin</a> / <a href="player.asp?ID=15161">Thomas Ta</a> (Q35) 21-5, 21-7 (0:29)
+<br>Match 36: <b><a href="player.asp?ID=6272">Reuben Danley</a> / <a href="player.asp?ID=15157">Dylan Maarek</a> (Q30)</b> def. <a href="player.asp?ID=8284">Darryl Olenchalk</a> / <a href="player.asp?ID=8683">Jim Sias</a> (Q99) 21-4, 21-7 (0:29)
+<br>Match 38: <b><a href="player.asp?ID=2474">Kevin Craig</a> / <a href="player.asp?ID=5208">Tony Epie</a> (Q83)</b> def. <a href="player.asp?ID=5229">Reo Sorrentino</a> / <a href="player.asp?ID=14970">Szymon Tralka</a> (Q46) 0-21, 21-19, 15-7 (0:36)
+<br>Match 39: <b><a href="player.asp?ID=17823">Ty Coutts</a> / <a href="player.asp?ID=17816">Ashish Kamboj</a> (Q51)</b> def. <a href="player.asp?ID=18016">Aaron Dyer</a> / <a href="player.asp?ID=7572">Tyler Lucas</a> (Q78) 21-16, 21-16 (0:48)
+<br>Match 42: <b><a href="player.asp?ID=18013">Cole Constantino</a> / <a href="player.asp?ID=17462">Greg Faulkner</a> (Q75)</b> def. <a href="player.asp?ID=17003">Garret Denney</a> / <a href="player.asp?ID=18011">Randy Whited</a> (Q54) 21-17, 21-18 (0:46)
+<br>Match 43: <b><a href="player.asp?ID=15278">Aidan Brown</a> / <a href="player.asp?ID=16738">Marcus Duffey</a> (Q43)</b> def. <a href="player.asp?ID=13664">Kyle Bergstresser</a> / <a href="player.asp?ID=269">Kevin Cleary</a> (Q86) 21-18, 17-21, 15-8 (1:05)
+<br>Match 45: <b><a href="player.asp?ID=16327">Adrian Guthals</a> / <a href="player.asp?ID=11234">Tal Shavit</a> (Q27)</b> def. <a href="player.asp?ID=17968">Joe Keller</a> / <a href="player.asp?ID=17967">John Sutton</a> (Q102) 0-21, 21-6, 15-4 (0:27)
+<br>Match 46: <b><a href="player.asp?ID=15332">Will Bantle</a> / <a href="player.asp?ID=15314">Robert Mullahey</a> (Q38)</b> def. <a href="player.asp?ID=5249">Guy Hamilton</a> / <a href="player.asp?ID=6105">Brent Reger</a> (Q91) 21-16, 21-15 (0:46)
+<br>Match 47: <b><a href="player.asp?ID=10754">Kyle Stevenson</a> / <a href="player.asp?ID=13809">Landen Tusieseina</a> (Q59)</b> def. <a href="player.asp?ID=17439">Robert Miller</a> / <a href="player.asp?ID=16667">Shane Welch</a> (Q70) 21-17, 21-14 (0:40)
+<br>Match 50: <b><a href="player.asp?ID=17467">Dillon Cox</a> / <a href="player.asp?ID=17075">Ryan Wrublik</a> (Q58)</b> def. <a href="player.asp?ID=17248">Torin Jeffreys</a> / <a href="player.asp?ID=3249">Bivin Sadler</a> (Q71) 23-21, 21-13 (0:46)
+<br>Match 51: <b><a href="player.asp?ID=18037">Mike Clark</a> / <a href="player.asp?ID=66">Adam Jewell</a> (Q90)</b> def. <a href="player.asp?ID=16655">Elias Aparcedo</a> / <a href="player.asp?ID=14908">Kristopher Back</a> (Q39) 21-13, 21-19 (0:47)
+<br>Match 52: <b><a href="player.asp?ID=16328">Timothy Brewster</a> / <a href="player.asp?ID=15542">Dylan Holland</a> (Q26)</b> def. <a href="player.asp?ID=5911">Ossie Barreras</a> / <a href="player.asp?ID=18038">Victor Cosme</a> (Q103) 21-11, 21-15 (0:33)
+<br>Match 53: <b><a href="player.asp?ID=8135">Kevin Beukema</a> / <a href="player.asp?ID=8725">Tom Kohler</a> (Q23)</b> def. <a href="player.asp?ID=17970">Brendin Chandler</a> / <a href="player.asp?ID=17971">Lucas Ribaric</a> (Q106) 21-8, 21-17 (0:38)
+<br>Match 54: <b><a href="player.asp?ID=18025">Sebastian Rodriguez</a> / <a href="player.asp?ID=17852">Jack Walmer</a> (Q87)</b> def. <a href="player.asp?ID=16406">Tristan Patterson</a> / <a href="player.asp?ID=14938">Jeff Steffens</a> (Q42) 11-21, 21-15, 15-12 (0:53)
+<br>Match 55: <b><a href="player.asp?ID=18022">John Caroompas</a> / <a href="player.asp?ID=15810">David Rowker</a> (Q55)</b> def. <a href="player.asp?ID=11166">Mason Chevron</a> / <a href="player.asp?ID=2141">Jesse Webster</a> (Q74) 21-19, 21-18 (0:44)
+<br>Match 58: <b><a href="player.asp?ID=18023">Wyatt Harrison</a> / <a href="player.asp?ID=16980">Kacey Losik</a> (Q50)</b> def. <a href="player.asp?ID=15555">Talimatou Peniata</a> / <a href="player.asp?ID=17966">James (Bo) Schmidt</a> (Q79) 22-20, 21-9 (0:40)
+<br>Match 59: <b><a href="player.asp?ID=13370">Patrick Bolton</a> / <a href="player.asp?ID=16410">Earl Schultz</a> (Q47)</b> def. <a href="player.asp?ID=14014">Weston Carico</a> / <a href="player.asp?ID=5319">Jeff Urton</a> (Q82) 15-21, 21-15, 16-14 (1:15)
+<br>Match 61: <b><a href="player.asp?ID=12965">Skyler McCoy</a> / <a href="player.asp?ID=16000">Travis Mewhirter</a> (Q31)</b> def. <a href="player.asp?ID=18015">Shane Collins</a> / <a href="player.asp?ID=18014">Taylor Storm</a> (Q98) 21-6, 21-7 (0:30)
+<br>Match 62: <b><a href="player.asp?ID=13515">Skylar del Sol</a> / <a href="player.asp?ID=5955">Jon Mesko</a> (Q34)</b> def. <a href="player.asp?ID=18028">Bobby Barkley</a> / <a href="player.asp?ID=15934">Dane Johnson</a> (Q95) 21-13, 21-12 (0:36)
+<br>Match 63: <b><a href="player.asp?ID=11140">Ben Diggins</a> / <a href="player.asp?ID=13961">Chris McDonald</a> (Q66)</b> def. <a href="player.asp?ID=17534">Ryan Meehan</a> / <a href="player.asp?ID=14020">Jay Panther</a> (Q63) 21-17, 21-16 (0:42)
+<P>
+<u>Round 2</u><br>Match 65: <b><a href="player.asp?ID=15804">Michael Brunsting</a> / <a href="player.asp?ID=11560">Jeff Samuels</a> (17, Q1)</b> def. <a href="player.asp?ID=7376">Matt Motter</a> / <a href="player.asp?ID=2037">Matt Olson</a> (Q65) 18-21, 21-17, 16-14 (1:12)
+<br>Match 66: <b><a href="player.asp?ID=11237">Philip Burrow</a> / <a href="player.asp?ID=18008">Alex Diaz</a> (Q32)</b> def. <a href="player.asp?ID=11745">Connor Hughes</a> / <a href="player.asp?ID=15817">Travis Woloson</a> (Q33) 17-21, 21-19, 15-12 (1:06)
+<br>Match 67: <b><a href="player.asp?ID=17457">Cole Fiers</a> / <a href="player.asp?ID=15449">Hagen Smith</a> (Q48)</b> def. <a href="player.asp?ID=16404">Michael Harrison</a> / <a href="player.asp?ID=9200">Eli Masud</a> (Q17) 21-16, 21-9 (0:41)
+<br>Match 68: <b><a href="player.asp?ID=16326">Eric Beranek</a> / <a href="player.asp?ID=5204">Matt Prosser</a> (Q49)</b> def. <a href="player.asp?ID=17445">Bruno Amorim</a> / <a href="player.asp?ID=10199">Ozz Borges</a> (Q16) 22-20, 17-21, 15-9 (1:06)
+<br>Match 69: <b><a href="player.asp?ID=13414">Christopher Austin</a> / <a href="player.asp?ID=8143">Hawk Hatcher</a> (Q73)</b> def. <a href="player.asp?ID=10333">Alejandro Parra</a> / <a href="player.asp?ID=7434">Travis Schoonover</a> (Q9) 21-17, 13-21, 16-14 (0:58)
+<br>Match 70: <b><a href="player.asp?ID=122">David Smith</a> / <a href="player.asp?ID=16315">Nathan Yang</a> (30, Q24)</b> def. <a href="player.asp?ID=10604">Luke Myers</a> / <a href="player.asp?ID=1932">Justin Phipps</a> (Q41) 21-18, 22-20 (0:49)
+<br>Match 71: <b><a href="player.asp?ID=17826">Rowdy Lennon</a> / <a href="player.asp?ID=17246">John Schwengel</a> (Q25)</b> def. <a href="player.asp?ID=6685">Alex Padilla</a> / <a href="player.asp?ID=9157">Patrick Volosin</a> (Q89) 21-16, 23-21 (0:47)
+<br>Match 72: <b><a href="player.asp?ID=6271">Bill Strickland</a> / <a href="player.asp?ID=2029">Aaron Wachtfogel</a> (Q72)</b> def. <a href="player.asp?ID=7106">Ric Cervantes</a> / <a href="player.asp?ID=16658">Mike Stewart</a> (Q8) 21-11, 21-12 (0:42)
+<br>Match 73: <b><a href="player.asp?ID=6818">Dan Buehring</a> / <a href="player.asp?ID=10933">Matthew McCarthy</a> (Q5)</b> def. <a href="player.asp?ID=2457">Matt Heagy</a> / <a href="player.asp?ID=5910">Jeremie Holmes</a> (Q69) 21-16, 16-21, 15-10 (0:57)
+<br>Match 74: <b><a href="player.asp?ID=14824">Abel Gustafson</a> / <a href="player.asp?ID=11744">Garrett Wilson</a> (31, Q28)</b> def. <a href="player.asp?ID=17824">Daniel Kranda</a> / <a href="player.asp?ID=14972">Tanner Woods</a> (Q37) 21-14, 21-17 (0:43)
+<br>Match 75: <b><a href="player.asp?ID=16330">Roy McFarland</a> / <a href="player.asp?ID=157">Dan Ortega</a> (Q85)</b> def. <a href="player.asp?ID=8167">Kevin Lynch</a> / <a href="player.asp?ID=10337">Jason Raney</a> (Q21) 21-14, 21-17 (0:46)
+<br>Match 76: <b><a href="player.asp?ID=16105">John Hamilton</a> / <a href="player.asp?ID=14825">Christian Honer</a> (Q12)</b> def. <a href="player.asp?ID=15384">Devon Burki</a> / <a href="player.asp?ID=16983">Tanner Smith</a> (Q53) 21-18, 21-15 (0:43)
+<br>Match 77: <b><a href="player.asp?ID=10330">Alexi Gabriel</a> / <a href="player.asp?ID=16729">Anthony Unger</a> (Q52)</b> def. <a href="player.asp?ID=15248">Marshall Brock</a> / <a href="player.asp?ID=17541">Aaren Rice</a> (Q13) 21-15, 21-19 (0:54)
+<br>Match 78: <b><a href="player.asp?ID=2010">Brian Chapman</a> / <a href="player.asp?ID=18204">Matthew Ellis</a> (Q45)</b> def. <a href="player.asp?ID=9197">Matt Janas</a> / <a href="player.asp?ID=11501">Nathan Klaas</a> (Q20) 18-21, 24-22, 15-6 (1:06)
+<br>Match 79: <b><a href="player.asp?ID=17820">Troy Field</a> / <a href="player.asp?ID=10188">Orlando Irizarry</a> (32, Q29)</b> def. <a href="player.asp?ID=17458">Chris Flood</a> / <a href="player.asp?ID=16897">Rob McLean</a> (Q36) 21-17, 23-21 (0:54)
+<br>Match 80: <b><a href="player.asp?ID=2405">Mike DiPierro</a> / <a href="player.asp?ID=3141">Steve VanZwieten</a> (Q61)</b> def. <a href="player.asp?ID=10885">Raffe Paulis</a> / <a href="player.asp?ID=11538">Spencer Sauter</a> (Q4) 19-21, 21-18, 15-9 (0:53)
+<br>Match 81: <b><a href="player.asp?ID=2631">Dave McKienzie</a> / <a href="player.asp?ID=9149">Ian Satterfield</a> (18, Q3)</b> def. <a href="player.asp?ID=2496">Kristopher Fraser</a> / <a href="player.asp?ID=15590">Christopher Vaughan</a> (Q67) 21-13, 21-18 (0:41)
+<br>Match 82: <b><a href="player.asp?ID=6272">Reuben Danley</a> / <a href="player.asp?ID=15157">Dylan Maarek</a> (Q30)</b> def. <a href="player.asp?ID=17074">Andrew Brown</a> / <a href="player.asp?ID=17247">Sasha von Rauner</a> (Q94) 18-21, 21-16, 16-14 (1:10)
+<br>Match 83: <b><a href="player.asp?ID=6942">Marcin Jagoda</a> / <a href="player.asp?ID=11217">Tomas Salava</a> (Q19)</b> def. <a href="player.asp?ID=2474">Kevin Craig</a> / <a href="player.asp?ID=5208">Tony Epie</a> (Q83) 21-9, 23-21 (0:46)
+<br>Match 84: <b><a href="player.asp?ID=11236">Michael Boag</a> / <a href="player.asp?ID=14201">Bobby Jacobs</a> (Q14)</b> def. <a href="player.asp?ID=17823">Ty Coutts</a> / <a href="player.asp?ID=17816">Ashish Kamboj</a> (Q51) 21-18, 21-7 (0:39)
+<br>Match 85: <b><a href="player.asp?ID=95">Jim Nichols</a> / <a href="player.asp?ID=15893">Walker Nichols</a> (Q11)</b> def. <a href="player.asp?ID=18013">Cole Constantino</a> / <a href="player.asp?ID=17462">Greg Faulkner</a> (Q75) 21-9, 21-23, 15-10 (0:57)
+<br>Match 86: <b><a href="player.asp?ID=15278">Aidan Brown</a> / <a href="player.asp?ID=16738">Marcus Duffey</a> (Q43)</b> def. <a href="player.asp?ID=16227">Joel Feldkamp</a> / <a href="player.asp?ID=15855">Joe Ruzick</a> (Q22) 21-18, 23-21 (0:50)
+<br>Match 87: <b><a href="player.asp?ID=16327">Adrian Guthals</a> / <a href="player.asp?ID=11234">Tal Shavit</a> (Q27)</b> def. <a href="player.asp?ID=15332">Will Bantle</a> / <a href="player.asp?ID=15314">Robert Mullahey</a> (Q38) 21-13, 17-21, 15-11 (0:49)
+<br>Match 88: <b><a href="player.asp?ID=14826">Kyle Friend</a> / <a href="player.asp?ID=15938">Myles Muagututia</a> (25, Q6)</b> def. <a href="player.asp?ID=10754">Kyle Stevenson</a> / <a href="player.asp?ID=13809">Landen Tusieseina</a> (Q59) 21-14, 21-17 (0:47)
+<br>Match 89: <b><a href="player.asp?ID=13455">Jake Rosener</a> / <a href="player.asp?ID=15536">Garrett Wessberg</a> (Q7)</b> def. <a href="player.asp?ID=17467">Dillon Cox</a> / <a href="player.asp?ID=17075">Ryan Wrublik</a> (Q58) 21-17, 21-13 (0:44)
+<br>Match 90: <b><a href="player.asp?ID=16328">Timothy Brewster</a> / <a href="player.asp?ID=15542">Dylan Holland</a> (Q26)</b> def. <a href="player.asp?ID=18037">Mike Clark</a> / <a href="player.asp?ID=66">Adam Jewell</a> (Q90) 21-12, 21-19 (0:41)
+<br>Match 91: <b><a href="player.asp?ID=8135">Kevin Beukema</a> / <a href="player.asp?ID=8725">Tom Kohler</a> (Q23)</b> def. <a href="player.asp?ID=18025">Sebastian Rodriguez</a> / <a href="player.asp?ID=17852">Jack Walmer</a> (Q87) 21-16, 21-16 (0:43)
+<br>Match 92: <b><a href="player.asp?ID=17443">Paul Lotman</a> / <a href="player.asp?ID=16321">Gabriel Ospina</a> (27, Q10)</b> def. <a href="player.asp?ID=18022">John Caroompas</a> / <a href="player.asp?ID=15810">David Rowker</a> (Q55) 21-17, 21-17 (0:40)
+<br>Match 93: <b><a href="player.asp?ID=2607">Art Barron</a> / <a href="player.asp?ID=7037">Tim May</a> (29, Q15)</b> def. <a href="player.asp?ID=18023">Wyatt Harrison</a> / <a href="player.asp?ID=16980">Kacey Losik</a> (Q50) 21-19, 21-19 (0:41)
+<br>Match 94: <b><a href="player.asp?ID=13370">Patrick Bolton</a> / <a href="player.asp?ID=16410">Earl Schultz</a> (Q47)</b> def. <a href="player.asp?ID=9047">Steven Garner</a> / <a href="player.asp?ID=17958">Todd Luther</a> (Q18) 21-15, 21-9 (0:39)
+<br>Match 95: <b><a href="player.asp?ID=12965">Skyler McCoy</a> / <a href="player.asp?ID=16000">Travis Mewhirter</a> (Q31)</b> def. <a href="player.asp?ID=13515">Skylar del Sol</a> / <a href="player.asp?ID=5955">Jon Mesko</a> (Q34) 21-19, 21-17 (0:47)
+<br>Match 96: <b><a href="player.asp?ID=17047">Brian Cook</a> / <a href="player.asp?ID=9208">Derek Olson</a> (Q2)</b> def. <a href="player.asp?ID=11140">Ben Diggins</a> / <a href="player.asp?ID=13961">Chris McDonald</a> (Q66) 21-4, 21-9 (0:34)
+<P>
+<u>Round 3</u><br>Match 97: <b><a href="player.asp?ID=15804">Michael Brunsting</a> / <a href="player.asp?ID=11560">Jeff Samuels</a> (17, Q1)</b> def. <a href="player.asp?ID=11237">Philip Burrow</a> / <a href="player.asp?ID=18008">Alex Diaz</a> (Q32) 21-17, 21-14 (0:45)
+<br>Match 98: <b><a href="player.asp?ID=17457">Cole Fiers</a> / <a href="player.asp?ID=15449">Hagen Smith</a> (Q48)</b> def. <a href="player.asp?ID=16326">Eric Beranek</a> / <a href="player.asp?ID=5204">Matt Prosser</a> (Q49) 21-18, 21-17 (0:45)
+<br>Match 99: <b><a href="player.asp?ID=122">David Smith</a> / <a href="player.asp?ID=16315">Nathan Yang</a> (30, Q24)</b> def. <a href="player.asp?ID=13414">Christopher Austin</a> / <a href="player.asp?ID=8143">Hawk Hatcher</a> (Q73) 21-14, 21-4 (0:37)
+<br>Match 100: <b><a href="player.asp?ID=6271">Bill Strickland</a> / <a href="player.asp?ID=2029">Aaron Wachtfogel</a> (Q72)</b> def. <a href="player.asp?ID=17826">Rowdy Lennon</a> / <a href="player.asp?ID=17246">John Schwengel</a> (Q25) 17-21, 21-18, 16-14 (1:09)
+<br>Match 101: <b><a href="player.asp?ID=14824">Abel Gustafson</a> / <a href="player.asp?ID=11744">Garrett Wilson</a> (31, Q28)</b> def. <a href="player.asp?ID=6818">Dan Buehring</a> / <a href="player.asp?ID=10933">Matthew McCarthy</a> (Q5) 10-21, 21-16, 15-11 (1:01)
+<br>Match 102: <b><a href="player.asp?ID=16105">John Hamilton</a> / <a href="player.asp?ID=14825">Christian Honer</a> (Q12)</b> def. <a href="player.asp?ID=16330">Roy McFarland</a> / <a href="player.asp?ID=157">Dan Ortega</a> (Q85) 21-19, 21-9 (0:41)
+<br>Match 103: <b><a href="player.asp?ID=10330">Alexi Gabriel</a> / <a href="player.asp?ID=16729">Anthony Unger</a> (Q52)</b> def. <a href="player.asp?ID=2010">Brian Chapman</a> / <a href="player.asp?ID=18204">Matthew Ellis</a> (Q45) 10-21, 21-17, 17-15 (1:00)
+<br>Match 104: <b><a href="player.asp?ID=17820">Troy Field</a> / <a href="player.asp?ID=10188">Orlando Irizarry</a> (32, Q29)</b> def. <a href="player.asp?ID=2405">Mike DiPierro</a> / <a href="player.asp?ID=3141">Steve VanZwieten</a> (Q61) 21-17, 21-18 (0:40)
+<br>Match 105: <b><a href="player.asp?ID=2631">Dave McKienzie</a> / <a href="player.asp?ID=9149">Ian Satterfield</a> (18, Q3)</b> def. <a href="player.asp?ID=6272">Reuben Danley</a> / <a href="player.asp?ID=15157">Dylan Maarek</a> (Q30) 22-20, 21-17 (0:53)
+<br>Match 106: <b><a href="player.asp?ID=11236">Michael Boag</a> / <a href="player.asp?ID=14201">Bobby Jacobs</a> (Q14)</b> def. <a href="player.asp?ID=6942">Marcin Jagoda</a> / <a href="player.asp?ID=11217">Tomas Salava</a> (Q19) 21-16, 21-13 (0:41)
+<br>Match 107: <b><a href="player.asp?ID=15278">Aidan Brown</a> / <a href="player.asp?ID=16738">Marcus Duffey</a> (Q43)</b> def. <a href="player.asp?ID=95">Jim Nichols</a> / <a href="player.asp?ID=15893">Walker Nichols</a> (Q11) 21-15, 23-21 (0:44)
+<br>Match 108: <b><a href="player.asp?ID=14826">Kyle Friend</a> / <a href="player.asp?ID=15938">Myles Muagututia</a> (25, Q6)</b> def. <a href="player.asp?ID=16327">Adrian Guthals</a> / <a href="player.asp?ID=11234">Tal Shavit</a> (Q27) 21-15, 21-16 (0:37)
+<br>Match 109: <b><a href="player.asp?ID=13455">Jake Rosener</a> / <a href="player.asp?ID=15536">Garrett Wessberg</a> (Q7)</b> def. <a href="player.asp?ID=16328">Timothy Brewster</a> / <a href="player.asp?ID=15542">Dylan Holland</a> (Q26) 21-19, 21-12 (0:42)
+<br>Match 110: <b><a href="player.asp?ID=17443">Paul Lotman</a> / <a href="player.asp?ID=16321">Gabriel Ospina</a> (27, Q10)</b> def. <a href="player.asp?ID=8135">Kevin Beukema</a> / <a href="player.asp?ID=8725">Tom Kohler</a> (Q23) 21-12, 21-14 (0:36)
+<br>Match 111: <b><a href="player.asp?ID=2607">Art Barron</a> / <a href="player.asp?ID=7037">Tim May</a> (29, Q15)</b> def. <a href="player.asp?ID=13370">Patrick Bolton</a> / <a href="player.asp?ID=16410">Earl Schultz</a> (Q47) 21-14, 21-18 (0:47)
+<br>Match 112: <b><a href="player.asp?ID=17047">Brian Cook</a> / <a href="player.asp?ID=9208">Derek Olson</a> (Q2)</b> def. <a href="player.asp?ID=12965">Skyler McCoy</a> / <a href="player.asp?ID=16000">Travis Mewhirter</a> (Q31) 21-18, 18-21, 15-9 (1:11)
+<P>
+<u>Round 4</u><br>Match 113: <b><a href="player.asp?ID=15804">Michael Brunsting</a> / <a href="player.asp?ID=11560">Jeff Samuels</a> (17, Q1)</b> def. <a href="player.asp?ID=17457">Cole Fiers</a> / <a href="player.asp?ID=15449">Hagen Smith</a> (Q48) 21-12, 19-21, 15-7 (0:56)
+<br>Match 114: <b><a href="player.asp?ID=122">David Smith</a> / <a href="player.asp?ID=16315">Nathan Yang</a> (30, Q24)</b> def. <a href="player.asp?ID=6271">Bill Strickland</a> / <a href="player.asp?ID=2029">Aaron Wachtfogel</a> (Q72) 26-28, 21-13, 20-18 (1:39)
+<br>Match 115: <b><a href="player.asp?ID=14824">Abel Gustafson</a> / <a href="player.asp?ID=11744">Garrett Wilson</a> (31, Q28)</b> def. <a href="player.asp?ID=16105">John Hamilton</a> / <a href="player.asp?ID=14825">Christian Honer</a> (Q12) 21-17, 21-13 (0:37)
+<br>Match 116: <b><a href="player.asp?ID=17820">Troy Field</a> / <a href="player.asp?ID=10188">Orlando Irizarry</a> (32, Q29)</b> def. <a href="player.asp?ID=10330">Alexi Gabriel</a> / <a href="player.asp?ID=16729">Anthony Unger</a> (Q52) 19-21, 21-16, 15-11 (1:11)
+<br>Match 117: <b><a href="player.asp?ID=2631">Dave McKienzie</a> / <a href="player.asp?ID=9149">Ian Satterfield</a> (18, Q3)</b> def. <a href="player.asp?ID=11236">Michael Boag</a> / <a href="player.asp?ID=14201">Bobby Jacobs</a> (Q14) 21-17, 21-17 (0:34)
+<br>Match 118: <b><a href="player.asp?ID=14826">Kyle Friend</a> / <a href="player.asp?ID=15938">Myles Muagututia</a> (25, Q6)</b> def. <a href="player.asp?ID=15278">Aidan Brown</a> / <a href="player.asp?ID=16738">Marcus Duffey</a> (Q43) 21-14, 21-14 (0:40)
+<br>Match 119: <b><a href="player.asp?ID=17443">Paul Lotman</a> / <a href="player.asp?ID=16321">Gabriel Ospina</a> (27, Q10)</b> def. <a href="player.asp?ID=13455">Jake Rosener</a> / <a href="player.asp?ID=15536">Garrett Wessberg</a> (Q7) 19-21, 21-19, 15-6 (1:00)
+<br>Match 120: <b><a href="player.asp?ID=2607">Art Barron</a> / <a href="player.asp?ID=7037">Tim May</a> (29, Q15)</b> def. <a href="player.asp?ID=17047">Brian Cook</a> / <a href="player.asp?ID=9208">Derek Olson</a> (Q2) 23-21, 17-21, 15-9 (1:01)
+<P>
+<div class="clsTournBracketHeader">Winner's Bracket</div>
+<P>
+<u>Round 1</u><br>Match 1: <b><a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> (1)</b> def. <a href="player.asp?ID=17820">Troy Field</a> / <a href="player.asp?ID=10188">Orlando Irizarry</a> (32, Q29) 21-15, 21-12 (0:44)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124065" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 2: <b><a href="player.asp?ID=15804">Michael Brunsting</a> / <a href="player.asp?ID=11560">Jeff Samuels</a> (17, Q1)</b> def. <a href="player.asp?ID=7880">Mark Burik</a> / <a href="player.asp?ID=182">Adam Roberts</a> (16) 21-16, 22-20 (1:05)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124072" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 3: <b><a href="player.asp?ID=1171">Reid Priddy</a> / <a href="player.asp?ID=525">Ricardo Santos</a> (9)</b> def. <a href="player.asp?ID=7684">Marc Fornaciari</a> / <a href="player.asp?ID=10942">Mike Thompson</a> (24) 21-12, 21-12 (0:33)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124066" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 4: <b><a href="player.asp?ID=2139">Ed Ratledge</a> / <a href="player.asp?ID=14643">Eric Zaun</a> (8)</b> def. <a href="player.asp?ID=14826">Kyle Friend</a> / <a href="player.asp?ID=15938">Myles Muagututia</a> (25, Q6) 21-14, 21-14 (0:41)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124075" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 5: <b><a href="player.asp?ID=11268">Ryan Doherty</a> / <a href="player.asp?ID=1981">John Hyden</a> (5)</b> def. <a href="player.asp?ID=7479">Max Clini</a> / <a href="player.asp?ID=11381">Brahma Furtado</a> (28) 21-10, 21-13 (0:32)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124063" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 6: <b><a href="player.asp?ID=9153">Maddison McKibbin</a> / <a href="player.asp?ID=9943">Riley McKibbin</a> (12)</b> def. <a href="player.asp?ID=16800">Brian Miller</a> / <a href="player.asp?ID=10191">Brett Ryan</a> (21) 21-12, 21-18 (0:44)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124069" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 7: <b><a href="player.asp?ID=7032">Duncan Budinger</a> / <a href="player.asp?ID=9608">Daniel Dalanhese</a> (20)</b> def. <a href="player.asp?ID=11309">Brian Bomgren</a> / <a href="player.asp?ID=11524">Tim Bomgren</a> (13) 23-25, 21-17, 15-11 (1:11)
+<br>Match 8: <b><a href="player.asp?ID=13453">Trevor Crabb</a> / <a href="player.asp?ID=1163">Sean Rosenthal</a> (4)</b> def. <a href="player.asp?ID=2607">Art Barron</a> / <a href="player.asp?ID=7037">Tim May</a> (29, Q15) 21-15, 21-11 (0:40)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124060" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 9: <b><a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> (3)</b> def. <a href="player.asp?ID=122">David Smith</a> / <a href="player.asp?ID=16315">Nathan Yang</a> (30, Q24) 21-9, 21-13 (0:36)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124062" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 10: <b><a href="player.asp?ID=6763">Piotr Marciniak</a> / <a href="player.asp?ID=7467">Roberto Rodriguez</a> (14)</b> def. <a href="player.asp?ID=14502">Branden Clemens</a> / <a href="player.asp?ID=15815">Ben Vaught</a> (19) 21-17, 21-15 (0:45)
+<br>Match 11: <b><a href="player.asp?ID=4642">Ty Loomis</a> / <a href="player.asp?ID=2630">Curt Toppel</a> (11)</b> def. <a href="player.asp?ID=16683">Francisco Quesada-Paneque</a> / <a href="player.asp?ID=13983">Troy Schlicker</a> (22) 21-11, 21-8 (0:43)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124067" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 12: <b><a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=5327">Casey Patterson</a> (6)</b> def. <a href="player.asp?ID=17443">Paul Lotman</a> / <a href="player.asp?ID=16321">Gabriel Ospina</a> (27, Q10) 21-12, 21-11 (0:34)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124061" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 13: <b><a href="player.asp?ID=9288">Jeremy Casebeer</a> / <a href="player.asp?ID=5323">John Mayer</a> (7)</b> def. <a href="player.asp?ID=7180">David Vander Meer</a> / <a href="player.asp?ID=16614">Nathanael Vander Meer</a> (26) 21-15, 21-12 (0:43)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124064" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 14: <b><a href="player.asp?ID=10329">Avery Drost</a> / <a href="player.asp?ID=16657">Chase Frishman</a> (10)</b> def. <a href="player.asp?ID=13472">Jonathan Drake</a> / <a href="player.asp?ID=6809">Chris Luers</a> (23) 21-16, 21-14 (0:42)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124068" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 15: <b><a href="player.asp?ID=14830">Marty Lorenz</a> / <a href="player.asp?ID=11005">Chaim Schalk</a> (15)</b> def. <a href="player.asp?ID=2631">Dave McKienzie</a> / <a href="player.asp?ID=9149">Ian Satterfield</a> (18, Q3) 21-13, 21-19 (0:41)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124070" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 16: <b><a href="player.asp?ID=6042">Billy Allen</a> / <a href="player.asp?ID=10939">Stafford Slick</a> (2)</b> def. <a href="player.asp?ID=14824">Abel Gustafson</a> / <a href="player.asp?ID=11744">Garrett Wilson</a> (31, Q28) 21-8, 21-14 (0:30)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124073" target="_new"><img src="images/recap.gif" border="0"></a>
+<P>
+<u>Round 2</u><br>Match 17: <b><a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> (1)</b> def. <a href="player.asp?ID=15804">Michael Brunsting</a> / <a href="player.asp?ID=11560">Jeff Samuels</a> (17, Q1) 21-12, 21-16 (0:43)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124117" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 18: <b><a href="player.asp?ID=1171">Reid Priddy</a> / <a href="player.asp?ID=525">Ricardo Santos</a> (9)</b> def. <a href="player.asp?ID=2139">Ed Ratledge</a> / <a href="player.asp?ID=14643">Eric Zaun</a> (8) 21-15, 18-21, 15-13 (1:02)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124107" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 19: <b><a href="player.asp?ID=11268">Ryan Doherty</a> / <a href="player.asp?ID=1981">John Hyden</a> (5)</b> def. <a href="player.asp?ID=9153">Maddison McKibbin</a> / <a href="player.asp?ID=9943">Riley McKibbin</a> (12) 21-16, 22-20 (0:54)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124085" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 20: <b><a href="player.asp?ID=13453">Trevor Crabb</a> / <a href="player.asp?ID=1163">Sean Rosenthal</a> (4)</b> def. <a href="player.asp?ID=7032">Duncan Budinger</a> / <a href="player.asp?ID=9608">Daniel Dalanhese</a> (20) 21-17, 25-23 (0:50)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124087" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 21: <b><a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> (3)</b> def. <a href="player.asp?ID=6763">Piotr Marciniak</a> / <a href="player.asp?ID=7467">Roberto Rodriguez</a> (14) 22-20, 21-14 (0:42)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124089" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 22: <b><a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=5327">Casey Patterson</a> (6)</b> def. <a href="player.asp?ID=4642">Ty Loomis</a> / <a href="player.asp?ID=2630">Curt Toppel</a> (11) 21-16, 21-14 (0:40)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124099" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 23: <b><a href="player.asp?ID=9288">Jeremy Casebeer</a> / <a href="player.asp?ID=5323">John Mayer</a> (7)</b> def. <a href="player.asp?ID=10329">Avery Drost</a> / <a href="player.asp?ID=16657">Chase Frishman</a> (10) 21-12, 21-15 (0:41)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124101" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 24: <b><a href="player.asp?ID=6042">Billy Allen</a> / <a href="player.asp?ID=10939">Stafford Slick</a> (2)</b> def. <a href="player.asp?ID=14830">Marty Lorenz</a> / <a href="player.asp?ID=11005">Chaim Schalk</a> (15) 21-14, 21-15 (0:44)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124103" target="_new"><img src="images/recap.gif" border="0"></a>
+<P>
+<u>Round 3</u><br>Match 25: <b><a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> (1)</b> def. <a href="player.asp?ID=1171">Reid Priddy</a> / <a href="player.asp?ID=525">Ricardo Santos</a> (9) 21-18, 21-15 (0:52)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124135" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 26: <b><a href="player.asp?ID=13453">Trevor Crabb</a> / <a href="player.asp?ID=1163">Sean Rosenthal</a> (4)</b> def. <a href="player.asp?ID=11268">Ryan Doherty</a> / <a href="player.asp?ID=1981">John Hyden</a> (5) 21-13, 21-14 (0:39)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124120" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 27: <b><a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> (3)</b> def. <a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=5327">Casey Patterson</a> (6) 21-15, 21-8 (0:39)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124125" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 28: <b><a href="player.asp?ID=6042">Billy Allen</a> / <a href="player.asp?ID=10939">Stafford Slick</a> (2)</b> def. <a href="player.asp?ID=9288">Jeremy Casebeer</a> / <a href="player.asp?ID=5323">John Mayer</a> (7) 21-18, 20-22, 15-9 (0:57)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124128" target="_new"><img src="images/recap.gif" border="0"></a>
+<P>
+<u>Round 4</u><br>Match 29: <b><a href="player.asp?ID=13453">Trevor Crabb</a> / <a href="player.asp?ID=1163">Sean Rosenthal</a> (4)</b> def. <a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> (1) 16-21, 21-15, 15-11 (1:05)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124138" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 30: <b><a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> (3)</b> def. <a href="player.asp?ID=6042">Billy Allen</a> / <a href="player.asp?ID=10939">Stafford Slick</a> (2) 21-11, 21-15 (0:38)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124145" target="_new"><img src="images/recap.gif" border="0"></a>
+<P>
+<div class="clsTournBracketHeader">Contender's Bracket</div>
+<P>
+<u>Round 1</u><br>Match 31: <b><a href="player.asp?ID=7880">Mark Burik</a> / <a href="player.asp?ID=182">Adam Roberts</a> (16)</b> def. <a href="player.asp?ID=17820">Troy Field</a> / <a href="player.asp?ID=10188">Orlando Irizarry</a> (32, Q29) 21-19, 21-16 (0:53)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124118" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 32: <b><a href="player.asp?ID=14826">Kyle Friend</a> / <a href="player.asp?ID=15938">Myles Muagututia</a> (25, Q6)</b> def. <a href="player.asp?ID=7684">Marc Fornaciari</a> / <a href="player.asp?ID=10942">Mike Thompson</a> (24) 21-10, 21-15 (0:28)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124108" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 33: <b><a href="player.asp?ID=16800">Brian Miller</a> / <a href="player.asp?ID=10191">Brett Ryan</a> (21)</b> def. <a href="player.asp?ID=7479">Max Clini</a> / <a href="player.asp?ID=11381">Brahma Furtado</a> (28) 21-12, 21-17 (0:44)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124086" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 34: <b><a href="player.asp?ID=11309">Brian Bomgren</a> / <a href="player.asp?ID=11524">Tim Bomgren</a> (13)</b> def. <a href="player.asp?ID=2607">Art Barron</a> / <a href="player.asp?ID=7037">Tim May</a> (29, Q15) 21-15, 22-20 (0:52)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124088" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 35: <b><a href="player.asp?ID=14502">Branden Clemens</a> / <a href="player.asp?ID=15815">Ben Vaught</a> (19)</b> def. <a href="player.asp?ID=122">David Smith</a> / <a href="player.asp?ID=16315">Nathan Yang</a> (30, Q24) 21-18, 21-18 (0:47)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124090" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 36: <b><a href="player.asp?ID=17443">Paul Lotman</a> / <a href="player.asp?ID=16321">Gabriel Ospina</a> (27, Q10)</b> def. <a href="player.asp?ID=16683">Francisco Quesada-Paneque</a> / <a href="player.asp?ID=13983">Troy Schlicker</a> (22) 21-19, 21-16 (0:47)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124100" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 37: <b><a href="player.asp?ID=7180">David Vander Meer</a> / <a href="player.asp?ID=16614">Nathanael Vander Meer</a> (26)</b> def. <a href="player.asp?ID=13472">Jonathan Drake</a> / <a href="player.asp?ID=6809">Chris Luers</a> (23) 21-12, 15-21, 15-6 (0:55)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124102" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 38: <b><a href="player.asp?ID=2631">Dave McKienzie</a> / <a href="player.asp?ID=9149">Ian Satterfield</a> (18, Q3)</b> def. <a href="player.asp?ID=14824">Abel Gustafson</a> / <a href="player.asp?ID=11744">Garrett Wilson</a> (31, Q28) 21-11, 21-18 (0:40)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124104" target="_new"><img src="images/recap.gif" border="0"></a>
+<P>
+<u>Round 2</u><br>Match 39: <b><a href="player.asp?ID=14830">Marty Lorenz</a> / <a href="player.asp?ID=11005">Chaim Schalk</a> (15)</b> def. <a href="player.asp?ID=7880">Mark Burik</a> / <a href="player.asp?ID=182">Adam Roberts</a> (16) 21-15, 18-21, 15-8 (0:52)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124133" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 40: <b><a href="player.asp?ID=10329">Avery Drost</a> / <a href="player.asp?ID=16657">Chase Frishman</a> (10)</b> def. <a href="player.asp?ID=14826">Kyle Friend</a> / <a href="player.asp?ID=15938">Myles Muagututia</a> (25, Q6) 21-15, 21-16 (0:51)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124129" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 41: <b><a href="player.asp?ID=4642">Ty Loomis</a> / <a href="player.asp?ID=2630">Curt Toppel</a> (11)</b> def. <a href="player.asp?ID=16800">Brian Miller</a> / <a href="player.asp?ID=10191">Brett Ryan</a> (21) 16-21, 21-17, 15-10 (1:17)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124126" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 42: <b><a href="player.asp?ID=11309">Brian Bomgren</a> / <a href="player.asp?ID=11524">Tim Bomgren</a> (13)</b> def. <a href="player.asp?ID=6763">Piotr Marciniak</a> / <a href="player.asp?ID=7467">Roberto Rodriguez</a> (14) 15-21, 21-17, 17-15 (1:09)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124127" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 43: <b><a href="player.asp?ID=14502">Branden Clemens</a> / <a href="player.asp?ID=15815">Ben Vaught</a> (19)</b> def. <a href="player.asp?ID=7032">Duncan Budinger</a> / <a href="player.asp?ID=9608">Daniel Dalanhese</a> (20) 21-15, 21-14 (0:38)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124122" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 44: <b><a href="player.asp?ID=9153">Maddison McKibbin</a> / <a href="player.asp?ID=9943">Riley McKibbin</a> (12)</b> def. <a href="player.asp?ID=17443">Paul Lotman</a> / <a href="player.asp?ID=16321">Gabriel Ospina</a> (27, Q10) 21-16, 21-18 (0:55)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124121" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 45: <b><a href="player.asp?ID=2139">Ed Ratledge</a> / <a href="player.asp?ID=14643">Eric Zaun</a> (8)</b> def. <a href="player.asp?ID=7180">David Vander Meer</a> / <a href="player.asp?ID=16614">Nathanael Vander Meer</a> (26) 21-13, 21-19 (0:44)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124136" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 46: <b><a href="player.asp?ID=15804">Michael Brunsting</a> / <a href="player.asp?ID=11560">Jeff Samuels</a> (17, Q1)</b> def. <a href="player.asp?ID=2631">Dave McKienzie</a> / <a href="player.asp?ID=9149">Ian Satterfield</a> (18, Q3) 22-20, 21-13 (0:48)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124137" target="_new"><img src="images/recap.gif" border="0"></a>
+<P>
+<u>Round 3</u><br>Match 47: <b><a href="player.asp?ID=10329">Avery Drost</a> / <a href="player.asp?ID=16657">Chase Frishman</a> (10)</b> def. <a href="player.asp?ID=14830">Marty Lorenz</a> / <a href="player.asp?ID=11005">Chaim Schalk</a> (15) 19-21, 23-21, 16-14 (1:11)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124154" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 48: <b><a href="player.asp?ID=11309">Brian Bomgren</a> / <a href="player.asp?ID=11524">Tim Bomgren</a> (13)</b> def. <a href="player.asp?ID=4642">Ty Loomis</a> / <a href="player.asp?ID=2630">Curt Toppel</a> (11) 21-19, 20-22, 15-12 (1:11)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124155" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 49: <b><a href="player.asp?ID=9153">Maddison McKibbin</a> / <a href="player.asp?ID=9943">Riley McKibbin</a> (12)</b> def. <a href="player.asp?ID=14502">Branden Clemens</a> / <a href="player.asp?ID=15815">Ben Vaught</a> (19) 21-12, 21-16 (0:41)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124147" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 50: <b><a href="player.asp?ID=2139">Ed Ratledge</a> / <a href="player.asp?ID=14643">Eric Zaun</a> (8)</b> def. <a href="player.asp?ID=15804">Michael Brunsting</a> / <a href="player.asp?ID=11560">Jeff Samuels</a> (17, Q1) 21-12, 21-17 (0:43)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124158" target="_new"><img src="images/recap.gif" border="0"></a>
+<P>
+<u>Round 4</u><br>Match 51: <b><a href="player.asp?ID=11268">Ryan Doherty</a> / <a href="player.asp?ID=1981">John Hyden</a> (5)</b> def. <a href="player.asp?ID=10329">Avery Drost</a> / <a href="player.asp?ID=16657">Chase Frishman</a> (10) 21-19, 21-16 (0:47)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124139" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 52: <b><a href="player.asp?ID=1171">Reid Priddy</a> / <a href="player.asp?ID=525">Ricardo Santos</a> (9)</b> def. <a href="player.asp?ID=11309">Brian Bomgren</a> / <a href="player.asp?ID=11524">Tim Bomgren</a> (13) 21-19, 21-14 (0:47)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124160" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 53: <b><a href="player.asp?ID=9288">Jeremy Casebeer</a> / <a href="player.asp?ID=5323">John Mayer</a> (7)</b> def. <a href="player.asp?ID=9153">Maddison McKibbin</a> / <a href="player.asp?ID=9943">Riley McKibbin</a> (12) 21-12, 21-17 (0:41)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124153" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 54: <b><a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=5327">Casey Patterson</a> (6)</b> def. <a href="player.asp?ID=2139">Ed Ratledge</a> / <a href="player.asp?ID=14643">Eric Zaun</a> (8) 21-16, 21-16 (0:41)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124146" target="_new"><img src="images/recap.gif" border="0"></a>
+<P>
+<u>Round 5</u><br>Match 55: <b><a href="player.asp?ID=1171">Reid Priddy</a> / <a href="player.asp?ID=525">Ricardo Santos</a> (9)</b> def. <a href="player.asp?ID=11268">Ryan Doherty</a> / <a href="player.asp?ID=1981">John Hyden</a> (5) 21-18, 21-23, 19-17 (1:29)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124166" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 56: <b><a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=5327">Casey Patterson</a> (6)</b> def. <a href="player.asp?ID=9288">Jeremy Casebeer</a> / <a href="player.asp?ID=5323">John Mayer</a> (7) 22-20, 17-21, 15-10 (1:05)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124171" target="_new"><img src="images/recap.gif" border="0"></a>
+<P>
+<u>Round 6</u><br>Match 57: <b><a href="player.asp?ID=1171">Reid Priddy</a> / <a href="player.asp?ID=525">Ricardo Santos</a> (9)</b> def. <a href="player.asp?ID=6042">Billy Allen</a> / <a href="player.asp?ID=10939">Stafford Slick</a> (2) 25-23, 21-18 (0:52)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124173" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 58: <b><a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=5327">Casey Patterson</a> (6)</b> def. <a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> (1) 22-20, 21-13 (0:42)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124176" target="_new"><img src="images/recap.gif" border="0"></a>
+<P><a name="SemiFinals"></a>
+<div class="clsTournBracketHeader">Semifinals</div>
+<br>Match 59: <b><a href="player.asp?ID=13453">Trevor Crabb</a> / <a href="player.asp?ID=1163">Sean Rosenthal</a> (4)</b> def. <a href="player.asp?ID=1171">Reid Priddy</a> / <a href="player.asp?ID=525">Ricardo Santos</a> (9) 21-15, 22-20 (0:49)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124177" target="_new"><img src="images/recap.gif" border="0"></a>
+<br>Match 60: <b><a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> (3)</b> def. <a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=5327">Casey Patterson</a> (6) 15-21, 21-16, 15-11 (0:52)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124172" target="_new"><img src="images/recap.gif" border="0"></a>
+<P><a name="Finals"></a>
+<div class="clsTournBracketHeader">Finals</div>
+<br>Match 61: <b><a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> (3)</b> def. <a href="player.asp?ID=13453">Trevor Crabb</a> / <a href="player.asp?ID=1163">Sean Rosenthal</a> (4) 23-25, 21-18, 15-10 (1:15)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://50.21.56.50/MatchRecap.aspx?matchid=124181" target="_new"><img src="images/recap.gif" border="0"></a>
+						</td>
+					</tr>
+				</table>
+
+
+<!-- End Page Content -->
+		</td>
+	</tr>
+</table>
+
+<br>
+<table>
+	<tr>
+		<td align="right"><a href="#top">^top^</a></td>
+	</tr>
+	<tr>
+		<td width="1025"><hr color="#333399"></td>
+	</tr>
+	<tr>
+		<td>
+			Copyright © 1999-2018 Beach Volleyball Database. 
+			<br>Please read <a href="disclaimer.asp">disclaimer</a> before using data or photographs.
+		</td>
+	</tr>
+	<tr><td></td></tr>
+	<tr>
+		<td><a href="mailto:%61%64%6D%69%6E%34%40%62%76%62%69%6E%66%6F%2E%63%6F%6D">E-mail administrator</a></td>
+	</tr>
+</table>
+<!-- Start Alexa Certify Javascript -->
+<script type="text/javascript">
+_atrk_opts = { atrk_acct:"tpvbk1acFH00W5", domain:"bvbinfo.com",dynamic: true};
+(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+</script>
+<noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=tpvbk1acFH00W5" style="display:none" height="1" width="1" alt="" /></noscript>
+<!-- End Alexa Certify Javascript -->  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-13195921-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

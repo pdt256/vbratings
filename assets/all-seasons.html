@@ -1,0 +1,2267 @@
+
+<!-- 
+//*****************************************************************************
+//	
+//		Season.asp 
+//		This page handles season pages
+//
+//		Input (query string):
+//		AssocID - ID of the association
+//		Gender - Gender
+//		Year - Year
+//
+//		Version 1.0
+//
+//		Created by Dennis Wagner - 3/1/2001
+//
+//		Revisions:
+//
+//*****************************************************************************	
+-->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="seasonstyle.css">
+
+</head>
+<body bgcolor="#ffffff" topmargin="0">
+
+<!-- Build the header -->
+
+
+<table width="1025" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF">
+	<tr height="30" valign="bottom">
+		<td align="center"><img SRC="images/bvbinfo2003.jpg" WIDTH="400" HEIGHT="40"></td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="1025" border="0" cellspacing="1" cellpadding="0">
+	<tr align="center">
+	</tr>
+	<form id="form1" name="form1">
+	<tr align="center" valign="bottom">
+		<td class="clsHeadlineCenter">&nbsp;</td>
+		<td width="13%" class="clsHeadlineCenter">Tour News</td>
+		<td class="clsHeadlineCenter" colspan="13">Search the Database</td>
+	</tr>
+	<tr align="center" valign="center">
+		<td class="clsNav" TITLE="Home"><a href="default1.asp">Home</a></td>
+		<td align="left">
+				<select name="Tours" style="width:100%" onChange="location.href=this.options[this.selectedIndex].value">
+					<option selected>-- Choose --</option>
+					<option value="TourNews.asp?AssocID=1">AVP</option>
+					<option value="TourNews.asp?AssocID=25">p1440</option>
+					<!--option value="TourNews.asp?AssocID=21">NVL</option-->
+					<!--option value="TourNews.asp?AssocID=23">Pro Beach</option-->
+					<!--option value="TourNews.asp?AssocID=20">USAV IDQ</option-->
+					<!--option value="TourNews.asp?AssocID=22">Wide Open</option-->
+					<option value="TourNews.asp?AssocID=17">NORCECA</option>
+					<option value="TourNews.asp?AssocID=3">FIVB</option>
+					<!--option value="TourNews.asp?AssocID=10">FIVB C&S</option-->
+					<option value="TourNews.asp?AssocID=15">FIVB AGWC</option>
+					<option value="TourNews.asp?AssocID=11">CEV</option>
+					<option value="TourNews.asp?AssocID=18">CEV C&S</option>
+					<option value="TourNews.asp?AssocID=19">CEV Under Age</option>
+					<!--option value="http://66.29.222.66">NCAA Sand Volleyball</option-->
+				</select>
+		</td>
+		<td class="clsNav" TITLE="Player Profiles"><a href="player.asp">Players</a></td>
+		<td>|</td>
+		<!--		<td class="clsNav" TITLE="Player Head-to-Head"><a href="PlayerHeadToHead.asp">Head-to-Head</a></td>		<td>|</td>		-->
+		<td class="clsNav" TITLE="Season Summaries"><a href="season.asp">Seasons</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Tournament Results"><a href="tournament.asp">Tournaments</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Season Rankings"><a href="ranking.asp">Rankings</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Career Leaders"><a href="leader.asp">Leaders</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Awards"><a href="award.asp">Awards</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Beach Volleyball History"><a href="history.asp">History</a></td>
+	</tr>
+	<tr>
+		<td colspan="99" height="2"><hr color="#333399"></td>
+	</tr>
+	<tr>
+		<td colspan="99" align="right">
+			<a href="https://twitter.com/BVBInfo" class="twitter-follow-button" data-show-count="false">Follow @BVBInfo</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+		</td>
+	</tr>
+	</form>
+</table>
+	
+
+
+<!-- Build the page Navigation -->
+
+<table border="0" cellpadding="4">
+	<tr>
+		<td>	
+<!-- Start Page Content -->
+
+<script language="JavaScript">
+<!--
+document.title="Season List";
+-->
+</script>
+				<table border="0" cellpadding="5" cellspacing="2">
+					<tr align="center" class="clsSeasonSearchHeader">
+						<td>&nbsp;</td>
+						<td colspan="14">United States (Men/Women)</td>
+						<td colspan="3">International (Men/Women)</td>
+						<td colspan="3">Europe (M/W)</td>
+						<td colspan="1">Pan Am (M/W)</td>
+						<td colspan="1">NORCECA (M/W)</td>
+						<td colspan="1">Other (M/W)</td>
+					</tr>
+					<tr align="center" class="clsSeasonSearchHeader">
+						<td align="left">Year</td>
+<td>AVP</td>
+<td>AVP Young Guns</td>
+<td>AVP HWN</td>
+<td>BVA</td>
+<td>P&R</td>
+<td>USAV</td>
+<td>USAV IDQ</td>
+<td>NVL</td>
+<td>p1440</td>
+<td>Wide Open</td>
+<td>Pro Beach</td>
+<td>WPVA</td>
+<td>Star Games</td>
+<td>PBVA/AVP</td>
+<td>FIVB</td>
+<td>FIVB C&S</td>
+<td>FIVB AGWC</td>
+<td>CEV</td>
+<td>CEV C&S</td>
+<td>CEV Jr/Youth</td>
+<td>PAN AM</td>
+<td>NORCECA</td>
+<td>Other</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2019</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2019">8/7</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2018</td>
+						<td><a href="Season.asp?AssocID=1&Year=2018">8/8</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=25&Year=2018">3/3</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2018">42/43</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=15&Year=2018">1/1</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2018">2/2</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2018">1/0</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2018">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2018">7/7</a></td>
+						<td><a href="Season.asp?AssocID=24&Year=2018">2/2</a></td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2017</td>
+						<td><a href="Season.asp?AssocID=1&Year=2017">8/8</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=21&Year=2017">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2017">15/19</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=15&Year=2017">1/1</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2017">3/3</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2017">7/10</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2017">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2017">5/5</a></td>
+						<td><a href="Season.asp?AssocID=24&Year=2017">1/1</a></td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2016</td>
+						<td><a href="Season.asp?AssocID=1&Year=2016">7/7</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=21&Year=2016">6/6</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2016">23/20</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=15&Year=2016">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2016">2/2</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2016">2/6</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2016">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2016">11/11</a></td>
+						<td><a href="Season.asp?AssocID=24&Year=2016">1/1</a></td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2015</td>
+						<td><a href="Season.asp?AssocID=1&Year=2015">7/7</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=21&Year=2015">8/8</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2015">15/16</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=11&Year=2015">5/3</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2015">2/3</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2015">3/3</a></td>
+						<td><a href="Season.asp?AssocID=12&Year=2015">1/1</a></td>
+						<td><a href="Season.asp?AssocID=17&Year=2015">7/7</a></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2014</td>
+						<td><a href="Season.asp?AssocID=1&Year=2014">7/7</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=21&Year=2014">6/6</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2014">17/17</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2014">0/1</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2014">5/5</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2014">5/4</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2014">6/5</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2014">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2014">10/10</a></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2013</td>
+						<td><a href="Season.asp?AssocID=1&Year=2013">7/7</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=21&Year=2013">4/4</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2013">14/15</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2013">0/1</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2013">3/3</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2013">3/2</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2013">4/3</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2013">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2013">11/11</a></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2012</td>
+						<td><a href="Season.asp?AssocID=1&Year=2012">2/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=20&Year=2012">2/2</a></td>
+						<td><a href="Season.asp?AssocID=21&Year=2012">5/5</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=22&Year=2012">1/1</a></td>
+						<td><a href="Season.asp?AssocID=23&Year=2012">7/7</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2012">12/13</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2012">0/1</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2012">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2012">3/3</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2012">5/1</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2012">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2012">11/11</a></td>
+						<td><a href="Season.asp?AssocID=24&Year=2012">1/1</a></td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2011</td>
+						<td><a href="Season.asp?AssocID=1&Year=2011">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=20&Year=2011">2/3</a></td>
+						<td><a href="Season.asp?AssocID=21&Year=2011">4/4</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=22&Year=2011">5/5</a></td>
+						<td><a href="Season.asp?AssocID=23&Year=2011">3/3</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2011">14/15</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2011">0/2</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2011">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2011">3/2</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2011">7/6</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2011">3/3</a></td>
+						<td><a href="Season.asp?AssocID=12&Year=2011">1/1</a></td>
+						<td><a href="Season.asp?AssocID=17&Year=2011">8/8</a></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2010</td>
+						<td><a href="Season.asp?AssocID=1&Year=2010">7/7</a></td>
+						<td><a href="Season.asp?AssocID=16&Year=2010">10/10</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=2010">1/1</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=20&Year=2010">3/3</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2010">14/15</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2010">1/1</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2010">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2010">1/1</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2010">7/4</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2010">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2010">10/10</a></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2009</td>
+						<td><a href="Season.asp?AssocID=1&Year=2009">16/16</a></td>
+						<td><a href="Season.asp?AssocID=16&Year=2009">6/6</a></td>
+						<td><a href="Season.asp?AssocID=13&Year=2009">14/14</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=20&Year=2009">2/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2009">14/16</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=15&Year=2009">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2009">5/5</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2009">4/4</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2009">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2009">8/8</a></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2008</td>
+						<td><a href="Season.asp?AssocID=1&Year=2008">18/18</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=13&Year=2008">19/19</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2008">21/20</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2008">6/6</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2008">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2008">7/7</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=19&Year=2008">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2008">6/6</a></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2007</td>
+						<td><a href="Season.asp?AssocID=1&Year=2007">18/18</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=13&Year=2007">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2007">17/17</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2007">5/6</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2007">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2007">6/6</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=19&Year=2007">3/3</a></td>
+						<td><a href="Season.asp?AssocID=12&Year=2007">1/1</a></td>
+						<td><a href="Season.asp?AssocID=17&Year=2007">3/4</a></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2006</td>
+						<td><a href="Season.asp?AssocID=1&Year=2006">16/16</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2006">14/15</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2006">6/5</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2006">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2006">6/6</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=19&Year=2006">3/3</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=17&Year=2006">1/0</a></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2005</td>
+						<td><a href="Season.asp?AssocID=1&Year=2005">14/14</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2005">15/16</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2005">15/10</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2005">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2005">4/4</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=19&Year=2005">3/3</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2004</td>
+						<td><a href="Season.asp?AssocID=1&Year=2004">12/12</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2004">15/13</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2004">8/4</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2004">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2004">3/3</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2004">2/2</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2004">3/3</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2003</td>
+						<td><a href="Season.asp?AssocID=1&Year=2003">9/9</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2003">10/12</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2003">3/1</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2003">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2003">2/2</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2003">1/1</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2003">3/3</a></td>
+						<td><a href="Season.asp?AssocID=12&Year=2003">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2002</td>
+						<td><a href="Season.asp?AssocID=1&Year=2002">7/7</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2002">10/11</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2002">2/0</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2002">2/2</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2002">1/1</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2002">2/2</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2002">2/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">2001</td>
+						<td><a href="Season.asp?AssocID=1&Year=2001">8/5</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=2&Year=2001">2/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2001">12/12</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2001">4/2</a></td>
+						<td><a href="Season.asp?AssocID=15&Year=2001">1/1</a></td>
+						<td><a href="Season.asp?AssocID=11&Year=2001">1/1</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=19&Year=2001">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">2000</td>
+						<td><a href="Season.asp?AssocID=1&Year=2000">12/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=2&Year=2000">0/7</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=5&Year=2000">1/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=2000">15/13</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=2000">3/1</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=11&Year=2000">2/2</a></td>
+						<td><a href="Season.asp?AssocID=18&Year=2000">0/1</a></td>
+						<td><a href="Season.asp?AssocID=19&Year=2000">2/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center" class="clsSeasonSearchHeader">
+						<td>&nbsp;</td>
+						<td colspan="14">United States (Men/Women)</td>
+						<td colspan="3">International (Men/Women)</td>
+						<td colspan="3">Europe (M/W)</td>
+						<td colspan="1">Pan Am (M/W)</td>
+						<td colspan="1">NORCECA (M/W)</td>
+						<td colspan="1">Other (M/W)</td>
+					</tr>
+					<tr align="center" class="clsSeasonSearchHeader">
+						<td align="left">Year</td>
+<td>AVP</td>
+<td>AVP Young Guns</td>
+<td>AVP HWN</td>
+<td>BVA</td>
+<td>P&R</td>
+<td>USAV</td>
+<td>USAV IDQ</td>
+<td>NVL</td>
+<td>p1440</td>
+<td>Wide Open</td>
+<td>Pro Beach</td>
+<td>WPVA</td>
+<td>Star Games</td>
+<td>PBVA/AVP</td>
+<td>FIVB</td>
+<td>FIVB C&S</td>
+<td>FIVB AGWC</td>
+<td>CEV</td>
+<td>CEV C&S</td>
+<td>CEV Jr/Youth</td>
+<td>PAN AM</td>
+<td>NORCECA</td>
+<td>Other</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1999</td>
+						<td><a href="Season.asp?AssocID=1&Year=1999">12/5</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=5&Year=1999">2/3</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1999">13/7</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=1999">3/2</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=11&Year=1999">4/4</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=19&Year=1999">2/2</a></td>
+						<td><a href="Season.asp?AssocID=12&Year=1999">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1998</td>
+						<td><a href="Season.asp?AssocID=1&Year=1998">21/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=7&Year=1998">0/1</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1998">14/9</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=1998">4/1</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=11&Year=1998">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1997</td>
+						<td><a href="Season.asp?AssocID=1&Year=1997">23/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1997">0/12</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1997">11/9</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=1997">2/0</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=11&Year=1997">1/1</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=19&Year=1997">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1996</td>
+						<td><a href="Season.asp?AssocID=1&Year=1996">23/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1996">0/15</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1996">16/12</a></td>
+						<td><a href="Season.asp?AssocID=10&Year=1996">2/1</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=11&Year=1996">1/1</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=19&Year=1996">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1995</td>
+						<td><a href="Season.asp?AssocID=1&Year=1995">26/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1995">0/15</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1995">17/11</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=11&Year=1995">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1994</td>
+						<td><a href="Season.asp?AssocID=1&Year=1994">26/14</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1994">0/16</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1994">7/6</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=11&Year=1994">1/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1993</td>
+						<td><a href="Season.asp?AssocID=1&Year=1993">25/16</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1993">0/14</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1993">2/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=11&Year=1993">1/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1992</td>
+						<td><a href="Season.asp?AssocID=1&Year=1992">26/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1992">0/17</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1992">5/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1991</td>
+						<td><a href="Season.asp?AssocID=1&Year=1991">25/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1991">0/17</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=9&Year=1991">5/6</a></td>
+						<td><a href="Season.asp?AssocID=3&Year=1991">6/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1990</td>
+						<td><a href="Season.asp?AssocID=1&Year=1990">25/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1990">0/16</a></td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=9&Year=1990">4/1</a></td>
+						<td><a href="Season.asp?AssocID=3&Year=1990">4/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1989</td>
+						<td><a href="Season.asp?AssocID=1&Year=1989">23/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1989">0/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1989">0/15</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1989">3/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1988</td>
+						<td><a href="Season.asp?AssocID=1&Year=1988">27/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1988">1/3</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1988">0/9</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1988">1/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1987</td>
+						<td><a href="Season.asp?AssocID=1&Year=1987">26/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1987">0/5</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=6&Year=1987">0/10</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=3&Year=1987">1/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1986</td>
+						<td><a href="Season.asp?AssocID=1&Year=1986">25/7</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1986">0/9</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1985</td>
+						<td><a href="Season.asp?AssocID=1&Year=1985">17/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1985">0/10</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1984</td>
+						<td><a href="Season.asp?AssocID=1&Year=1984">20/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1984">0/12</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1983</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1983">18/9</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1982</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1982">15/10</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1981</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1981">16/8</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1980</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1980">16/7</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center" class="clsSeasonSearchHeader">
+						<td>&nbsp;</td>
+						<td colspan="14">United States (Men/Women)</td>
+						<td colspan="3">International (Men/Women)</td>
+						<td colspan="3">Europe (M/W)</td>
+						<td colspan="1">Pan Am (M/W)</td>
+						<td colspan="1">NORCECA (M/W)</td>
+						<td colspan="1">Other (M/W)</td>
+					</tr>
+					<tr align="center" class="clsSeasonSearchHeader">
+						<td align="left">Year</td>
+<td>AVP</td>
+<td>AVP Young Guns</td>
+<td>AVP HWN</td>
+<td>BVA</td>
+<td>P&R</td>
+<td>USAV</td>
+<td>USAV IDQ</td>
+<td>NVL</td>
+<td>p1440</td>
+<td>Wide Open</td>
+<td>Pro Beach</td>
+<td>WPVA</td>
+<td>Star Games</td>
+<td>PBVA/AVP</td>
+<td>FIVB</td>
+<td>FIVB C&S</td>
+<td>FIVB AGWC</td>
+<td>CEV</td>
+<td>CEV C&S</td>
+<td>CEV Jr/Youth</td>
+<td>PAN AM</td>
+<td>NORCECA</td>
+<td>Other</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1979</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1979">18/8</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1978</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1978">14/9</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1977</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1977">15/9</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1976</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1976">12/6</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1975</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1975">14/5</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1974</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1974">13/4</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1973</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1973">11/3</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1972</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1972">13/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1971</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1971">12/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1970</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1970">12/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1969</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1969">10/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1968</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1968">9/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1967</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1967">8/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1966</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1966">8/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1965</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1965">7/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1964</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1964">7/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1963</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1963">8/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1962</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1962">8/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1961</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1961">7/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1960</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1960">7/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center" class="clsSeasonSearchHeader">
+						<td>&nbsp;</td>
+						<td colspan="14">United States (Men/Women)</td>
+						<td colspan="3">International (Men/Women)</td>
+						<td colspan="3">Europe (M/W)</td>
+						<td colspan="1">Pan Am (M/W)</td>
+						<td colspan="1">NORCECA (M/W)</td>
+						<td colspan="1">Other (M/W)</td>
+					</tr>
+					<tr align="center" class="clsSeasonSearchHeader">
+						<td align="left">Year</td>
+<td>AVP</td>
+<td>AVP Young Guns</td>
+<td>AVP HWN</td>
+<td>BVA</td>
+<td>P&R</td>
+<td>USAV</td>
+<td>USAV IDQ</td>
+<td>NVL</td>
+<td>p1440</td>
+<td>Wide Open</td>
+<td>Pro Beach</td>
+<td>WPVA</td>
+<td>Star Games</td>
+<td>PBVA/AVP</td>
+<td>FIVB</td>
+<td>FIVB C&S</td>
+<td>FIVB AGWC</td>
+<td>CEV</td>
+<td>CEV C&S</td>
+<td>CEV Jr/Youth</td>
+<td>PAN AM</td>
+<td>NORCECA</td>
+<td>Other</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1959</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1959">6/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1958</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1958">5/3</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1957</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1957">5/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1956</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1956">6/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1955</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1955">4/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1954</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1954">4/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1953</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1953">3/2</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1952</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1952">2/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1951</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1951">2/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1950</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1950">3/1</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">1949</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1949">2/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr class="clsGreyBarRow" align="center">
+
+						<td align="left">1948</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td><a href="Season.asp?AssocID=4&Year=1948">1/0</a></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr align="center">
+
+						<td align="left">Total</td>
+						<td>554/215</td>
+						<td>16/16</td>
+						<td>34/34</td>
+						<td>2/9</td>
+						<td>323/140</td>
+						<td>3/5</td>
+						<td>9/10</td>
+						<td>34/34</td>
+						<td>3/3</td>
+						<td>6/6</td>
+						<td>10/10</td>
+						<td>0/156</td>
+						<td>0/1</td>
+						<td>9/7</td>
+						<td>417/382</td>
+						<td>64/45</td>
+						<td>35/35</td>
+						<td>74/68</td>
+						<td>50/48</td>
+						<td>57/57</td>
+						<td>5/5</td>
+						<td>98/98</td>
+						<td>5/5</td>
+					</tr>
+				</table>
+
+
+<!-- End Page Content -->
+		</td>
+	</tr>
+</table>
+
+<br>
+<table>
+	<tr>
+		<td align="right"><a href="#top">^top^</a></td>
+	</tr>
+	<tr>
+		<td width="1025"><hr color="#333399"></td>
+	</tr>
+	<tr>
+		<td>
+			Copyright © 1999-2018 Beach Volleyball Database. 
+			<br>Please read <a href="disclaimer.asp">disclaimer</a> before using data or photographs.
+		</td>
+	</tr>
+	<tr><td></td></tr>
+	<tr>
+		<td><a href="mailto:%61%64%6D%69%6E%34%40%62%76%62%69%6E%66%6F%2E%63%6F%6D">E-mail administrator</a></td>
+	</tr>
+</table>
+<!-- Start Alexa Certify Javascript -->
+<script type="text/javascript">
+_atrk_opts = { atrk_acct:"tpvbk1acFH00W5", domain:"bvbinfo.com",dynamic: true};
+(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+</script>
+<noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=tpvbk1acFH00W5" style="display:none" height="1" width="1" alt="" /></noscript>
+<!-- End Alexa Certify Javascript -->  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-13195921-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>
