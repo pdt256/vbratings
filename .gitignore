@@ -1,7 +1,3 @@
-vendor
-coverage_report
-.idea/*.iws
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries/
+/.idea/
 .DS_Store
+assets/*.html

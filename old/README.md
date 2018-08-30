@@ -1,28 +1,49 @@
 Volleyball Score Scraper
 ========================
+[![Test Coverage](http://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/pdt256/vbscraper)
 [![Build Status](https://travis-ci.org/pdt256/vbscraper.svg?branch=master)](https://travis-ci.org/pdt256/vbscraper)
+[![License](https://img.shields.io/github/license/pdt256/vbscraper.svg)](https://github.com/pdt256/vbscraper/blob/master/LICENSE.txt)
 
-Download volleyball match results
+## Introduction
 
-## Setup
 
-### Install Dependencies
+## Description
+
+
+## Installation
+
+Add the following lines to your ``composer.json`` file.
+
+```JSON
+{
+    "require": {
+        "pdt256/vbscraper": "dev-master"
+    }
+}
+```
 
 ```
-go get ./...
+   composer install
 ```
 
-## Unit Tests
+## Unit Tests:
 
-```
-go test ./...
-```
+<pre>
+    vendor/bin/phpunit
+</pre>
 
-## Run
+### With Code Coverage:
 
-### CLI Application
+<pre>
+    vendor/bin/phpunit --coverage-text --coverage-html coverage_report
+</pre>
 
-TODO
+## Run Coding Standards Test:
+
+<pre>
+    vendor/bin/phpcs --standard=PSR2 src/ tests/
+</pre>
+
 
 ## License
 
