@@ -22,9 +22,13 @@ go test ./...
 
 ### CLI Application
 
+#### Initialize Database
+
 ```
 $ go run cmd/cli/bvbinfo/main.go -init
 ```
+
+#### Import Matches from a Tournament
 
 ```
 $ go run cmd/cli/bvbinfo/main.go -tournamentUrl "http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches"
@@ -37,6 +41,8 @@ e6d2cd6b-9bde-40e7-bc62-c7dfeed7fada|14846|16729|6274|17246
 284e5ec8-cdc2-4e0c-9835-c1f12c0d9da1|6908|7376|16023|6276
 ```
 
+#### Import Matches from a Season
+
 ```
 $ go run cmd/cli/bvbinfo/main.go -seasonUrl "http://bvbinfo.com/Season.asp?AssocID=1&Year=2017"
 BVBInfo Importer
@@ -48,6 +54,8 @@ Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3321&Process=Matches
 $ sqlite3 _data/vb.db 'select count(*) from match;'
 1389
 ```
+
+#### Import Matches from all Seasons
 
 ```
 $ go run cmd/cli/bvbinfo/main.go -allSeasons
