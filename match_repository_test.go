@@ -13,14 +13,14 @@ func Test_MatchRepository_CreateAndFind(t *testing.T) {
 	// Given
 	dbPath := "./_data/vb_test.db"
 	os.Remove(dbPath)
-	repository := vbscraper.NewMatchRepository(dbPath)
+	repository := vbscraper.NewSqliteMatchRepository(dbPath)
 	repository.InitDB()
-	match := *vbscraper.NewMatch(
-		*vbscraper.NewPlayer("1", "John"),
-		*vbscraper.NewPlayer("2", "James"),
-		*vbscraper.NewPlayer("3", "Jeremy"),
-		*vbscraper.NewPlayer("4", "Johnathan"),
-	)
+	match := vbscraper.Match{
+		PlayerA: vbscraper.Player{BvbId: "1", Name: "John"},
+		PlayerB: vbscraper.Player{BvbId: "2", Name: "James"},
+		PlayerC: vbscraper.Player{BvbId: "3", Name: "Jeremy"},
+		PlayerD: vbscraper.Player{BvbId: "4", Name: "Johnathan"},
+	}
 	id := "123-abc"
 
 	// When

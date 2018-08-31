@@ -7,17 +7,22 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type matchRepository struct {
+type MatchRepository interface {
+	Create(match Match, id string) error
+	Find(id string) *Match
+}
+
+type sqliteMatchRepository struct {
 	dbPath string
 }
 
-func NewMatchRepository(dbPath string) *matchRepository {
-	return &matchRepository{
+func NewSqliteMatchRepository(dbPath string) *sqliteMatchRepository {
+	return &sqliteMatchRepository{
 		dbPath: dbPath,
 	}
 }
 
-func (r *matchRepository) InitDB() {
+func (r *sqliteMatchRepository) InitDB() {
 	db := r.getDB()
 	defer db.Close()
 
@@ -37,7 +42,7 @@ func (r *matchRepository) InitDB() {
 	}
 }
 
-func (r *matchRepository) Create(match match, id string) error {
+func (r *sqliteMatchRepository) Create(match Match, id string) error {
 	db := r.getDB()
 
 	_, err := db.Exec(
@@ -56,7 +61,7 @@ func (r *matchRepository) Create(match match, id string) error {
 	return nil
 }
 
-func (r *matchRepository) getDB() *sql.DB {
+func (r *sqliteMatchRepository) getDB() *sql.DB {
 	db, err := sql.Open("sqlite3", r.dbPath)
 	if err != nil {
 		log.Fatal(err)
@@ -64,10 +69,10 @@ func (r *matchRepository) getDB() *sql.DB {
 	return db
 }
 
-func (r *matchRepository) Find(id string) match {
+func (r *sqliteMatchRepository) Find(id string) *Match {
 	db := r.getDB()
 
-	var m match
+	var m Match
 	row := db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id FROM match WHERE id = $1", id)
 	err := row.Scan(
 		&m.PlayerA.BvbId,
@@ -79,5 +84,5 @@ func (r *matchRepository) Find(id string) match {
 		log.Fatal(err)
 	}
 
-	return m
+	return &m
 }

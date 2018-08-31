@@ -22,7 +22,17 @@ go test ./...
 
 ### CLI Application
 
-TODO
+```
+$ go run cmd/cli/bvbinfo/main.go -init
+```
+
+```
+$ go run cmd/cli/bvbinfo/main.go -matchUrl "http://bvbinfo.com/Tournament.asp?ID=3332&Process=Matches"
+$ sqlite3 _data/vb.db 'select * from match limit 3;'
+9888df7f-cfad-4a51-8749-c7a8269deec7|7376|2037|17858|17468
+26741cf2-ac74-41c7-8e83-96a69ce44b2f|11745|15817|17083|18012
+0987d6d2-057c-4627-8a92-d986619e4165|11237|18008|18033|18032
+```
 
 ## License
 
