@@ -27,7 +27,11 @@ func Test_GetMatches(t *testing.T) {
 	assert.Equal(t, "Trevor Crabb", lastMatch.PlayerC.Name)
 	assert.Equal(t, "1163", lastMatch.PlayerD.BvbId)
 	assert.Equal(t, "Sean Rosenthal", lastMatch.PlayerD.Name)
-	expectedLastMatch := "{PlayerA:{BvbId:5214 Name:Phil Dalhausser} PlayerB:{BvbId:1931 Name:Nick Lucena} PlayerC:{BvbId:13453 Name:Trevor Crabb} PlayerD:{BvbId:1163 Name:Sean Rosenthal} IsForfeit:false}"
+	assert.False(t, lastMatch.IsForfeit)
+	assert.Equal(t, "23-25", lastMatch.Set1)
+	assert.Equal(t, "21-18", lastMatch.Set2)
+	assert.Equal(t, "15-10", lastMatch.Set3)
+	expectedLastMatch := "{PlayerA:{BvbId:5214 Name:Phil Dalhausser} PlayerB:{BvbId:1931 Name:Nick Lucena} PlayerC:{BvbId:13453 Name:Trevor Crabb} PlayerD:{BvbId:1163 Name:Sean Rosenthal} IsForfeit:false Set1:23-25 Set2:21-18 Set3:15-10}"
 	assert.Equal(t, expectedLastMatch, fmt.Sprintf("%+v", lastMatch))
 }
 
@@ -42,7 +46,10 @@ func Test_GetMatches_HandlesForfeit(t *testing.T) {
 	assert.Equal(t, 107, len(matches))
 	forfeitMatch := matches[0]
 	assert.True(t, forfeitMatch.IsForfeit)
-	expectedLastMatch := "{PlayerA:{BvbId:13513 Name:Juan Beltran} PlayerB:{BvbId:14187 Name:Zack Kweder} PlayerC:{BvbId:10935 Name:Alex Pepke} PlayerD:{BvbId:15591 Name:Drew Pitlik} IsForfeit:true}"
+	assert.Equal(t, "", forfeitMatch.Set1)
+	assert.Equal(t, "", forfeitMatch.Set2)
+	assert.Equal(t, "", forfeitMatch.Set3)
+	expectedLastMatch := "{PlayerA:{BvbId:13513 Name:Juan Beltran} PlayerB:{BvbId:14187 Name:Zack Kweder} PlayerC:{BvbId:10935 Name:Alex Pepke} PlayerD:{BvbId:15591 Name:Drew Pitlik} IsForfeit:true Set1: Set2: Set3:}"
 	assert.Equal(t, expectedLastMatch, fmt.Sprintf("%+v", forfeitMatch))
 }
 

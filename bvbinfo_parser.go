@@ -34,6 +34,9 @@ type Match struct {
 	PlayerC   Player
 	PlayerD   Player
 	IsForfeit bool
+	Set1      string
+	Set2      string
+	Set3      string
 }
 
 type Player struct {
@@ -49,12 +52,18 @@ func GetMatches(reader io.Reader) []Match {
 	for _, value := range regexMatches {
 		//fmt.Printf("%#v", value[1:])
 		isForfeit := value[9] == "Forfeit"
+		set1 := value[10]
+		set2 := value[11]
+		set3 := value[12]
 		matches = append(matches, Match{
 			Player{value[1], value[2]},
 			Player{value[3], value[4]},
 			Player{value[5], value[6]},
 			Player{value[7], value[8]},
 			isForfeit,
+			set1,
+			set2,
+			set3,
 		})
 	}
 
