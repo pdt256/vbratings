@@ -49,6 +49,20 @@ $ sqlite3 _data/vb.db 'select count(*) from match;'
 1389
 ```
 
+```
+$ go run cmd/cli/bvbinfo/main.go -allSeasons
+BVBInfo Importer
+Importing Season: http://bvbinfo.com/Season.asp?AssocID=3&Year=2019
+Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3547&Process=Matches
+Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3548&Process=Matches
+...
+Importing Season: http://bvbinfo.com/Season.asp?AssocID=1&Year=2018
+Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3485&Process=Matches
+Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3486&Process=Matches
+...
+109531 matches imported
+```
+
 ## License
 
 The MIT License (MIT)
