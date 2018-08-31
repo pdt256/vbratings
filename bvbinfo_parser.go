@@ -6,6 +6,18 @@ import (
 	"regexp"
 )
 
+var tournamentRegexp = regexp.MustCompile(`<a href="Tournament.asp\?ID=(\d+)">(.+?)</a>`)
+var seasonRegexp = regexp.MustCompile(`<a href="Season.asp\?AssocID=(\d+)&Year=(\d+)">`)
+
+var playerExpression = `<a href="player.asp\?ID=(\d+)">([^<]+)</a>`
+var matchRegexp = regexp.MustCompile(`(?m:<br>Match\s\d+:[^?]+` +
+	playerExpression + `[^?]+` +
+	playerExpression + `[^?]+` +
+	playerExpression + `[^?]+` +
+	playerExpression + `[^?]+\)` +
+	`(?:` + `(?:\sby\s(Forfeit))` + `|` + `(?:\s(\d+-\d+),\s(\d+-\d+)(?:,\s(\d+-\d+))?\s\((\d+:\d+)\))` + `)` +
+	`)`)
+
 type Season struct {
 	AssocID string
 	Year    string
@@ -17,10 +29,11 @@ type Tournament struct {
 }
 
 type Match struct {
-	PlayerA Player
-	PlayerB Player
-	PlayerC Player
-	PlayerD Player
+	PlayerA   Player
+	PlayerB   Player
+	PlayerC   Player
+	PlayerD   Player
+	IsForfeit bool
 }
 
 type Player struct {
@@ -29,18 +42,19 @@ type Player struct {
 }
 
 func GetMatches(reader io.Reader) []Match {
-	playerRegex := `<a href="player.asp\?ID=(\d+)">(.+?)</a>`
-	re := regexp.MustCompile(playerRegex + `.*?` + playerRegex + `.*?` + playerRegex + `.*?` + playerRegex)
 	bytes, _ := ioutil.ReadAll(reader)
-	regexMatches := re.FindAllStringSubmatch(string(bytes), -1)
+	regexMatches := matchRegexp.FindAllStringSubmatch(string(bytes), -1)
 
 	var matches []Match
 	for _, value := range regexMatches {
+		//fmt.Printf("%#v", value[1:])
+		isForfeit := value[9] == "Forfeit"
 		matches = append(matches, Match{
 			Player{value[1], value[2]},
 			Player{value[3], value[4]},
 			Player{value[5], value[6]},
 			Player{value[7], value[8]},
+			isForfeit,
 		})
 	}
 
@@ -48,9 +62,8 @@ func GetMatches(reader io.Reader) []Match {
 }
 
 func GetTournaments(reader io.Reader) []Tournament {
-	re := regexp.MustCompile(`<a href="Tournament.asp\?ID=(\d+)">(.+?)</a>`)
 	bytes, _ := ioutil.ReadAll(reader)
-	regexMatches := re.FindAllStringSubmatch(string(bytes), -1)
+	regexMatches := tournamentRegexp.FindAllStringSubmatch(string(bytes), -1)
 
 	var tournaments []Tournament
 	for _, value := range regexMatches {
@@ -61,9 +74,8 @@ func GetTournaments(reader io.Reader) []Tournament {
 }
 
 func GetSeasons(reader io.Reader) []Season {
-	re := regexp.MustCompile(`<a href="Season.asp\?AssocID=(\d+)&Year=(\d+)">`)
 	bytes, _ := ioutil.ReadAll(reader)
-	regexMatches := re.FindAllStringSubmatch(string(bytes), -1)
+	regexMatches := seasonRegexp.FindAllStringSubmatch(string(bytes), -1)
 
 	var seasons []Season
 	for _, value := range regexMatches {

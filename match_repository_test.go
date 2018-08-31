@@ -9,17 +9,18 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_MatchRepository_CreateAndFind(t *testing.T) {
+func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	// Given
 	dbPath := "./_data/vb_test.db"
 	os.Remove(dbPath)
 	repository := vbscraper.NewSqliteMatchRepository(dbPath)
 	repository.InitDB()
 	match := vbscraper.Match{
-		PlayerA: vbscraper.Player{BvbId: "1", Name: "John"},
-		PlayerB: vbscraper.Player{BvbId: "2", Name: "James"},
-		PlayerC: vbscraper.Player{BvbId: "3", Name: "Jeremy"},
-		PlayerD: vbscraper.Player{BvbId: "4", Name: "Johnathan"},
+		PlayerA:   vbscraper.Player{BvbId: "1", Name: "John"},
+		PlayerB:   vbscraper.Player{BvbId: "2", Name: "James"},
+		PlayerC:   vbscraper.Player{BvbId: "3", Name: "Jeremy"},
+		PlayerD:   vbscraper.Player{BvbId: "4", Name: "Johnathan"},
+		IsForfeit: true,
 	}
 	id := "123-abc"
 
@@ -33,4 +34,5 @@ func Test_MatchRepository_CreateAndFind(t *testing.T) {
 	assert.Equal(t, "2", actualMatch.PlayerB.BvbId)
 	assert.Equal(t, "3", actualMatch.PlayerC.BvbId)
 	assert.Equal(t, "4", actualMatch.PlayerD.BvbId)
+	assert.True(t, actualMatch.IsForfeit)
 }
