@@ -13,19 +13,19 @@ type MatchRepository interface {
 }
 
 type sqliteMatchRepository struct {
-	dbPath string
+	db *sql.DB
 }
 
 func NewSqliteMatchRepository(dbPath string) *sqliteMatchRepository {
-	return &sqliteMatchRepository{
-		dbPath: dbPath,
+	db, err := sql.Open("sqlite3", dbPath)
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	return &sqliteMatchRepository{db}
 }
 
 func (r *sqliteMatchRepository) InitDB() {
-	db := r.getDB()
-	defer db.Close()
-
 	sqlStmt := `CREATE TABLE match (
 			id TEXT NOT NULL PRIMARY KEY
 			,playerA_id TEXT NOT NULL
@@ -35,7 +35,7 @@ func (r *sqliteMatchRepository) InitDB() {
 		);
 		DELETE FROM match;`
 
-	_, createError := db.Exec(sqlStmt)
+	_, createError := r.db.Exec(sqlStmt)
 	if createError != nil {
 		log.Printf("%q: %s\n", createError, sqlStmt)
 		return
@@ -43,9 +43,7 @@ func (r *sqliteMatchRepository) InitDB() {
 }
 
 func (r *sqliteMatchRepository) Create(match Match, id string) error {
-	db := r.getDB()
-
-	_, err := db.Exec(
+	_, err := r.db.Exec(
 		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id) VALUES ($1, $2, $3, $4, $5)",
 		id,
 		match.PlayerA.BvbId,
@@ -61,19 +59,9 @@ func (r *sqliteMatchRepository) Create(match Match, id string) error {
 	return nil
 }
 
-func (r *sqliteMatchRepository) getDB() *sql.DB {
-	db, err := sql.Open("sqlite3", r.dbPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return db
-}
-
 func (r *sqliteMatchRepository) Find(id string) *Match {
-	db := r.getDB()
-
 	var m Match
-	row := db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id FROM match WHERE id = $1", id)
+	row := r.db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id FROM match WHERE id = $1", id)
 	err := row.Scan(
 		&m.PlayerA.BvbId,
 		&m.PlayerB.BvbId,
