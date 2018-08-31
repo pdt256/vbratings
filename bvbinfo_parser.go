@@ -29,7 +29,7 @@ type Player struct {
 }
 
 func GetMatches(reader io.Reader) []Match {
-	playerRegex := `<a href="player.asp\?ID=(\d+)">([\w\s]+)</a>`
+	playerRegex := `<a href="player.asp\?ID=(\d+)">(.+?)</a>`
 	re := regexp.MustCompile(playerRegex + `.*?` + playerRegex + `.*?` + playerRegex + `.*?` + playerRegex)
 	bytes, _ := ioutil.ReadAll(reader)
 	regexMatches := re.FindAllStringSubmatch(string(bytes), -1)
@@ -48,7 +48,7 @@ func GetMatches(reader io.Reader) []Match {
 }
 
 func GetTournaments(reader io.Reader) []Tournament {
-	re := regexp.MustCompile(`<a href="Tournament.asp\?ID=(\d+)">([\w\s]+)</a>`)
+	re := regexp.MustCompile(`<a href="Tournament.asp\?ID=(\d+)">(.+?)</a>`)
 	bytes, _ := ioutil.ReadAll(reader)
 	regexMatches := re.FindAllStringSubmatch(string(bytes), -1)
 

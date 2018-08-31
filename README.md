@@ -37,11 +37,11 @@ $ sqlite3 _data/vb.db 'select * from match limit 3;'
 ```
 $ go run cmd/cli/bvbinfo/main.go -seasonUrl "http://bvbinfo.com/Season.asp?AssocID=1&Year=2017"
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches (84) matches imported
-Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3321&Process=Matches (70) matches imported
+Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3321&Process=Matches (76) matches imported
 ...
-Done! (1307) matches imported
+Done! (1389) matches imported
 $ sqlite3 _data/vb.db 'select count(*) from match;'
-1307
+1389
 ```
 
 ## License

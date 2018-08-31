@@ -18,6 +18,6 @@ func Test_BvbInfo_ImportMatches(t *testing.T) {
 	totalImported := importer.ImportMatches(matchesReader)
 
 	// Then
-	assert.Equal(t, 156, totalImported)
-	assert.Equal(t, 156, inMemoryRepository.TotalMatches())
+	assert.Equal(t, 159, totalImported)
+	assert.Equal(t, 159, inMemoryRepository.TotalMatches())
 }

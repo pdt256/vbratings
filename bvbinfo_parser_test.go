@@ -17,8 +17,8 @@ func Test_GetMatches(t *testing.T) {
 	matches := vbscraper.GetMatches(file)
 
 	// Then
-	assert.Equal(t, 156, len(matches))
-	lastMatch := matches[155]
+	assert.Equal(t, 159, len(matches))
+	lastMatch := matches[158]
 	assert.Equal(t, "5214", lastMatch.PlayerA.BvbId)
 	assert.Equal(t, "Phil Dalhausser", lastMatch.PlayerA.Name)
 	assert.Equal(t, "1931", lastMatch.PlayerB.BvbId)
