@@ -6,11 +6,11 @@ import (
 	"github.com/satori/go.uuid"
 )
 
-type bvbinfoImporter struct {
+type BvbinfoImporter struct {
 	matchRepository MatchRepository
 }
 
-func (i *bvbinfoImporter) ImportMatches(reader io.Reader) int {
+func (i *BvbinfoImporter) ImportMatches(reader io.Reader) int {
 	matches := GetMatches(reader)
 
 	totalImported := 0
@@ -23,6 +23,6 @@ func (i *bvbinfoImporter) ImportMatches(reader io.Reader) int {
 	return totalImported
 }
 
-func NewBvbInfoImporter(matchRepository MatchRepository) *bvbinfoImporter {
-	return &bvbinfoImporter{matchRepository}
+func NewBvbInfoImporter(matchRepository MatchRepository) *BvbinfoImporter {
+	return &BvbinfoImporter{matchRepository}
 }
