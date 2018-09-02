@@ -36,6 +36,7 @@ func (r *sqliteMatchRepository) InitDB() {
 			,set1 TEXT NOT NULL
 			,set2 TEXT NOT NULL
 			,set3 TEXT NOT NULL
+			,year INT NOT NULL
 		);
 		DELETE FROM match;`
 
@@ -48,7 +49,7 @@ func (r *sqliteMatchRepository) InitDB() {
 
 func (r *sqliteMatchRepository) Create(match Match, id string) error {
 	_, err := r.db.Exec(
-		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
 		id,
 		match.PlayerAId,
 		match.PlayerBId,
@@ -58,6 +59,7 @@ func (r *sqliteMatchRepository) Create(match Match, id string) error {
 		match.Set1,
 		match.Set2,
 		match.Set3,
+		match.Year,
 	)
 	if err != nil {
 		log.Println(err)
@@ -69,7 +71,7 @@ func (r *sqliteMatchRepository) Create(match Match, id string) error {
 
 func (r *sqliteMatchRepository) Find(id string) *Match {
 	var m Match
-	row := r.db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3 FROM match WHERE id = $1", id)
+	row := r.db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year FROM match WHERE id = $1", id)
 	err := row.Scan(
 		&m.PlayerAId,
 		&m.PlayerBId,
@@ -79,6 +81,7 @@ func (r *sqliteMatchRepository) Find(id string) *Match {
 		&m.Set1,
 		&m.Set2,
 		&m.Set3,
+		&m.Year,
 	)
 	if err != nil {
 		log.Fatal(err)

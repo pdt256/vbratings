@@ -4,6 +4,7 @@ import (
 	"io"
 	"io/ioutil"
 	"regexp"
+	"strconv"
 )
 
 var tournamentRegexp = regexp.MustCompile(`<a href="Tournament.asp\?ID=(\d+)">(.+?)</a>`)
@@ -17,6 +18,8 @@ var matchRegexp = regexp.MustCompile(`(?m:<br>Match\s\d+:[^?]+` +
 	playerExpression + `[^?]+\)` +
 	`(?:` + `(?:\sby\s(Forfeit))` + `|` + `(?:[^?]+(retired))` + `|` + `(?:\s(\d+-\d+),\s(\d+-\d+)(?:,\s(\d+-\d+))?` + `\s\((\d+:\d+)\))` + `)` +
 	`)`)
+
+var tournamentInfoRegexp = regexp.MustCompile(`(?m:clsTournHeader[^<]+<BR>\s+[^,]+,\s([^\r|\n]+))`)
 
 type Season struct {
 	AssocID string
@@ -37,10 +40,18 @@ type Match struct {
 	Set1      string
 	Set2      string
 	Set3      string
+	Year      int
 }
 
 func GetMatches(reader io.Reader) []Match {
 	bytes, _ := ioutil.ReadAll(reader)
+	tournamentInfoMatches := tournamentInfoRegexp.FindAllStringSubmatch(string(bytes), -1)
+
+	var year int
+	if len(tournamentInfoMatches) > 0 {
+		year, _ = strconv.Atoi(tournamentInfoMatches[0][1])
+	}
+
 	regexMatches := matchRegexp.FindAllStringSubmatch(string(bytes), -1)
 
 	var matches []Match
@@ -58,6 +69,7 @@ func GetMatches(reader io.Reader) []Match {
 			value[7],
 			value[8],
 			value[9],
+			year,
 		})
 	}
 

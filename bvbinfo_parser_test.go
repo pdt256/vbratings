@@ -85,6 +85,18 @@ func Test_GetMatches_HandlesForfeit(t *testing.T) {
 	assert.Equal(t, "", match.Set3)
 }
 
+func Test_GetMatches_GetsYear(t *testing.T) {
+	// Given
+	file, _ := os.Open(`./assets/2018-fivb-gstaad-major-mens-matches.html`)
+
+	// When
+	matches := vbscraper.GetMatches(file)
+
+	// Then
+	match := matches[0]
+	assert.Equal(t, 2018, match.Year)
+}
+
 func Test_GetMatches_ReturnsCorrectMatchCounts(t *testing.T) {
 	// Given
 	var tournaments = []struct {

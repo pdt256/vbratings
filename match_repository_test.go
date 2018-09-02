@@ -21,6 +21,7 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 		PlayerCId: "3",
 		PlayerDId: "4",
 		IsForfeit: true,
+		Year:      2018,
 	}
 	id := "123-abc"
 
@@ -38,6 +39,7 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	assert.Equal(t, "", actualMatch.Set1)
 	assert.Equal(t, "", actualMatch.Set2)
 	assert.Equal(t, "", actualMatch.Set3)
+	assert.Equal(t, 2018, actualMatch.Year)
 }
 
 func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
