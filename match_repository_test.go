@@ -16,10 +16,10 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	repository := vbscraper.NewSqliteMatchRepository(dbPath)
 	repository.InitDB()
 	match := vbscraper.Match{
-		PlayerA:   vbscraper.Player{BvbId: "1", Name: "John"},
-		PlayerB:   vbscraper.Player{BvbId: "2", Name: "James"},
-		PlayerC:   vbscraper.Player{BvbId: "3", Name: "Jeremy"},
-		PlayerD:   vbscraper.Player{BvbId: "4", Name: "Johnathan"},
+		PlayerAId: "1",
+		PlayerBId: "2",
+		PlayerCId: "3",
+		PlayerDId: "4",
 		IsForfeit: true,
 	}
 	id := "123-abc"
@@ -30,10 +30,10 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	// Then
 	require.NoError(t, err)
 	actualMatch := repository.Find(id)
-	assert.Equal(t, "1", actualMatch.PlayerA.BvbId)
-	assert.Equal(t, "2", actualMatch.PlayerB.BvbId)
-	assert.Equal(t, "3", actualMatch.PlayerC.BvbId)
-	assert.Equal(t, "4", actualMatch.PlayerD.BvbId)
+	assert.Equal(t, "1", actualMatch.PlayerAId)
+	assert.Equal(t, "2", actualMatch.PlayerBId)
+	assert.Equal(t, "3", actualMatch.PlayerCId)
+	assert.Equal(t, "4", actualMatch.PlayerDId)
 	assert.True(t, actualMatch.IsForfeit)
 	assert.Equal(t, "", actualMatch.Set1)
 	assert.Equal(t, "", actualMatch.Set2)
@@ -47,10 +47,10 @@ func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 	repository := vbscraper.NewSqliteMatchRepository(dbPath)
 	repository.InitDB()
 	match := vbscraper.Match{
-		PlayerA:   vbscraper.Player{BvbId: "1", Name: "John"},
-		PlayerB:   vbscraper.Player{BvbId: "2", Name: "James"},
-		PlayerC:   vbscraper.Player{BvbId: "3", Name: "Jeremy"},
-		PlayerD:   vbscraper.Player{BvbId: "4", Name: "Johnathan"},
+		PlayerAId: "1",
+		PlayerBId: "2",
+		PlayerCId: "3",
+		PlayerDId: "4",
 		IsForfeit: false,
 		Set1:      "17-21",
 		Set2:      "21-15",
@@ -64,10 +64,10 @@ func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 	// Then
 	require.NoError(t, err)
 	actualMatch := repository.Find(id)
-	assert.Equal(t, "1", actualMatch.PlayerA.BvbId)
-	assert.Equal(t, "2", actualMatch.PlayerB.BvbId)
-	assert.Equal(t, "3", actualMatch.PlayerC.BvbId)
-	assert.Equal(t, "4", actualMatch.PlayerD.BvbId)
+	assert.Equal(t, "1", actualMatch.PlayerAId)
+	assert.Equal(t, "2", actualMatch.PlayerBId)
+	assert.Equal(t, "3", actualMatch.PlayerCId)
+	assert.Equal(t, "4", actualMatch.PlayerDId)
 	assert.Equal(t, "17-21", actualMatch.Set1)
 	assert.Equal(t, "21-15", actualMatch.Set2)
 	assert.Equal(t, "15-7", actualMatch.Set3)

@@ -50,10 +50,10 @@ func (r *sqliteMatchRepository) Create(match Match, id string) error {
 	_, err := r.db.Exec(
 		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
 		id,
-		match.PlayerA.BvbId,
-		match.PlayerB.BvbId,
-		match.PlayerC.BvbId,
-		match.PlayerD.BvbId,
+		match.PlayerAId,
+		match.PlayerBId,
+		match.PlayerCId,
+		match.PlayerDId,
 		match.IsForfeit,
 		match.Set1,
 		match.Set2,
@@ -71,10 +71,10 @@ func (r *sqliteMatchRepository) Find(id string) *Match {
 	var m Match
 	row := r.db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3 FROM match WHERE id = $1", id)
 	err := row.Scan(
-		&m.PlayerA.BvbId,
-		&m.PlayerB.BvbId,
-		&m.PlayerC.BvbId,
-		&m.PlayerD.BvbId,
+		&m.PlayerAId,
+		&m.PlayerBId,
+		&m.PlayerCId,
+		&m.PlayerDId,
 		&m.IsForfeit,
 		&m.Set1,
 		&m.Set2,

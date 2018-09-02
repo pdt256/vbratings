@@ -98,6 +98,7 @@ func importAllSeasons(importer *vbscraper.BvbinfoImporter) int {
 	for _, season := range seasons {
 		seasonUrl := fmt.Sprintf("http://bvbinfo.com/Season.asp?AssocID=%s&Year=%s", season.AssocID, season.Year)
 		totalMatchesImported += importSeason(seasonUrl, importer)
+		fmt.Printf("%d matches imported\n", totalMatchesImported)
 	}
 	return totalMatchesImported
 }

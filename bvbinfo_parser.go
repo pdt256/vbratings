@@ -9,13 +9,13 @@ import (
 var tournamentRegexp = regexp.MustCompile(`<a href="Tournament.asp\?ID=(\d+)">(.+?)</a>`)
 var seasonRegexp = regexp.MustCompile(`<a href="Season.asp\?AssocID=(\d+)&Year=(\d+)">`)
 
-var playerExpression = `<a href="player.asp\?ID=(\d+)">([^<]+)</a>`
+var playerExpression = `<a href="player.asp\?ID=(\d+)">[^<]+</a>`
 var matchRegexp = regexp.MustCompile(`(?m:<br>Match\s\d+:[^?]+` +
 	playerExpression + `[^?]+` +
 	playerExpression + `[^?]+` +
 	playerExpression + `[^?]+` +
 	playerExpression + `[^?]+\)` +
-	`(?:` + `(?:\sby\s(Forfeit))` + `|` + `(?:\s(\d+-\d+),\s(\d+-\d+)(?:,\s(\d+-\d+))?\s\((\d+:\d+)\))` + `)` +
+	`(?:` + `(?:\sby\s(Forfeit))` + `|` + `(?:[^?]+(retired))` + `|` + `(?:\s(\d+-\d+),\s(\d+-\d+)(?:,\s(\d+-\d+))?` + `\s\((\d+:\d+)\))` + `)` +
 	`)`)
 
 type Season struct {
@@ -29,19 +29,14 @@ type Tournament struct {
 }
 
 type Match struct {
-	PlayerA   Player
-	PlayerB   Player
-	PlayerC   Player
-	PlayerD   Player
+	PlayerAId string
+	PlayerBId string
+	PlayerCId string
+	PlayerDId string
 	IsForfeit bool
 	Set1      string
 	Set2      string
 	Set3      string
-}
-
-type Player struct {
-	BvbId string
-	Name  string
 }
 
 func GetMatches(reader io.Reader) []Match {
@@ -51,19 +46,18 @@ func GetMatches(reader io.Reader) []Match {
 	var matches []Match
 	for _, value := range regexMatches {
 		//fmt.Printf("%#v", value[1:])
-		isForfeit := value[9] == "Forfeit"
-		set1 := value[10]
-		set2 := value[11]
-		set3 := value[12]
+		isForfeit := value[5] == "Forfeit"
+		isRetired := value[6] == "retired"
+
 		matches = append(matches, Match{
-			Player{value[1], value[2]},
-			Player{value[3], value[4]},
-			Player{value[5], value[6]},
-			Player{value[7], value[8]},
-			isForfeit,
-			set1,
-			set2,
-			set3,
+			value[1],
+			value[2],
+			value[3],
+			value[4],
+			isForfeit || isRetired,
+			value[7],
+			value[8],
+			value[9],
 		})
 	}
 

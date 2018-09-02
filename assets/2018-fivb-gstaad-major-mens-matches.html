@@ -1,0 +1,461 @@
+
+<!-- 
+//*****************************************************************************
+//	
+//		Tournament.asp 
+//		This page handles tournament pages
+//
+//		Input (query string):
+//		ID - ID of the tournament
+//
+//		Version 1.0
+//
+//		Created by Dennis Wagner - 2/22/2001
+//
+//		Revisions:
+//
+//*****************************************************************************	
+-->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="tournamentstyle.css">
+
+</head>
+<body bgcolor="#ffffff" topmargin="0">
+
+<!-- Build the header -->
+
+
+<table width="1025" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF">
+	<tr height="30" valign="bottom">
+		<td align="center"><img SRC="images/bvbinfo2003.jpg" WIDTH="400" HEIGHT="40"></td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="1025" border="0" cellspacing="1" cellpadding="0">
+	<tr align="center">
+	</tr>
+	<form id="form1" name="form1">
+	<tr align="center" valign="bottom">
+		<td class="clsHeadlineCenter">&nbsp;</td>
+		<td width="13%" class="clsHeadlineCenter">Tour News</td>
+		<td class="clsHeadlineCenter" colspan="13">Search the Database</td>
+	</tr>
+	<tr align="center" valign="center">
+		<td class="clsNav" TITLE="Home"><a href="default1.asp">Home</a></td>
+		<td align="left">
+				<select name="Tours" style="width:100%" onChange="location.href=this.options[this.selectedIndex].value">
+					<option selected>-- Choose --</option>
+					<option value="TourNews.asp?AssocID=1">AVP</option>
+					<option value="TourNews.asp?AssocID=25">p1440</option>
+					<!--option value="TourNews.asp?AssocID=21">NVL</option-->
+					<!--option value="TourNews.asp?AssocID=23">Pro Beach</option-->
+					<!--option value="TourNews.asp?AssocID=20">USAV IDQ</option-->
+					<!--option value="TourNews.asp?AssocID=22">Wide Open</option-->
+					<option value="TourNews.asp?AssocID=17">NORCECA</option>
+					<option value="TourNews.asp?AssocID=3">FIVB</option>
+					<!--option value="TourNews.asp?AssocID=10">FIVB C&S</option-->
+					<option value="TourNews.asp?AssocID=15">FIVB AGWC</option>
+					<option value="TourNews.asp?AssocID=11">CEV</option>
+					<option value="TourNews.asp?AssocID=18">CEV C&S</option>
+					<option value="TourNews.asp?AssocID=19">CEV Under Age</option>
+					<!--option value="http://66.29.222.66">NCAA Sand Volleyball</option-->
+				</select>
+		</td>
+		<td class="clsNav" TITLE="Player Profiles"><a href="player.asp">Players</a></td>
+		<td>|</td>
+		<!--		<td class="clsNav" TITLE="Player Head-to-Head"><a href="PlayerHeadToHead.asp">Head-to-Head</a></td>		<td>|</td>		-->
+		<td class="clsNav" TITLE="Season Summaries"><a href="season.asp">Seasons</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Tournament Results"><a href="tournament.asp">Tournaments</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Season Rankings"><a href="ranking.asp">Rankings</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Career Leaders"><a href="leader.asp">Leaders</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Awards"><a href="award.asp">Awards</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Beach Volleyball History"><a href="history.asp">History</a></td>
+	</tr>
+	<tr>
+		<td colspan="99" height="2"><hr color="#333399"></td>
+	</tr>
+	<tr>
+		<td colspan="99" align="right">
+			<a href="https://twitter.com/BVBInfo" class="twitter-follow-button" data-show-count="false">Follow @BVBInfo</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+		</td>
+	</tr>
+	</form>
+</table>
+	
+
+
+<!-- Build the page Navigation -->
+
+<table border="0" cellpadding="4">
+	<tr>
+		<td>	
+<!-- Start Page Content -->
+
+			<table border="0" cellpadding="6" cellspacing="0" bgcolor="#cccccc">
+				<tr>
+					<td align="right" nowrap>Gstaad: </td>
+					<form name="formTournSelect">
+					<td>
+						<select name="TournList" size="1" onchange="window.location.href='Tournament.asp?' + this.options[this.selectedIndex].value">
+							<option value="LocID=54&CategoryID=2&Gender=M&Process=Summary">Summary</option>
+							<option value="LocID=54&CategoryID=2&Gender=M&Process=IndivSummary">Indiv Summary</option>
+							<option value="LocID=54&CategoryID=2&Gender=M&Process=TeamSummary">Team Summary</option>
+							<option value="ID=1088">FIVB 2001</option>
+							<option value="ID=1221">FIVB 2002</option>
+							<option value="ID=1296">FIVB 2003</option>
+							<option value="ID=1440">FIVB 2004</option>
+							<option value="ID=1506">FIVB 2005</option>
+							<option value="ID=1617">FIVB 2006</option>
+							<option value="ID=1745">FIVB 2007</option>
+							<option value="ID=1804">FIVB 2008</option>
+							<option value="ID=2075">FIVB 2009</option>
+							<option value="ID=2254">FIVB 2010</option>
+							<option value="ID=2366">FIVB 2011</option>
+							<option value="ID=2588">FIVB 2012</option>
+							<option value="ID=2747">FIVB 2013</option>
+							<option value="ID=2859">FIVB 2014</option>
+							<option value="ID=3011">FIVB 2015</option>
+							<option value="ID=3161">FIVB 2016</option>
+							<option value="ID=3294">FIVB 2017</option>
+							<option value="ID=3465" selected>FIVB 2018</option>
+						</select>
+					</td>
+					</form>
+					<td width="50">&nbsp;</td>
+					<td align="right" nowrap>FIVB 2018: </td>
+					<form name="formSeasonSelect">
+					<td>
+						<select name="SeasonList" size="1" onchange="window.location.href= this.options[this.selectedIndex].value">
+							<option value="Season.asp?AssocID=3&Gender=M&Year=2018&Process=Summary">Summary (M)</option>
+							<option value="Season.asp?AssocID=3&Gender=W&Year=2018&Process=Summary">Summary (W)</option>
+							<option value="Season.asp?AssocID=3&Gender=M&Year=2018&Process=IndivSummary">Indiv Summary (M)</option>
+							<option value="Season.asp?AssocID=3&Gender=W&Year=2018&Process=IndivSummary">Indiv Summary (W)</option>
+							<option value="Season.asp?AssocID=3&Gender=M&Year=2018&Process=TeamSummary">Team Summary (M)</option>
+							<option value="Season.asp?AssocID=3&Gender=W&Year=2018&Process=TeamSummary">Team Summary (W)</option>
+							<option value="Tournament.asp?ID=3400">Montpellier (M)</option>
+							<option value="Tournament.asp?ID=3318">Qinzhou (M)</option>
+							<option value="Tournament.asp?ID=3319">Qinzhou (W)</option>
+							<option value="Tournament.asp?ID=3407">Aalsmeer (M)</option>
+							<option value="Tournament.asp?ID=3408">Aalsmeer (W)</option>
+							<option value="Tournament.asp?ID=3409">Sydney (M)</option>
+							<option value="Tournament.asp?ID=3410">Sydney (W)</option>
+							<option value="Tournament.asp?ID=3412">The Hague (W)</option>
+							<option value="Tournament.asp?ID=3411">The Hague (M)</option>
+							<option value="Tournament.asp?ID=3413">Shepparton (M)</option>
+							<option value="Tournament.asp?ID=3414">Shepparton (W)</option>
+							<option value="Tournament.asp?ID=3415">Kish Island (M)</option>
+							<option value="Tournament.asp?ID=3416">Fort Lauderdale (M)</option>
+							<option value="Tournament.asp?ID=3417">Fort Lauderdale (W)</option>
+							<option value="Tournament.asp?ID=3418">Doha (M)</option>
+							<option value="Tournament.asp?ID=3419">Muscat (M)</option>
+							<option value="Tournament.asp?ID=3420">Aalsmeer (M)</option>
+							<option value="Tournament.asp?ID=3425">Satun (M)</option>
+							<option value="Tournament.asp?ID=3426">Satun (W)</option>
+							<option value="Tournament.asp?ID=3427">Xiamen (M)</option>
+							<option value="Tournament.asp?ID=3428">Xiamen (W)</option>
+							<option value="Tournament.asp?ID=3429">Langkawi (M)</option>
+							<option value="Tournament.asp?ID=3430">Langkawi (W)</option>
+							<option value="Tournament.asp?ID=3431">Huntington Beach (M)</option>
+							<option value="Tournament.asp?ID=3432">Huntington Beach (W)</option>
+							<option value="Tournament.asp?ID=3433">Mersin (M)</option>
+							<option value="Tournament.asp?ID=3434">Mersin (W)</option>
+							<option value="Tournament.asp?ID=3435">Manila (M)</option>
+							<option value="Tournament.asp?ID=3436">Manila (W)</option>
+							<option value="Tournament.asp?ID=3522">Phnom Penh (W)</option>
+							<option value="Tournament.asp?ID=3438">Tuan Chau Island (W)</option>
+							<option value="Tournament.asp?ID=3439">Lucerne (M)</option>
+							<option value="Tournament.asp?ID=3440">Lucerne (W)</option>
+							<option value="Tournament.asp?ID=3441">Bangkok (M)</option>
+							<option value="Tournament.asp?ID=3442">Bangkok (W)</option>
+							<option value="Tournament.asp?ID=3443">Itapema (M)</option>
+							<option value="Tournament.asp?ID=3444">Itapema (W)</option>
+							<option value="Tournament.asp?ID=3445">Aydin (M)</option>
+							<option value="Tournament.asp?ID=3446">Aydin (W)</option>
+							<option value="Tournament.asp?ID=3508">Miguel Pereira (M)</option>
+							<option value="Tournament.asp?ID=3509">Miguel Pereira (W)</option>
+							<option value="Tournament.asp?ID=3451">Jinjiang (M)</option>
+							<option value="Tournament.asp?ID=3452">Jinjiang (W)</option>
+							<option value="Tournament.asp?ID=3461">Alanya (M)</option>
+							<option value="Tournament.asp?ID=3462">Alanya (W)</option>
+							<option value="Tournament.asp?ID=3458">Nantong (W)</option>
+							<option value="Tournament.asp?ID=3437">Nanjing (W)</option>
+							<option value="Tournament.asp?ID=3523">Baden (M)</option>
+							<option value="Tournament.asp?ID=3524">Baden (W)</option>
+							<option value="Tournament.asp?ID=3454">Ostrava (M)</option>
+							<option value="Tournament.asp?ID=3455">Ostrava (W)</option>
+							<option value="Tournament.asp?ID=3525">Manavgat (M)</option>
+							<option value="Tournament.asp?ID=3526">Manavgat (W)</option>
+							<option value="Tournament.asp?ID=3456">Sentosa (M)</option>
+							<option value="Tournament.asp?ID=3457">Sentosa (W)</option>
+							<option value="Tournament.asp?ID=3459">Warsaw (M)</option>
+							<option value="Tournament.asp?ID=3460">Warsaw (W)</option>
+							<option value="Tournament.asp?ID=3463">Espinho (M)</option>
+							<option value="Tournament.asp?ID=3464">Espinho (W)</option>
+							<option value="Tournament.asp?ID=3528">Anapa (W)</option>
+							<option value="Tournament.asp?ID=3541">Porec (M)</option>
+							<option value="Tournament.asp?ID=3527">Anapa (M)</option>
+							<option value="Tournament.asp?ID=3542">Porec (W)</option>
+							<option value="Tournament.asp?ID=3465" selected>Gstaad (M)</option>
+							<option value="Tournament.asp?ID=3466">Gstaad (W)</option>
+							<option value="Tournament.asp?ID=3467">Daegu (W)</option>
+							<option value="Tournament.asp?ID=3539">Haiyang (M)</option>
+							<option value="Tournament.asp?ID=3540">Haiyang (W)</option>
+							<option value="Tournament.asp?ID=3468">Ulsan (W)</option>
+							<option value="Tournament.asp?ID=3471">Tokyo (M)</option>
+							<option value="Tournament.asp?ID=3472">Tokyo (W)</option>
+							<option value="Tournament.asp?ID=3469">Agadir (M)</option>
+							<option value="Tournament.asp?ID=3470">Agadir (W)</option>
+							<option value="Tournament.asp?ID=3473">Samsun (M)</option>
+							<option value="Tournament.asp?ID=3474">Samsun (W)</option>
+							<option value="Tournament.asp?ID=3475">Vienna (M)</option>
+							<option value="Tournament.asp?ID=3476">Vienna (W)</option>
+							<option value="Tournament.asp?ID=3529">Ljubljana (M)</option>
+							<option value="Tournament.asp?ID=3530">Ljubljana (W)</option>
+							<option value="Tournament.asp?ID=3479">Moscow (M)</option>
+							<option value="Tournament.asp?ID=3480">Moscow (W)</option>
+							<option value="Tournament.asp?ID=3532">Vaduz (W)</option>
+							<option value="Tournament.asp?ID=3531">Vaduz (M)</option>
+							<option value="Tournament.asp?ID=3481">Hamburg (M)</option>
+							<option value="Tournament.asp?ID=3482">Hamburg (W)</option>
+						</select>
+					</td>
+					</form>
+				</tr>
+				<tr>
+					<td align="right" nowrap>Tournament: </td>
+					<form name="formTournResultsSelect">
+					<td>
+						<select name="TournResultsList" size="1" onchange="window.location.href='Tournament.asp?' + this.options[this.selectedIndex].value">
+							<option value="ID=3465">Results</option>
+							<option value="ID=3465&Process=Matches" selected>Matches</option>
+							<option value="ID=3465&Process=Pool">Pool Results</option>
+							<option value="ID=3465&Process=QBracket">Qualifier's Bracket</option>
+							<option value="ID=3465&Process=WBracket">Winner's Bracket</option>
+						</select>
+					</td>
+					</form>
+				</tr>
+				<tr>
+				</tr>
+				<tr>
+					<td align="right">News:</td>
+					<form name="formNewsSelect">
+					<td colspan="4">
+						<select name="NewsList" size="1" style='width:500' onchange="window.location.href= this.options[this.selectedIndex].value">
+							<option value="" selected>-- Select One --</option>
+							<option value="http://www.fivb.com/en/about/news/fivb-gold-for-norwegians-mol--sorum?id=76549">7/14/2018 fivb.com: FIVB gold for Norwegians Mol & Sorum at Gstaad Major</option>
+							<option value="http://www.fivb.com/en/about/news/mol--sorum-seek-to-end-norways?id=76544">7/14/2018 fivb.com: Mol & Sorum seek to end Norway’s FIVB beach drought</option>
+							<option value="http://www.fivb.com/en/about/news/youth-vs-age-in-gstaad-mens-semi-finals?id=76542">7/14/2018 fivb.com: Youth vs. age in Gstaad men’s semi-finals</option>
+							<option value="http://www.fivb.com/en/about/news/italy-norway-spain-and-usa-seek-gstaad?id=76540">7/13/2018 fivb.com: Italy, Norway, Spain and USA seek Gstaad men’s gold</option>
+							<option value="http://www.fivb.com/en/about/news/defending-gstaad-champions-remain-in-contention?id=76497">7/12/2018 fivb.com: Defending Gstaad champions remain in contention</option>
+							<option value="http://www.fivb.com/en/about/news/top-seeded-brazilian-mens-pairs-exit-gstaad-major?id=76494">7/12/2018 fivb.com: Top-seeded Brazilian men's pairs exit Gstaad Major early</option>
+							<option value="http://www.fivb.com/en/about/news/mens-break-through-pool-wins-for-belgium-and?id=76491">7/11/2018 fivb.com: Men’s break-through Pool wins for Belgium and USA at Gstaad Major</option>
+							<option value="http://www.fivb.com/en/about/news/germans-bergmann--harms-upset-top-seeds?id=76450">7/10/2018 fivb.com: Germans Bergmann & Harms upset top seeds to highlight Gstaad Major men’s qualifying</option>
+							<option value="http://www.fivb.com/en/about/news/new-brazilian-teams-looking-to-bounce-back?id=76445">7/10/2018 fivb.com: New Brazilian teams looking to bounce back in Gstaad</option>
+							<option value="http://www.fivb.com/en/about/news/gutos-rare-feat-ends-in-disappointment?id=76442">7/9/2018 fivb.com: Guto's rare feat ends in disappointment</option>
+							<option value="http://www.fivb.com/en/about/news/fivb-world-tour-returns-to-gstaad-for?id=76178">6/19/2018 fivb.com: FIVB World Tour returns to Gstaad for 19th-straight season</option>
+						</select>
+					</td>
+					</form>
+				</tr>
+			</table>
+<script language="JavaScript">
+<!--
+document.title="Men's FIVB US$300,000 Gstaad Major July 9-14, 2018";
+-->
+</script>
+				<table border="0" cellpadding="4">
+					<tr>
+						<td colspan="99" class="clsTournHeader" align="center">
+							Men's FIVB US$300,000 Gstaad Major<BR>
+							July 9-14, 2018
+						</td>
+					</tr>
+					<tr>
+						<td nowrap>
+<P>
+<div class="clsTournBracketHeader">Country Quota Matches</div>
+<br>Match 2: <b><a href="player.asp?ID=8000">Thiago Santos Barbosa</a> / <a href="player.asp?ID=14454">George Wanderley</a> Brazil (24, Q8)</b> def. <a href="player.asp?ID=11120">Luciano Ferreira</a> / <a href="player.asp?ID=9344">Alvaro Filho</a> Brazil 19-21, 21-14, 15-12 (0:52)
+<br>Match 3: <b><a href="player.asp?ID=8000">Thiago Santos Barbosa</a> / <a href="player.asp?ID=14454">George Wanderley</a> Brazil (24, Q8)</b> def. <a href="player.asp?ID=11727">Gustavo "Guto" Carvalhaes</a> / <a href="player.asp?ID=525">Ricardo Santos</a> Brazil 21-15, 21-17 (0:39)
+<P>
+<div class="clsTournBracketHeader">Qualifier Bracket</div>
+<P>
+<u>Round 1</u><br>Match 2: <b><a href="player.asp?ID=10764">Philipp Bergmann</a> / <a href="player.asp?ID=16355">Yannick Harms</a> Germany (28, Q16)</b> def. <a href="player.asp?ID=13603">Kacper Kujawiak</a> / <a href="player.asp?ID=13069">Maciej Rudol</a> Poland (Q17) 21-19, 21-15 (0:33)
+<br>Match 3: <b><a href="player.asp?ID=9809">Simon Fruhbauer</a> / <a href="player.asp?ID=9549">Jorg Wutzl</a> Austria (Q24)</b> def. <a href="player.asp?ID=14472">Lukas Kazdailis</a> / <a href="player.asp?ID=13422">Arnas Rumsevicius</a> Lithuania (Q9) 16-21, 23-21, 16-14 (0:46)
+<br>Match 4: <b><a href="player.asp?ID=8000">Thiago Santos Barbosa</a> / <a href="player.asp?ID=14454">George Wanderley</a> Brazil (24, Q8)</b> def. <a href="player.asp?ID=14350">Likejiang Ha</a> / <a href="player.asp?ID=13343">Jiaxin Wu</a> China (Q25) 21-17, 21-16 (0:35)
+<br>Match 5: <b><a href="player.asp?ID=15096">Ahmed Tijan</a> / <a href="player.asp?ID=15097">Cherif Samba</a> Qatar (23, Q5)</b> def. <a href="player.asp?ID=13018">Zhuoxin Li</a> / <a href="player.asp?ID=15470">Chaowei Zhou</a> China (Q28) 21-13, 16-21, 15-9 (0:40)
+<br>Match 6: <b><a href="player.asp?ID=13344">Martin Ermacora</a> / <a href="player.asp?ID=14710">Moritz Pristauz-Telsnigg</a> Austria (Q21)</b> def. <a href="player.asp?ID=13467">Miles Evans</a> / <a href="player.asp?ID=11507">Billy Kolinske</a> United States (Q12) 21-16, 21-19 (0:34)
+<br>Match 7: <b><a href="player.asp?ID=8081">Peng Gao</a> / <a href="player.asp?ID=10185">Yang Li</a> China (Q20)</b> def. <a href="player.asp?ID=15475">Arnaud Gauthier-Rat</a> / <a href="player.asp?ID=14495">Maxime Thiercy</a> France (Q13) 21-17, 19-21, 15-13 (0:46)
+<br>Match 8: <b><a href="player.asp?ID=15116">Marco Caminati</a> / <a href="player.asp?ID=14706">Enrico Rossi</a> Italy (22, Q4)</b> def. <a href="player.asp?ID=7649">Christian Garcia</a> / <a href="player.asp?ID=2076">Raul Mesa</a> Spain (Q29) 21-15, 17-21, 15-8 (0:49)
+<br>Match 9: <b><a href="player.asp?ID=12583">Esteban Grimalt</a> / <a href="player.asp?ID=12656">Marco Grimalt</a> Chile (Q3)</b> def. <a href="player.asp?ID=10963">Armin Dollinger</a> / <a href="player.asp?ID=16263">Simon Kulzer</a> Germany (Q30) 21-18, 21-6 (0:28)
+<br>Match 10: <b><a href="player.asp?ID=11600">Dries Koekelkoren</a> / <a href="player.asp?ID=11601">Tom van Walle</a> Belgium (26, Q14)</b> def. <a href="player.asp?ID=11730">Christoph Dressler</a> / <a href="player.asp?ID=12379">Tobias Winter</a> Austria (Q19) 17-21, 24-22, 15-12 (0:57)
+<br>Match 11: <b><a href="player.asp?ID=13629">Jyrki Nurminen</a> / <a href="player.asp?ID=15009">Santeri Siren</a> Finland (Q22)</b> def. <a href="player.asp?ID=17129">Quincy Aye</a> / <a href="player.asp?ID=15029">Youssef Krou</a> France (Q11) 17-21, 21-11, 15-9 (0:42)
+<br>Match 12: <b><a href="player.asp?ID=16546">Andrea Abbiati</a> / <a href="player.asp?ID=10736">Tiziano Andreatta</a> Italy (31, Q27)</b> def. <a href="player.asp?ID=7145">Lombardo Ontiveros</a> / <a href="player.asp?ID=8011">Juan Virgen</a> Mexico (Q6) 26-24 retired (0:29)
+<br>Match 13: <b><a href="player.asp?ID=11724">Aaron Nusbaum</a> / <a href="player.asp?ID=11856">Michael Plantinga</a> Canada (Q26)</b> def. <a href="player.asp?ID=13573">Julian Azaad</a> / <a href="player.asp?ID=15252">Nicolas Capogrosso</a> Argentina (Q7) 21-18, 14-21, 15-12 (0:47)
+<br>Match 14: <b><a href="player.asp?ID=14370">Tigrito Gomez</a> / <a href="player.asp?ID=14420">Carlos Rangel</a> Venezuela (25, Q10)</b> def. <a href="player.asp?ID=11750">Jan Pokersnik</a> / <a href="player.asp?ID=10129">Nejc Zemljak</a> Slovenia (Q23) 23-21, 13-21, 15-9 (0:49)
+<br>Match 15: <b><a href="player.asp?ID=11420">Murat Giginoglu</a> / <a href="player.asp?ID=11531">Volkan Gogtepe</a> Turkey (27, Q15)</b> def. <a href="player.asp?ID=14738">Mathias Berntsen</a> / <a href="player.asp?ID=13275">Hendrik Mol</a> Norway (Q18) 21-18, 24-22 (0:40)
+<br>Match 16: <b><a href="player.asp?ID=11725">Grant O'Gorman</a> / <a href="player.asp?ID=7080">Ben Saxton</a> Canada (Q2)</b> def. <a href="player.asp?ID=14416">Simon Hagenbuch</a> / <a href="player.asp?ID=18734">Raphael Licka</a> Switzerland (Q31) 21-16, 21-16 (0:33)
+<P>
+<u>Round 2</u><br>Match 17: <b><a href="player.asp?ID=10764">Philipp Bergmann</a> / <a href="player.asp?ID=16355">Yannick Harms</a> Germany (28, Q16)</b> def. <a href="player.asp?ID=6959">Mariusz Prudel</a> / <a href="player.asp?ID=7843">Jakub Szalankiewicz</a> Poland (Q1) 15-21, 22-20, 15-9 (0:45)
+<br>Match 18: <b><a href="player.asp?ID=8000">Thiago Santos Barbosa</a> / <a href="player.asp?ID=14454">George Wanderley</a> Brazil (24, Q8)</b> def. <a href="player.asp?ID=9809">Simon Fruhbauer</a> / <a href="player.asp?ID=9549">Jorg Wutzl</a> Austria (Q24) 13-21, 21-18, 15-9 (0:41)
+<br>Match 19: <b><a href="player.asp?ID=15096">Ahmed Tijan</a> / <a href="player.asp?ID=15097">Cherif Samba</a> Qatar (23, Q5)</b> def. <a href="player.asp?ID=13344">Martin Ermacora</a> / <a href="player.asp?ID=14710">Moritz Pristauz-Telsnigg</a> Austria (Q21) 21-18, 21-19 (0:35)
+<br>Match 20: <b><a href="player.asp?ID=15116">Marco Caminati</a> / <a href="player.asp?ID=14706">Enrico Rossi</a> Italy (22, Q4)</b> def. <a href="player.asp?ID=8081">Peng Gao</a> / <a href="player.asp?ID=10185">Yang Li</a> China (Q20) 21-17, 19-21, 15-10 (0:45)
+<br>Match 21: <b><a href="player.asp?ID=11600">Dries Koekelkoren</a> / <a href="player.asp?ID=11601">Tom van Walle</a> Belgium (26, Q14)</b> def. <a href="player.asp?ID=12583">Esteban Grimalt</a> / <a href="player.asp?ID=12656">Marco Grimalt</a> Chile (Q3) 13-21, 21-15, 15-12 (0:44)
+<br>Match 22: <b><a href="player.asp?ID=16546">Andrea Abbiati</a> / <a href="player.asp?ID=10736">Tiziano Andreatta</a> Italy (31, Q27)</b> def. <a href="player.asp?ID=13629">Jyrki Nurminen</a> / <a href="player.asp?ID=15009">Santeri Siren</a> Finland (Q22) 13-21, 21-19, 16-14 (0:45)
+<br>Match 23: <b><a href="player.asp?ID=14370">Tigrito Gomez</a> / <a href="player.asp?ID=14420">Carlos Rangel</a> Venezuela (25, Q10)</b> def. <a href="player.asp?ID=11724">Aaron Nusbaum</a> / <a href="player.asp?ID=11856">Michael Plantinga</a> Canada (Q26) 15-21, 21-16, 15-13 (0:43)
+<br>Match 24: <b><a href="player.asp?ID=11420">Murat Giginoglu</a> / <a href="player.asp?ID=11531">Volkan Gogtepe</a> Turkey (27, Q15)</b> def. <a href="player.asp?ID=11725">Grant O'Gorman</a> / <a href="player.asp?ID=7080">Ben Saxton</a> Canada (Q2) 18-21, 21-15, 15-13 (0:48)
+<P>
+<div class="clsTournBracketHeader">Pool A</div>
+<P>
+<u>Round 1</u><br>Match 1: <b><a href="player.asp?ID=13452">Chase Budinger</a> / <a href="player.asp?ID=1163">Sean Rosenthal</a> United States (32)</b> def. <a href="player.asp?ID=9345">Vitor Felipe</a> / <a href="player.asp?ID=11854">Evandro Goncalves</a> Brazil (1) 21-19, 22-20 (0:41)
+<br>Match 2: <b><a href="player.asp?ID=13340">Michal Bryl</a> / <a href="player.asp?ID=8758">Grzegorz Fijalek</a> Poland (17)</b> def. <a href="player.asp?ID=13393">Ondrej Perusic</a> / <a href="player.asp?ID=16538">David Schweiner</a> Czech Republic (16) 21-10, 21-14 (0:33)
+<P>
+<u>Round 2</u><br>Match 17: <b><a href="player.asp?ID=13340">Michal Bryl</a> / <a href="player.asp?ID=8758">Grzegorz Fijalek</a> Poland (17)</b> def. <a href="player.asp?ID=13452">Chase Budinger</a> / <a href="player.asp?ID=1163">Sean Rosenthal</a> United States (32) 21-16, 21-18 (0:35)
+<br>Match 18: <b><a href="player.asp?ID=13393">Ondrej Perusic</a> / <a href="player.asp?ID=16538">David Schweiner</a> Czech Republic (16)</b> def. <a href="player.asp?ID=9345">Vitor Felipe</a> / <a href="player.asp?ID=11854">Evandro Goncalves</a> Brazil (1) 21-19, 25-23 (0:44)
+<P>
+<div class="clsTournBracketHeader">Pool B</div>
+<P>
+<u>Round 1</u><br>Match 3: <b><a href="player.asp?ID=16546">Andrea Abbiati</a> / <a href="player.asp?ID=10736">Tiziano Andreatta</a> Italy (31, Q27)</b> def. <a href="player.asp?ID=7998">Alison Cerutti</a> / <a href="player.asp?ID=15355">Andre Loyola</a> Brazil (2) 21-19, 29-27 (0:41)
+<br>Match 4: <b><a href="player.asp?ID=14741">Anders Mol</a> / <a href="player.asp?ID=13274">Christian Sorum</a> Norway (15)</b> def. <a href="player.asp?ID=6769">Martins Plavins</a> / <a href="player.asp?ID=12433">Edgars Tocs</a> Latvia (18) 21-17, 17-21, 15-13 (0:46)
+<P>
+<u>Round 2</u><br>Match 19: <b><a href="player.asp?ID=14741">Anders Mol</a> / <a href="player.asp?ID=13274">Christian Sorum</a> Norway (15)</b> def. <a href="player.asp?ID=16546">Andrea Abbiati</a> / <a href="player.asp?ID=10736">Tiziano Andreatta</a> Italy (31, Q27) 21-10, 21-14 (0:25)
+<br>Match 20: <b><a href="player.asp?ID=6769">Martins Plavins</a> / <a href="player.asp?ID=12433">Edgars Tocs</a> Latvia (18)</b> def. <a href="player.asp?ID=7998">Alison Cerutti</a> / <a href="player.asp?ID=15355">Andre Loyola</a> Brazil (2) 21-15, 25-27, 15-12 (0:50)
+<P>
+<div class="clsTournBracketHeader">Pool C</div>
+<P>
+<u>Round 1</u><br>Match 5: <b><a href="player.asp?ID=10443">Piotr Kantor</a> / <a href="player.asp?ID=10444">Bartosz Losiak</a> Poland (3)</b> def. <a href="player.asp?ID=11642">Gabriel Kissling</a> / <a href="player.asp?ID=14587">Michiel Zandbergen</a> Switzerland (30) 21-18, 21-15 (0:32)
+<br>Match 6: <b><a href="player.asp?ID=15089">Jasper Bouter</a> / <a href="player.asp?ID=9429">Christiaan Varenhorst</a> Netherlands (19)</b> def. <a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=1981">John Hyden</a> United States (14) 21-14, 19-21, 15-12 (0:42)
+<P>
+<u>Round 2</u><br>Match 21: <b><a href="player.asp?ID=10443">Piotr Kantor</a> / <a href="player.asp?ID=10444">Bartosz Losiak</a> Poland (3)</b> def. <a href="player.asp?ID=15089">Jasper Bouter</a> / <a href="player.asp?ID=9429">Christiaan Varenhorst</a> Netherlands (19) 16-21, 23-21, 15-10 (0:42)
+<br>Match 22: <b><a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=1981">John Hyden</a> United States (14)</b> def. <a href="player.asp?ID=11642">Gabriel Kissling</a> / <a href="player.asp?ID=14587">Michiel Zandbergen</a> Switzerland (30) 21-18, 21-19 (0:36)
+<P>
+<div class="clsTournBracketHeader">Pool D</div>
+<P>
+<u>Round 1</u><br>Match 7: <b><a href="player.asp?ID=9129">Alexander Brouwer</a> / <a href="player.asp?ID=9130">Robert Meeuwsen</a> Netherlands (4)</b> def. <a href="player.asp?ID=14338">Nico Beeler</a> / <a href="player.asp?ID=13743">Quentin Metral</a> Switzerland (29) 23-21, 21-16 (0:36)
+<br>Match 8: <b><a href="player.asp?ID=8789">Sam Pedlow</a> / <a href="player.asp?ID=9346">Sam Schachter</a> Canada (20)</b> def. <a href="player.asp?ID=8539">Bruno Oscar Schmidt</a> / <a href="player.asp?ID=6767">Pedro Solberg</a> Brazil (13) 21-19, 18-21, 15-12 (0:50)
+<P>
+<u>Round 2</u><br>Match 23: <b><a href="player.asp?ID=9129">Alexander Brouwer</a> / <a href="player.asp?ID=9130">Robert Meeuwsen</a> Netherlands (4)</b> def. <a href="player.asp?ID=8789">Sam Pedlow</a> / <a href="player.asp?ID=9346">Sam Schachter</a> Canada (20) 24-22, 17-21, 17-15 (0:53)
+<br>Match 24: <b><a href="player.asp?ID=8539">Bruno Oscar Schmidt</a> / <a href="player.asp?ID=6767">Pedro Solberg</a> Brazil (13)</b> def. <a href="player.asp?ID=14338">Nico Beeler</a> / <a href="player.asp?ID=13743">Quentin Metral</a> Switzerland (29) 23-21, 21-16 (0:43)
+<P>
+<div class="clsTournBracketHeader">Pool E</div>
+<P>
+<u>Round 1</u><br>Match 9: <b><a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> United States (5)</b> def. <a href="player.asp?ID=10764">Philipp Bergmann</a> / <a href="player.asp?ID=16355">Yannick Harms</a> Germany (28, Q16) 21-13, 21-15 (0:32)
+<br>Match 10: <b><a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> United States (21)</b> def. <a href="player.asp?ID=9422">Daniele Lupo</a> / <a href="player.asp?ID=9059">Paolo Nicolai</a> Italy (12) 15-21, 21-17, 15-12 (0:46)
+<P>
+<u>Round 2</u><br>Match 25: <b><a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> United States (21)</b> def. <a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> United States (5) 22-24, 21-17, 15-13 (0:50)
+<br>Match 26: <b><a href="player.asp?ID=9422">Daniele Lupo</a> / <a href="player.asp?ID=9059">Paolo Nicolai</a> Italy (12)</b> def. <a href="player.asp?ID=10764">Philipp Bergmann</a> / <a href="player.asp?ID=16355">Yannick Harms</a> Germany (28, Q16) 21-12, 21-16 (0:30)
+<P>
+<div class="clsTournBracketHeader">Pool F</div>
+<P>
+<u>Round 1</u><br>Match 11: <b><a href="player.asp?ID=7783">Adrian Gavira</a> / <a href="player.asp?ID=2077">Pablo Herrera</a> Spain (6)</b> def. <a href="player.asp?ID=11420">Murat Giginoglu</a> / <a href="player.asp?ID=11531">Volkan Gogtepe</a> Turkey (27, Q15) 21-18, 21-19 (0:36)
+<br>Match 12: <b><a href="player.asp?ID=6770">Aleksandrs Samoilovs</a> / <a href="player.asp?ID=6874">Janis Smedins</a> Latvia (11)</b> def. <a href="player.asp?ID=15116">Marco Caminati</a> / <a href="player.asp?ID=14706">Enrico Rossi</a> Italy (22, Q4) 21-16, 21-17 (0:36)
+<P>
+<u>Round 2</u><br>Match 27: <b><a href="player.asp?ID=7783">Adrian Gavira</a> / <a href="player.asp?ID=2077">Pablo Herrera</a> Spain (6)</b> def. <a href="player.asp?ID=6770">Aleksandrs Samoilovs</a> / <a href="player.asp?ID=6874">Janis Smedins</a> Latvia (11) 21-17, 14-21, 15-10 (0:41)
+<br>Match 28: <b><a href="player.asp?ID=15116">Marco Caminati</a> / <a href="player.asp?ID=14706">Enrico Rossi</a> Italy (22, Q4)</b> def. <a href="player.asp?ID=11420">Murat Giginoglu</a> / <a href="player.asp?ID=11531">Volkan Gogtepe</a> Turkey (27, Q15) 21-16, 28-26 (0:46)
+<P>
+<div class="clsTournBracketHeader">Pool G</div>
+<P>
+<u>Round 1</u><br>Match 13: <b><a href="player.asp?ID=11600">Dries Koekelkoren</a> / <a href="player.asp?ID=11601">Tom van Walle</a> Belgium (26, Q14)</b> def. <a href="player.asp?ID=2106">Clemens Doppler</a> / <a href="player.asp?ID=5718">Alexander Horst</a> Austria (7) 18-21, 21-15, 15-12 (0:45)
+<br>Match 14: <b><a href="player.asp?ID=15096">Ahmed Tijan</a> / <a href="player.asp?ID=15097">Cherif Samba</a> Qatar (23, Q5)</b> def. <a href="player.asp?ID=10745">Viacheslav Krasilnikov</a> / <a href="player.asp?ID=15526">Nikita Liamin</a> Russia (10) 21-18, 23-21 (0:38)
+<P>
+<u>Round 2</u><br>Match 29: <b><a href="player.asp?ID=11600">Dries Koekelkoren</a> / <a href="player.asp?ID=11601">Tom van Walle</a> Belgium (26, Q14)</b> def. <a href="player.asp?ID=15096">Ahmed Tijan</a> / <a href="player.asp?ID=15097">Cherif Samba</a> Qatar (23, Q5) 21-17, 15-21, 17-15 (0:49)
+<br>Match 30: <b><a href="player.asp?ID=2106">Clemens Doppler</a> / <a href="player.asp?ID=5718">Alexander Horst</a> Austria (7)</b> def. <a href="player.asp?ID=10745">Viacheslav Krasilnikov</a> / <a href="player.asp?ID=15526">Nikita Liamin</a> Russia (10) 22-20, 12-21, 20-18 (0:47)
+<P>
+<div class="clsTournBracketHeader">Pool H</div>
+<P>
+<u>Round 1</u><br>Match 15: <b><a href="player.asp?ID=11641">Mirco Gerson</a> / <a href="player.asp?ID=14650">Adrian Heidrich</a> Switzerland (8)</b> def. <a href="player.asp?ID=14370">Tigrito Gomez</a> / <a href="player.asp?ID=14420">Carlos Rangel</a> Venezuela (25, Q10) 21-19, 21-12 (0:35)
+<br>Match 16: <b><a href="player.asp?ID=14263">Oleg Stoyanovskiy</a> / <a href="player.asp?ID=13720">Igor Velichko</a> Russia (9)</b> def. <a href="player.asp?ID=8000">Thiago Santos Barbosa</a> / <a href="player.asp?ID=14454">George Wanderley</a> Brazil (24, Q8) 21-17, 21-15 (0:29)
+<P>
+<u>Round 2</u><br>Match 31: <b><a href="player.asp?ID=11641">Mirco Gerson</a> / <a href="player.asp?ID=14650">Adrian Heidrich</a> Switzerland (8)</b> def. <a href="player.asp?ID=14263">Oleg Stoyanovskiy</a> / <a href="player.asp?ID=13720">Igor Velichko</a> Russia (9) 17-21, 21-15, 20-18 (0:49)
+<br>Match 32: <b><a href="player.asp?ID=14370">Tigrito Gomez</a> / <a href="player.asp?ID=14420">Carlos Rangel</a> Venezuela (25, Q10)</b> def. <a href="player.asp?ID=8000">Thiago Santos Barbosa</a> / <a href="player.asp?ID=14454">George Wanderley</a> Brazil (24, Q8) 21-15, 16-21, 15-13 (0:45)
+<P>
+<div class="clsTournBracketHeader">Winner's Bracket</div>
+<P>
+<u>Round 1</u><br>Match 33: <b><a href="player.asp?ID=9422">Daniele Lupo</a> / <a href="player.asp?ID=9059">Paolo Nicolai</a> Italy (12)</b> def. <a href="player.asp?ID=8789">Sam Pedlow</a> / <a href="player.asp?ID=9346">Sam Schachter</a> Canada (20) 17-21, 21-15, 15-9 (0:41)
+<br>Match 34: <b><a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> United States (5)</b> def. <a href="player.asp?ID=7831">Theo Brunner</a> / <a href="player.asp?ID=1981">John Hyden</a> United States (14) 21-12, 21-14 (0:29)
+<br>Match 35: <b><a href="player.asp?ID=2106">Clemens Doppler</a> / <a href="player.asp?ID=5718">Alexander Horst</a> Austria (7)</b> def. <a href="player.asp?ID=14263">Oleg Stoyanovskiy</a> / <a href="player.asp?ID=13720">Igor Velichko</a> Russia (9) 23-21, 13-21, 15-8 (0:43)
+<br>Match 36: <b><a href="player.asp?ID=16546">Andrea Abbiati</a> / <a href="player.asp?ID=10736">Tiziano Andreatta</a> Italy (31, Q27)</b> def. <a href="player.asp?ID=15116">Marco Caminati</a> / <a href="player.asp?ID=14706">Enrico Rossi</a> Italy (22, Q4) 21-17, 21-13 (0:33)
+<br>Match 37: <b><a href="player.asp?ID=6769">Martins Plavins</a> / <a href="player.asp?ID=12433">Edgars Tocs</a> Latvia (18)</b> def. <a href="player.asp?ID=15096">Ahmed Tijan</a> / <a href="player.asp?ID=15097">Cherif Samba</a> Qatar (23, Q5) 21-17, 19-21, 15-11 (0:52)
+<br>Match 38: <b><a href="player.asp?ID=15089">Jasper Bouter</a> / <a href="player.asp?ID=9429">Christiaan Varenhorst</a> Netherlands (19)</b> def. <a href="player.asp?ID=14370">Tigrito Gomez</a> / <a href="player.asp?ID=14420">Carlos Rangel</a> Venezuela (25, Q10) 19-21, 21-19, 25-23 (0:55)
+<br>Match 39: <b><a href="player.asp?ID=6770">Aleksandrs Samoilovs</a> / <a href="player.asp?ID=6874">Janis Smedins</a> Latvia (11)</b> def. <a href="player.asp?ID=13393">Ondrej Perusic</a> / <a href="player.asp?ID=16538">David Schweiner</a> Czech Republic (16) 24-22, 22-20 (0:39)
+<br>Match 40: <b><a href="player.asp?ID=8539">Bruno Oscar Schmidt</a> / <a href="player.asp?ID=6767">Pedro Solberg</a> Brazil (13)</b> def. <a href="player.asp?ID=13452">Chase Budinger</a> / <a href="player.asp?ID=1163">Sean Rosenthal</a> United States (32) 21-19, 21-15 (0:39)
+<P>
+<u>Round 2</u><br>Match 41: <b><a href="player.asp?ID=9422">Daniele Lupo</a> / <a href="player.asp?ID=9059">Paolo Nicolai</a> Italy (12)</b> def. <a href="player.asp?ID=13340">Michal Bryl</a> / <a href="player.asp?ID=8758">Grzegorz Fijalek</a> Poland (17) 25-23, 26-24 (0:48)
+<br>Match 42: <b><a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> United States (5)</b> def. <a href="player.asp?ID=11641">Mirco Gerson</a> / <a href="player.asp?ID=14650">Adrian Heidrich</a> Switzerland (8) 21-14, 21-13 (0:34)
+<br>Match 43: <b><a href="player.asp?ID=7783">Adrian Gavira</a> / <a href="player.asp?ID=2077">Pablo Herrera</a> Spain (6)</b> def. <a href="player.asp?ID=2106">Clemens Doppler</a> / <a href="player.asp?ID=5718">Alexander Horst</a> Austria (7) 21-19, 23-21 (0:40)
+<br>Match 44: <b><a href="player.asp?ID=9129">Alexander Brouwer</a> / <a href="player.asp?ID=9130">Robert Meeuwsen</a> Netherlands (4)</b> def. <a href="player.asp?ID=16546">Andrea Abbiati</a> / <a href="player.asp?ID=10736">Tiziano Andreatta</a> Italy (31, Q27) 21-13, 15-21, 16-14 (0:38)
+<br>Match 45: <b><a href="player.asp?ID=6769">Martins Plavins</a> / <a href="player.asp?ID=12433">Edgars Tocs</a> Latvia (18)</b> def. <a href="player.asp?ID=10443">Piotr Kantor</a> / <a href="player.asp?ID=10444">Bartosz Losiak</a> Poland (3) 21-19, 21-18 (0:33)
+<br>Match 46: <b><a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> United States (21)</b> def. <a href="player.asp?ID=15089">Jasper Bouter</a> / <a href="player.asp?ID=9429">Christiaan Varenhorst</a> Netherlands (19) by Forfeit<br>Match 47: <b><a href="player.asp?ID=11600">Dries Koekelkoren</a> / <a href="player.asp?ID=11601">Tom van Walle</a> Belgium (26, Q14)</b> def. <a href="player.asp?ID=6770">Aleksandrs Samoilovs</a> / <a href="player.asp?ID=6874">Janis Smedins</a> Latvia (11) 21-19, 21-17 (0:37)
+<br>Match 48: <b><a href="player.asp?ID=14741">Anders Mol</a> / <a href="player.asp?ID=13274">Christian Sorum</a> Norway (15)</b> def. <a href="player.asp?ID=8539">Bruno Oscar Schmidt</a> / <a href="player.asp?ID=6767">Pedro Solberg</a> Brazil (13) 19-21, 21-18, 15-12 (0:52)
+<P>
+<u>Round 3</u><br>Match 49: <b><a href="player.asp?ID=9422">Daniele Lupo</a> / <a href="player.asp?ID=9059">Paolo Nicolai</a> Italy (12)</b> def. <a href="player.asp?ID=5214">Phil Dalhausser</a> / <a href="player.asp?ID=1931">Nick Lucena</a> United States (5) 21-18, 21-18 (0:42)
+<br>Match 50: <b><a href="player.asp?ID=7783">Adrian Gavira</a> / <a href="player.asp?ID=2077">Pablo Herrera</a> Spain (6)</b> def. <a href="player.asp?ID=9129">Alexander Brouwer</a> / <a href="player.asp?ID=9130">Robert Meeuwsen</a> Netherlands (4) 19-21, 21-16, 15-12 (0:48)
+<br>Match 51: <b><a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> United States (21)</b> def. <a href="player.asp?ID=6769">Martins Plavins</a> / <a href="player.asp?ID=12433">Edgars Tocs</a> Latvia (18) 21-17, 19-21, 15-13 (0:46)
+<br>Match 52: <b><a href="player.asp?ID=14741">Anders Mol</a> / <a href="player.asp?ID=13274">Christian Sorum</a> Norway (15)</b> def. <a href="player.asp?ID=11600">Dries Koekelkoren</a> / <a href="player.asp?ID=11601">Tom van Walle</a> Belgium (26, Q14) 21-18, 21-15 (0:32)
+<P><a name="SemiFinals"></a>
+<div class="clsTournBracketHeader">Semifinals</div>
+<br>Match 53: <b><a href="player.asp?ID=7783">Adrian Gavira</a> / <a href="player.asp?ID=2077">Pablo Herrera</a> Spain (6)</b> def. <a href="player.asp?ID=9422">Daniele Lupo</a> / <a href="player.asp?ID=9059">Paolo Nicolai</a> Italy (12) 30-28, 21-18 (0:47)
+<br>Match 54: <b><a href="player.asp?ID=14741">Anders Mol</a> / <a href="player.asp?ID=13274">Christian Sorum</a> Norway (15)</b> def. <a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> United States (21) 17-21, 23-21, 16-14 (0:52)
+<P>
+<div class="clsTournBracketHeader">Bronze Medal</div>
+<br>Match 55: <b><a href="player.asp?ID=9422">Daniele Lupo</a> / <a href="player.asp?ID=9059">Paolo Nicolai</a> Italy (12)</b> def. <a href="player.asp?ID=13454">Taylor Crabb</a> / <a href="player.asp?ID=190">Jake Gibb</a> United States (21) 17-21, 21-16, 20-18 (0:56)
+<P>
+<div class="clsTournBracketHeader">Gold Medal</div>
+<br>Match 56: <b><a href="player.asp?ID=14741">Anders Mol</a> / <a href="player.asp?ID=13274">Christian Sorum</a> Norway (15)</b> def. <a href="player.asp?ID=7783">Adrian Gavira</a> / <a href="player.asp?ID=2077">Pablo Herrera</a> Spain (6) 21-18, 21-12 (0:34)
+						</td>
+					</tr>
+				</table>
+
+
+<!-- End Page Content -->
+		</td>
+	</tr>
+</table>
+
+<br>
+<table>
+	<tr>
+		<td align="right"><a href="#top">^top^</a></td>
+	</tr>
+	<tr>
+		<td width="1025"><hr color="#333399"></td>
+	</tr>
+	<tr>
+		<td>
+			Copyright © 1999-2018 Beach Volleyball Database. 
+			<br>Please read <a href="disclaimer.asp">disclaimer</a> before using data or photographs.
+		</td>
+	</tr>
+	<tr><td></td></tr>
+	<tr>
+		<td><a href="mailto:%61%64%6D%69%6E%34%40%62%76%62%69%6E%66%6F%2E%63%6F%6D">E-mail administrator</a></td>
+	</tr>
+</table>
+<!-- Start Alexa Certify Javascript -->
+<script type="text/javascript">
+_atrk_opts = { atrk_acct:"tpvbk1acFH00W5", domain:"bvbinfo.com",dynamic: true};
+(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+</script>
+<noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=tpvbk1acFH00W5" style="display:none" height="1" width="1" alt="" /></noscript>
+<!-- End Alexa Certify Javascript -->  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-13195921-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

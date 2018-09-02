@@ -22,6 +22,17 @@ go test ./...
 
 ### CLI Application
 
+```
+$ go run cmd/cli/bvbinfo/main.go --help
+BVBInfo Importer
+Usage of bvbinfo:
+  -allSeasons=false: load all seasons
+  -dbPath="./_data/vb.db": sqlite db path
+  -init=false: init db
+  -seasonUrl="": season url
+  -tournamentUrl="": tournament url
+```
+
 #### Initialize Database
 
 ```
