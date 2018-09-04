@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -22,7 +23,12 @@ func main() {
 
 	flag.Parse()
 
-	matchRepository := vbscraper.NewSqliteMatchRepository(*dbPath)
+	db, err := sql.Open("sqlite3", *dbPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	matchRepository := vbscraper.NewSqliteMatchRepository(db)
+	playerRepository := vbscraper.NewSqlitePlayerRepository(db)
 
 	if *shouldInitDb {
 		fmt.Println("Initializing database")
@@ -30,7 +36,7 @@ func main() {
 		return
 	}
 
-	importer := vbscraper.NewBvbInfoImporter(matchRepository)
+	importer := vbscraper.NewBvbInfoImporter(matchRepository, playerRepository)
 
 	if *tournamentUrl != "" {
 		total := importTournament(*tournamentUrl, importer)

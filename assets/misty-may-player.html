@@ -1,0 +1,1176 @@
+
+<!-- 
+//*****************************************************************************
+//	
+//		Player.asp 
+//		This page handles player pages
+//
+//		Input (query string):
+//		ID - ID of the player
+//		Page - page to show
+//
+//		Version 1.0
+//
+//		Created by Dennis Wagner - 1/17/2001
+//
+//		Revisions:
+//
+//*****************************************************************************	
+-->
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="playerstyle.css">
+
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+</head>
+<script language="JavaScript">
+<!--
+function FixInput()
+{
+	var InputString = document.search.KeyWord.value;
+	InputString = InputString.replace("'", "''");
+	document.search.KeyWord.value = InputString;
+	return (true);
+}
+
+function FixDoubleQuote()
+{
+	if (typeof(document.search) == "object")
+	{
+		var InputString = document.search.KeyWord.value;
+		InputString = InputString.replace("''", "'");
+		document.search.KeyWord.value = InputString;
+	}
+}
+-->
+</script>
+<body bgcolor="#ffffff" topmargin="0" onLoad="FixDoubleQuote();">
+
+<!-- Build the header -->
+
+
+<table width="1025" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF">
+	<tr height="30" valign="bottom">
+		<td align="center"><img SRC="images/bvbinfo2003.jpg" WIDTH="400" HEIGHT="40"></td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="1025" border="0" cellspacing="1" cellpadding="0">
+	<tr align="center">
+	</tr>
+	<form id="form1" name="form1">
+	<tr align="center" valign="bottom">
+		<td class="clsHeadlineCenter">&nbsp;</td>
+		<td width="13%" class="clsHeadlineCenter">Tour News</td>
+		<td class="clsHeadlineCenter" colspan="13">Search the Database</td>
+	</tr>
+	<tr align="center" valign="center">
+		<td class="clsNav" TITLE="Home"><a href="default1.asp">Home</a></td>
+		<td align="left">
+				<select name="Tours" style="width:100%" onChange="location.href=this.options[this.selectedIndex].value">
+					<option selected>-- Choose --</option>
+					<option value="TourNews.asp?AssocID=1">AVP</option>
+					<option value="TourNews.asp?AssocID=25">p1440</option>
+					<!--option value="TourNews.asp?AssocID=21">NVL</option-->
+					<!--option value="TourNews.asp?AssocID=23">Pro Beach</option-->
+					<!--option value="TourNews.asp?AssocID=20">USAV IDQ</option-->
+					<!--option value="TourNews.asp?AssocID=22">Wide Open</option-->
+					<option value="TourNews.asp?AssocID=17">NORCECA</option>
+					<option value="TourNews.asp?AssocID=3">FIVB</option>
+					<!--option value="TourNews.asp?AssocID=10">FIVB C&S</option-->
+					<option value="TourNews.asp?AssocID=15">FIVB AGWC</option>
+					<option value="TourNews.asp?AssocID=11">CEV</option>
+					<option value="TourNews.asp?AssocID=18">CEV C&S</option>
+					<option value="TourNews.asp?AssocID=19">CEV Under Age</option>
+					<!--option value="http://66.29.222.66">NCAA Sand Volleyball</option-->
+				</select>
+		</td>
+		<td class="clsNav" TITLE="Player Profiles"><a href="player.asp">Players</a></td>
+		<td>|</td>
+		<!--		<td class="clsNav" TITLE="Player Head-to-Head"><a href="PlayerHeadToHead.asp">Head-to-Head</a></td>		<td>|</td>		-->
+		<td class="clsNav" TITLE="Season Summaries"><a href="season.asp">Seasons</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Tournament Results"><a href="tournament.asp">Tournaments</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Season Rankings"><a href="ranking.asp">Rankings</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Career Leaders"><a href="leader.asp">Leaders</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Awards"><a href="award.asp">Awards</a></td>
+		<td>|</td>
+		<td class="clsNav" TITLE="Beach Volleyball History"><a href="history.asp">History</a></td>
+	</tr>
+	<tr>
+		<td colspan="99" height="2"><hr color="#333399"></td>
+	</tr>
+	<tr>
+		<td colspan="99" align="right">
+			<a href="https://twitter.com/BVBInfo" class="twitter-follow-button" data-show-count="false">Follow @BVBInfo</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+		</td>
+	</tr>
+	</form>
+</table>
+	
+
+
+<!-- Build the page Navigation -->
+
+<table border="0" cellpadding="4" width="90%">
+	<tr>
+		<td>	
+<!-- Start Page Content -->
+
+			<table class="clsPlayerTable" cellspacing="0" cellpadding="0">
+				<tr>
+					<td>
+<script language="JavaScript">
+<!--
+document.title="Misty May-Treanor : Career";
+-->
+</script>
+			<table border="0" cellpadding="6" cellspacing="0" bgcolor="#cccccc">
+				<tr>
+					<form name="formPlayerNav" id="formPlayerNav">
+					<td nowrap>Misty May-Treanor: 
+						<select name="PlayerPages" size="1" onchange="window.location.href='Player.asp?ID=1256&Page=' + this.options[this.selectedIndex].value">
+							<option value="1" selected>Career</option>
+							<option value="2">Victories 2000-06</option>
+							<option value="3">Victories 2007-16</option>
+							<option value="4">Partners</option>
+							<option value="5">Domestic Locations</option>
+							<option value="6">International Locations</option>
+							<option value="7">1999-2004</option>
+							<option value="8">2005-09</option>
+							<option value="9">2010-16</option>
+						</select>
+					</td>
+					</form>
+				</tr>
+			</table>
+						<table border="0">
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="2" cellspacing="0">
+							<tr>
+								<td class="clsPlayerName">Misty May-Treanor</td>
+							</tr>
+							<tr>
+								<td class="clsPlayerCountry" valign="center">United States&nbsp;&nbsp;<img src="images/flags/46.gif" height="20">
+								</td>
+							</tr>
+							<tr>
+								<td><img src="images/olympics/olympics00P.gif">&nbsp;&nbsp;<img src="images/olympics/olympics04G.gif">&nbsp;&nbsp;<img src="images/olympics/olympics08G.gif">&nbsp;&nbsp;<img src="images/olympics/olympics12G.gif">&nbsp;&nbsp;</td>
+							</tr>
+						</table>
+						<table border="0">
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="2" cellspacing="0">
+							<tr>
+								<td nowrap class="clsPlayerHeader" colspan="99">Vital Statistics</td>
+							</tr>
+							<tr>
+								<td colspan="99">&nbsp;</td>
+							</tr>
+							<tr>
+								<td nowrap valign="top">
+									<table border="1" width="100%" cellspacing="5" cellpadding="0">
+										<tr>
+											<td nowrap valign="center" align="center" bgcolor="#E0E0E0">
+												<img src="images/photos/1256.jpg" width="200" height="200"><BR>
+												Photo: <a href="http://www.vbshots.com" target="_blank">Ed Chan</a>
+											</td>
+											<td nowrap valign="top" bgcolor="#ccccff">
+												<table border="0" width="100%" cellspacing="4" cellpadding="2" bgcolor="#ccccff">
+													<tr>
+														<td nowrap class="clsPlayerDataLabel">Birth Date</td>
+														<td nowrap class="clsPlayerData" colspan="2">July 30, 1977 (41 years old)</td>
+													</tr>
+													<tr>
+														<td nowrap class="clsPlayerDataLabel">Home Town</td>
+														<td nowrap class="clsPlayerData" colspan="2">Santa Monica, CA</td>
+													</tr>
+													<tr>
+														<td nowrap class="clsPlayerDataLabel">Resides</td>
+														<td nowrap class="clsPlayerData" colspan="2">Long Beach, CA</td>
+													</tr>
+													<tr>
+														<td nowrap class="clsPlayerDataLabel">Height</td>
+														<td nowrap class="clsPlayerData" colspan="2">5'9"</td>
+													</tr>
+													<tr>
+														<td nowrap class="clsPlayerDataLabel">College</td>
+														<td nowrap class="clsPlayerData" colspan="2">Long Beach State</td>
+													</tr>
+													<tr>
+														<td nowrap class="clsPlayerDataLabel">Web Site</td>
+														<td nowrap class="clsPlayerData" colspan="2"><a href="http://www.mistymay.com" target="_blank">www.mistymay.com</a></td>
+													</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td nowrap class="clsPlayerData"><U>Best Finish</U></td>
+														<td nowrap class="clsPlayerData"><U>Winnings</U></td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">United States</td>
+														<td nowrap class="clsPlayerData">1st (69 times)</td>
+														<td nowrap class="clsPlayerData">$1,026,788</td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">&nbsp;&nbsp;&nbsp;AVP</td>
+														<td nowrap class="clsPlayerData">1st (66 times)</td>
+														<td nowrap class="clsPlayerData">$972,413</td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">&nbsp;&nbsp;&nbsp;AVP CUERVO</td>
+														<td nowrap class="clsPlayerData">2nd</td>
+														<td nowrap class="clsPlayerData">$0</td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">&nbsp;&nbsp;&nbsp;BVA</td>
+														<td nowrap class="clsPlayerData">1st (2 times)</td>
+														<td nowrap class="clsPlayerData">$20,875</td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">&nbsp;&nbsp;&nbsp;P&R</td>
+														<td nowrap class="clsPlayerData">3rd</td>
+														<td nowrap class="clsPlayerData">$2,500</td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">&nbsp;&nbsp;&nbsp;USAV</td>
+														<td nowrap class="clsPlayerData">1st</td>
+														<td nowrap class="clsPlayerData">$18,500</td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">&nbsp;&nbsp;&nbsp;Bonus Money</td>
+														<td nowrap class="clsPlayerData">&nbsp;</td>
+														<td nowrap class="clsPlayerData">$12,500</td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">International</td>
+														<td nowrap class="clsPlayerData">1st (43 times)</td>
+														<td nowrap class="clsPlayerData">$1,117,595</td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">&nbsp;&nbsp;&nbsp;FIVB</td>
+														<td nowrap class="clsPlayerData">1st (43 times)</td>
+														<td nowrap class="clsPlayerData">$1,117,595</td>
+													</tr>
+													<tr valign="top">
+														<td nowrap class="clsPlayerDataLabel">Overall</td>
+														<td nowrap class="clsPlayerData">1st (112 times)</td>
+														<td nowrap class="clsPlayerData">$2,144,383</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						<table border="0">
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="2" cellspacing="0">
+							<tr>
+								<td class="clsPlayerHeader" colspan="99">Bio Bits</td>
+							</tr>
+							<tr>
+								<td width="600"><br>
+									<SPAN style="FONT-FAMILY: Arial; FONT-SIZE: 10pt">
+<P style="MARGIN: 0in 0in 0pt; BACKGROUND: white" class=MsoNormal><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"><STRONG>2011:</STRONG> May-Treanor reuinted with Walsh in the FIVB season opener, marking the first time these two played together internationally since the 2008 Beijing Olympics.<BR></SPAN><STRONG>2010:</STRONG> May-Treanor formed a new partnership with Nicole Branagh. In the season opener in Fort Lauderdale, the duo won, becoming the first team to win a domestic event in their first tournament since 2002 and just the second team to do so&nbsp;since 1996. The duo advanced to the semifinals in six of seven AVP events, and&nbsp;five of their six losses&nbsp;were three-set matches. They also won the final AVP event in Long Beach. On the FIVB Tour May-Treanor and Branagh advanced to three semifinals in their first&nbsp;five events, with a best of third place, before going four straight tournaments finishing ninth or lower.<BR><STRONG>2009:</STRONG> May-Treanor suffered a torn achilles tendon while practicing for Dancing with the Stars, causing her to miss almost the entire season. She returned in September to compete with Walsh in an AVP specialty event pitting the USA against Brazil, where they placed second.&nbsp;<BR><STRONG>2008:</STRONG> May-Treanor and Walsh broke their own record by winning 112 consecutive matches and 19 straight tournaments (13 AVP, six FIVB).&nbsp;They were undefeated on the year in their first 10 AVP events as well as the first three FIVB tournaments, all of which were Grand Slams. Then in Beijing the duo swept all seven opponents to win their second straight Olympic Gold Medal. In their next domestic event they lost in the finals, ending their streak, which lasted over a year. They ended the AVP season having won 12 of 14 tournaments, compiling a 70-3 match record in the process.<BR><STRONG>2007:</STRONG> Began the year with a third-place finish, just the second time in their history thay May-Treanor and Walsh weren't in the finals of an AVP event. Following that, though, the duo lost just two more matches on the AVP Tour, ending up with 13 wins in 15 events. On the FIVB Tour they had an impressive 53-1 match record, and won seven of their eight tournaments. They captured the World Championship, in Gstaad, becoming the first team to win three straight World Championships.<BR><STRONG>2006:</STRONG> May-Treanor and Walsh won 13 of the 15 AVP team events, placing second in the other two, while compiling an 81-4 match record. May-Treanor placed second in the individual event, losing to Walsh in the championship. She was third in hitting percentage (.511), fourth in kill percentage (.578), and fifth in both digs (5.50 per game) and kills (6.92 per game). The duo won seven medals in eight FIVB events, including three titles.<BR><STRONG>2005:</STRONG> Played in the championship match of all 13 AVP tournaments, winning 10 times and posting a 69-3 match record. May-Treanor won the individual event in Las Vegas. She finished the 2005 season ranked second in hitting percentage (.489), third in digs (916), and fourth in kill percentage (.570). On the FIVB Tour the pair had a 44-2 match record en route to winning six of the seven competitions. They began the year by winning the World Championships in Berlin.<BR><STRONG>2004:</STRONG> Continued their impressive win streak from 2003, winning the first six tournaments of the season (four AVP, two FIVB). Their streak reached 89 consecutive matches won (on both tours) prior to losing in the semifinals in Manhattan Beach, 11 months since losing their last match. On the AVP Tour, they ended up winning seven of the nine team events. They won four of the five FIVB tournaments, posting a 26-2 match record, with both losses coming as forfeits due to injury. They ended the FIVB season by winning an Olympic Gold Medal in Athens after sweeping all seven opponents.<BR><STRONG>2003:</STRONG> The Dynamic Duo began playing on the AVP Tour, and completed the first undefeated season in history. They won all 39 matches in claiming eight titles, losing just five sets in doing so. On the FIVB Tour, they advanced to the Final Four in all eight of their tournaments, winning five times. They placed second in Norway on July 5, but that would mark their last loss of the season. After that, they won their next nine tournaments entered (five AVP and four FIVB). They finished the FIVB season with a 52-4 match record.<BR><STRONG>2002:</STRONG> May-Treanor and Walsh played exclusively on the FIVB Tour, winning five times and placing second three times in 11 events. The duo accumulated the most points, becoming the first U.S. team to win the points championship in the history of the FIVB.<BR><STRONG>2001:</STRONG> Played the first FIVB event with McPeak, finishing third, then formed a partnership with Kerri Walsh. In the duo's first event, a BVA event in Clearwater, Fla., May-Treanor and Walsh placed seventh, but then won in Oceanside, Calif. in their next outing. They then embarked on the FIVB Tour, winning four medals in eight events, including one title. The pair finished ninth in the World Championships in Klagenfurt.<BR><STRONG>2000:</STRONG> Competed in four different tours,&nbsp;playing the entire season with McPeak, and winning on three of the tours. In their first domestic event, in a USAV event in Deerfield Beach, May-Treanor collected her first career win. The duo played 11 events on the FIVB Tour, advancing to seven gold medal matches and winning three titles. Their first international win, a Grand Slam event in Chicago, gave them enough points to qualify for the Sydney Olympics, where they placed fifth.<BR><STRONG>1999:</STRONG> Made her pro beach volleyball debut in an AVP event in Clearwater Beach, Fla., with Valinda Roche, placing ninth. The duo then placed 13th in a USAV event before May-Treanor teamed with Holly McPeak in an FIVB tournament in Salvador, Brazil, finishing ninth.<BR><BR><STRONG>College:</STRONG> <SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Arial','sans-serif'; COLOR: black; FONT-SIZE: 10pt; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA"><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">May-Treanor attended </SPAN><?xml:namespace prefix = st1 ns = "urn:schemas-microsoft-com:office:smarttags" /><st1:place><st1:PlaceName><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">Long Beach</SPAN></st1:PlaceName><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> </SPAN><st1:PlaceType><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">State</SPAN></st1:PlaceType></st1:place><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> where she was part of the 1998 NCAA Championship, defeating </SPAN><st1:place><st1:PlaceName><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">Penn</SPAN></st1:PlaceName><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> </SPAN><st1:PlaceType><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">State</SPAN></st1:PlaceType></st1:place><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> and was awarded the NCAA Championship Co-MVP.&nbsp;In addition to the victory, May-Treanor received several other collegiate accolades including the 1998 Honda Broderick NCAA Athlete-of-the-Year Award and was an NCAA First-Team All-American in the years 1996-1998. Her 1998 team was just the third college team to go undefeated in a season. She graduated with a BA in Kinesiology.</SPAN></SPAN><BR><BR><STRONG>Personal:</STRONG>&nbsp;<SPAN style="LINE-HEIGHT: 115%; FONT-FAMILY: 'Arial','sans-serif'; COLOR: black; FONT-SIZE: 10pt; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA"><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">May-Treanor was born in </SPAN><st1:City><st1:place><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">Los Angeles</SPAN></st1:place></st1:City><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> but spent her high school years in </SPAN><st1:City><st1:place><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">Costa Mesa</SPAN></st1:place></st1:City><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> where she attended </SPAN><st1:place><st1:PlaceName><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">Newport</SPAN></st1:PlaceName><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> </SPAN><st1:PlaceType><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">Harbor</SPAN></st1:PlaceType><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> </SPAN><st1:PlaceType><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">High School</SPAN></st1:PlaceType></st1:place><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">. She grew up alongside her two brothers Brack and Scott.&nbsp;Her cousin is tennis Olympian Taylor Dent. When she's not training, she is the assistant coach at </SPAN><st1:place><st1:PlaceName><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">Irvine</SPAN></st1:PlaceName><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> </SPAN><st1:PlaceType><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">Valley</SPAN></st1:PlaceType><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> </SPAN><st1:PlaceType><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">Junior College</SPAN></st1:PlaceType></st1:place><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial">. May-Treanor&nbsp;'s husband, Matt is a catcher for the Los Angeles Dodgers.</SPAN><SPAN style="COLOR: black; FONT-SIZE: 10pt; mso-bidi-font-family: Arial"> </SPAN></SPAN></P>
+								</td>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+						<table border="0">
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="2" cellspacing="0">
+							<tr>
+								<td class="clsPlayerHeader" colspan="99">Awards</td>
+							</tr>
+							<tr>
+								<td colspan="99">&nbsp;</td>
+							</tr>
+							<tr>
+								<td width="600">
+									<ul>
+</li>
+										<li>USAV Beach Team of the Year 2007 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>)</li>
+										<li>USAV Women's Beach Player of the Year 2007, 2008, 2012</li>
+										<li>Volleyball Hall of Fame 2016</li>
+										<li>AVP Best Defensive Player 2006, 2007</li>
+										<li>AVP Best Defensive Player (Defender) 2008</li>
+										<li>AVP Best Offensive Player 2004, 2005, 2006, 2007, 2008</li>
+										<li>AVP Crocs Cup Champion 2006 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>), 2007 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>), 2008 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>)</li>
+										<li>AVP Most Valuable Player 2005, 2006, 2007, 2008</li>
+										<li>AVP Team of the Year 2003 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>), 2004 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>), 2005 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>), 2006 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>), 2007 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>), 2008 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>)</li>
+										<li>BVA Rookie of the Year 2000</li>
+										<li>FIVB Best Defensive Player 2007, 2008, 2011</li>
+										<li>FIVB Best Offensive Player 2005, 2007, 2008</li>
+										<li>FIVB Best Setter 2005</li>
+										<li>FIVB Most Inspirational 2012</li>
+										<li>FIVB Most Outstanding 2005, 2008</li>
+										<li>FIVB Sportsperson 2007, 2008, 2010</li>
+										<li>FIVB Tour Champion 2002 (<a href="player.asp?ID=1923">Kerri Walsh Jennings</a>)</li>								</ul>
+							</tr>
+						</table>
+						<table border="0">
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="2" cellspacing="0">
+							<tr>
+								<td class="clsPlayerHeader" colspan="99">Career Summary</td>
+							</tr>
+							<tr>
+								<td colspan="99">&nbsp;</td>
+							</tr>
+							<tr>
+								<td class="clsPlayerCategoryHeader" colspan="99">United States</td>
+							</tr>							<tr class="clsPlayerDataHeader" align="center">
+								<td>Season</td>
+								<td>Assoc</td>
+								<td>Played</td>
+								<td>1st</td>
+								<td>2nd</td>
+								<td>3rd</td>
+								<td>4th</td>
+								<td>5th</td>
+								<td>7th</td>
+								<td>9th</td>
+								<td align="right">Money</td>
+								<td align="right">Points</td>
+								<td>Rank</td>
+								<td>13th</td>
+								<td>15th</td>
+								<td>17th</td>
+								<td>25th</td>
+							</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#1999AVP">1999</a></td>
+							<td>AVP</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td align="right">$1,000.00</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#1999USAV">1999</a></td>
+							<td>USAV</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$1,500.00</td>
+							<td align="right">51.0</td>
+							<td>44th</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2000AVP">2000</a></td>
+							<td>AVP</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td align="right">$4,200.00</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2000BVA">2000</a></td>
+							<td>BVA</td>
+							<td>3</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$16,500.00</td>
+							<td align="right">216.0</td>
+							<td>19th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2000USAV">2000</a></td>
+							<td>USAV</td>
+							<td>2</td>
+							<td class="clsPlayerLeader">1</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td class="clsPlayerLeader" align="right">$17,000.00</td>
+							<td align="right">323.0</td>
+							<td class="clsPlayerLeader">1st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2001BVA">2001</a></td>
+							<td>BVA</td>
+							<td>2</td>
+							<td class="clsPlayerLeader">1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td align="right">$4,375.00</td>
+							<td align="right">120.0</td>
+							<td class="clsPlayerLeader">1st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2003AVP">2003</a></td>
+							<td>AVP</td>
+							<td>8</td>
+							<td class="clsPlayerLeader">8</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td class="clsPlayerLeader" align="right">$71,550.00</td>
+							<td align="right">1,620.0</td>
+							<td class="clsPlayerLeader">1st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2004AVP">2004</a></td>
+							<td>AVP</td>
+							<td>10</td>
+							<td class="clsPlayerLeader">7</td>
+							<td>1</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$73,612.50</td>
+							<td align="right">1,513.0</td>
+							<td>4th</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2005AVP">2005</a></td>
+							<td>AVP</td>
+							<td>14</td>
+							<td class="clsPlayerLeader">11</td>
+							<td>3</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td class="clsPlayerLeader" align="right">$183,250.00</td>
+							<td align="right">2,620.0</td>
+							<td class="clsPlayerLeader">1st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2006AVP">2006</a></td>
+							<td>AVP</td>
+							<td>16</td>
+							<td>13</td>
+							<td>3</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$236,650.00</td>
+							<td align="right">2,964.0</td>
+							<td class="clsPlayerLeader">1st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+							<tr class="clsPlayerDataHeader" align="center">
+								<td>Season</td>
+								<td>Assoc</td>
+								<td>Played</td>
+								<td>1st</td>
+								<td>2nd</td>
+								<td>3rd</td>
+								<td>4th</td>
+								<td>5th</td>
+								<td>7th</td>
+								<td>9th</td>
+								<td align="right">Money</td>
+								<td align="right">Points</td>
+								<td>Rank</td>
+								<td>13th</td>
+								<td>15th</td>
+								<td>17th</td>
+								<td>25th</td>
+							</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2007AVP">2007</a></td>
+							<td>AVP</td>
+							<td>15</td>
+							<td class="clsPlayerLeader">13</td>
+							<td>1</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$162,250.00</td>
+							<td align="right">2,849.0</td>
+							<td class="clsPlayerLeader">1st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2008AVP CUERVO">2008</a></td>
+							<td>AVP CUERVO</td>
+							<td>1</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$0.00</td>
+							<td align="right">0.0</td>
+							<td>&nbsp;</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2008AVP">2008</a></td>
+							<td>AVP</td>
+							<td>14</td>
+							<td class="clsPlayerLeader">12</td>
+							<td>1</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$182,750.00</td>
+							<td align="right">2,929.0</td>
+							<td class="clsPlayerLeader">1st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2009AVP">2009</a></td>
+							<td>AVP</td>
+							<td>1</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$9,500.00</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=9#2010AVP">2010</a></td>
+							<td>AVP</td>
+							<td>7</td>
+							<td>2</td>
+							<td>2</td>
+							<td>2</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td class="clsPlayerLeader" align="right">$48,500.00</td>
+							<td align="right">2,155.0</td>
+							<td class="clsPlayerLeader">1st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=9#2010P&R">2010</a></td>
+							<td>P&R</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$2,500.00</td>
+							<td align="right">0.0</td>
+							<td>&nbsp;</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=9#2015AVP">2015</a></td>
+							<td>AVP</td>
+							<td>2</td>
+							<td>0</td>
+							<td>0</td>
+							<td>2</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$8,150.00</td>
+							<td align="right">540.0</td>
+							<td>36th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=9#2016AVP">2016</a></td>
+							<td>AVP</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$3,500.00</td>
+							<td align="right">270.0</td>
+							<td>76th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsPlayerDataTotal" align="center" valign="top">
+							<td align="left">Total<br>(Rank)</td>
+							<td>&nbsp;</td>
+							<td>100<br>(57th)</td>
+							<td>69<br>(2nd)</td>
+							<td>14</td>
+							<td>10</td>
+							<td>0</td>
+							<td>1</td>
+							<td>2</td>
+							<td>1</td>
+							<td align="right">$1,026,787.50<br>(3rd)</td>
+							<td align="right">18,170.0</td>
+							<td>&nbsp;</td>
+							<td>1</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+							<tr>
+								<td class="clsPlayerCategoryHeader" colspan="99">International</td>
+							</tr>							<tr class="clsPlayerDataHeader" align="center">
+								<td>Season</td>
+								<td>Assoc</td>
+								<td>Played</td>
+								<td>1st</td>
+								<td>2nd</td>
+								<td>3rd</td>
+								<td>4th</td>
+								<td>5th</td>
+								<td>7th</td>
+								<td>9th</td>
+								<td align="right">Money</td>
+								<td align="right">Points</td>
+								<td>Rank</td>
+								<td>13th</td>
+								<td>15th</td>
+								<td>17th</td>
+								<td>25th</td>
+							</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#1999FIVB">1999</a></td>
+							<td>FIVB</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td align="right">$2,250.00</td>
+							<td align="right">68.0</td>
+							<td>81st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2000FIVB">2000</a></td>
+							<td>FIVB</td>
+							<td>11</td>
+							<td>3</td>
+							<td>4</td>
+							<td>0</td>
+							<td>1</td>
+							<td>3</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$90,000.00</td>
+							<td align="right">1,575.0</td>
+							<td>3rd</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2001FIVB">2001</a></td>
+							<td>FIVB</td>
+							<td>9</td>
+							<td>1</td>
+							<td>2</td>
+							<td>2</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>3</td>
+							<td align="right">$58,500.00</td>
+							<td align="right">1,149.0</td>
+							<td>9th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2002FIVB">2002</a></td>
+							<td>FIVB</td>
+							<td>11</td>
+							<td class="clsPlayerLeader">5</td>
+							<td>3</td>
+							<td>1</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td class="clsPlayerLeader" align="right">$97,570.00</td>
+							<td align="right">1,535.0</td>
+							<td class="clsPlayerLeader">1st</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2003FIVB">2003</a></td>
+							<td>FIVB</td>
+							<td>8</td>
+							<td class="clsPlayerLeader">5</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td class="clsPlayerLeader" align="right">$126,000.00</td>
+							<td align="right">1,845.0</td>
+							<td>3rd</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=7#2004FIVB">2004</a></td>
+							<td>FIVB</td>
+							<td>5</td>
+							<td>4</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$43,000.00</td>
+							<td align="right">600.0</td>
+							<td>37th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2005FIVB">2005</a></td>
+							<td>FIVB</td>
+							<td>7</td>
+							<td class="clsPlayerLeader">6</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$131,500.00</td>
+							<td align="right">1,840.0</td>
+							<td>7th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2006FIVB">2006</a></td>
+							<td>FIVB</td>
+							<td>8</td>
+							<td>3</td>
+							<td>2</td>
+							<td>2</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$100,700.00</td>
+							<td align="right">2,350.0</td>
+							<td>9th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2007FIVB">2007</a></td>
+							<td>FIVB</td>
+							<td>8</td>
+							<td class="clsPlayerLeader">7</td>
+							<td>0</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$154,750.00</td>
+							<td align="right">2,920.0</td>
+							<td>9th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=8#2008FIVB">2008</a></td>
+							<td>FIVB</td>
+							<td>4</td>
+							<td>4</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$65,250.00</td>
+							<td align="right">1,200.0</td>
+							<td>40th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+							<tr class="clsPlayerDataHeader" align="center">
+								<td>Season</td>
+								<td>Assoc</td>
+								<td>Played</td>
+								<td>1st</td>
+								<td>2nd</td>
+								<td>3rd</td>
+								<td>4th</td>
+								<td>5th</td>
+								<td>7th</td>
+								<td>9th</td>
+								<td align="right">Money</td>
+								<td align="right">Points</td>
+								<td>Rank</td>
+								<td>13th</td>
+								<td>15th</td>
+								<td>17th</td>
+								<td>25th</td>
+							</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=9#2010FIVB">2010</a></td>
+							<td>FIVB</td>
+							<td>9</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+							<td>2</td>
+							<td>1</td>
+							<td>0</td>
+							<td>3</td>
+							<td align="right">$47,775.00</td>
+							<td align="right">1,620.0</td>
+							<td>24th</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>1</td>
+						</tr>
+						<tr class="clsGreyBarRow" align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=9#2011FIVB">2011</a></td>
+							<td>FIVB</td>
+							<td>11</td>
+							<td>3</td>
+							<td>4</td>
+							<td>0</td>
+							<td>1</td>
+							<td>3</td>
+							<td>0</td>
+							<td>0</td>
+							<td align="right">$144,650.00</td>
+							<td align="right">3,390.0</td>
+							<td>6th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr align="center">
+
+							<td align="left"><a href="player.asp?ID=1256&Page=9#2012FIVB">2012</a></td>
+							<td>FIVB</td>
+							<td>7</td>
+							<td>2</td>
+							<td>1</td>
+							<td>0</td>
+							<td>0</td>
+							<td>2</td>
+							<td>0</td>
+							<td>2</td>
+							<td align="right">$55,650.00</td>
+							<td align="right">1,500.0</td>
+							<td>24th</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+						<tr class="clsPlayerDataTotal" align="center" valign="top">
+							<td align="left">Total<br>(Rank)</td>
+							<td>&nbsp;</td>
+							<td>99<br>(64th)</td>
+							<td>43<br>(4th)</td>
+							<td>18</td>
+							<td>8</td>
+							<td>6</td>
+							<td>10</td>
+							<td>1</td>
+							<td>10</td>
+							<td align="right">$1,117,595.00<br>(7th)</td>
+							<td align="right">21,592.0</td>
+							<td>&nbsp;</td>
+							<td>1</td>
+							<td>0</td>
+							<td>1</td>
+							<td>1</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+<tr>
+<td colspan="99"><B>Overall</B></td>
+</tr>
+						<tr class="clsPlayerDataTotal" align="center" valign="top">
+							<td align="left">Total<br>(Rank)</td>
+							<td>&nbsp;</td>
+							<td>199<br>(13th)</td>
+							<td>112<br>(2nd)</td>
+							<td>32</td>
+							<td>18</td>
+							<td>6</td>
+							<td>11</td>
+							<td>3</td>
+							<td>11</td>
+							<td align="right">$2,144,382.50<br>(2nd)</td>
+							<td align="right">39,762.0</td>
+							<td>&nbsp;</td>
+							<td>2</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+						</tr>
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td colspan="99"><span class="clsPlayerLeader">Red</span> denotes ranked 1st</td>
+							</tr>
+						</table>
+						<table border="0">
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+
+	
+<!-- End Page Content -->
+		</td>
+	</tr>
+</table>
+
+<br>
+<table>
+	<tr>
+		<td align="right"><a href="#top">^top^</a></td>
+	</tr>
+	<tr>
+		<td width="1025"><hr color="#333399"></td>
+	</tr>
+	<tr>
+		<td>
+			Copyright © 1999-2018 Beach Volleyball Database. 
+			<br>Please read <a href="disclaimer.asp">disclaimer</a> before using data or photographs.
+		</td>
+	</tr>
+	<tr><td></td></tr>
+	<tr>
+		<td><a href="mailto:%61%64%6D%69%6E%34%40%62%76%62%69%6E%66%6F%2E%63%6F%6D">E-mail administrator</a></td>
+	</tr>
+</table>
+<!-- Start Alexa Certify Javascript -->
+<script type="text/javascript">
+_atrk_opts = { atrk_acct:"tpvbk1acFH00W5", domain:"bvbinfo.com",dynamic: true};
+(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+</script>
+<noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=tpvbk1acFH00W5" style="display:none" height="1" width="1" alt="" /></noscript>
+<!-- End Alexa Certify Javascript -->  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-13195921-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

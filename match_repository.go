@@ -10,18 +10,14 @@ import (
 type MatchRepository interface {
 	Create(match Match, id string) error
 	Find(id string) *Match
+	GetAllPlayerIds() []int
 }
 
 type sqliteMatchRepository struct {
 	db *sql.DB
 }
 
-func NewSqliteMatchRepository(dbPath string) *sqliteMatchRepository {
-	db, err := sql.Open("sqlite3", dbPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func NewSqliteMatchRepository(db *sql.DB) *sqliteMatchRepository {
 	return &sqliteMatchRepository{db}
 }
 
@@ -88,4 +84,34 @@ func (r *sqliteMatchRepository) Find(id string) *Match {
 	}
 
 	return &m
+}
+
+func (r *sqliteMatchRepository) GetAllPlayerIds() []int {
+	var playerIds []int
+
+	rows, queryErr := r.db.Query("SELECT *" +
+		" FROM (SELECT playerA_id AS id FROM match" +
+		" UNION SELECT playerB_id AS id FROM match" +
+		" UNION SELECT playerC_id AS id FROM match" +
+		" UNION SELECT playerD_id AS id FROM match)" +
+		" GROUP BY id")
+	if queryErr != nil {
+		log.Fatal(queryErr)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var playerId int
+		scanErr := rows.Scan(&playerId)
+		if scanErr != nil {
+			log.Fatal(scanErr)
+		}
+		playerIds = append(playerIds, playerId)
+	}
+	err := rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return playerIds
 }

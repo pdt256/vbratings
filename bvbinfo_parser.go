@@ -1,6 +1,7 @@
 package vbscraper
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
 	"regexp"
@@ -21,6 +22,8 @@ var matchRegexp = regexp.MustCompile(`(?m:<br>Match\s\d+:[^?]+` +
 
 var tournamentInfoRegexp = regexp.MustCompile(`(?m:clsTournHeader[^<]+<BR>\s+[^,]+,\s([^\r|\n]+))`)
 
+var playerNameRegexp = regexp.MustCompile(`(?m:clsPlayerName">([^<]+)</td>)`)
+
 type Season struct {
 	AssocID string
 	Year    string
@@ -32,15 +35,21 @@ type Tournament struct {
 }
 
 type Match struct {
-	PlayerAId string
-	PlayerBId string
-	PlayerCId string
-	PlayerDId string
+	PlayerAId int
+	PlayerBId int
+	PlayerCId int
+	PlayerDId int
 	IsForfeit bool
 	Set1      string
 	Set2      string
 	Set3      string
 	Year      int
+}
+
+type Player struct {
+	BvbId  int
+	Name   string
+	ImgUrl string
 }
 
 func GetMatches(reader io.Reader) []Match {
@@ -56,19 +65,27 @@ func GetMatches(reader io.Reader) []Match {
 
 	var matches []Match
 	for _, value := range regexMatches {
-		//fmt.Printf("%#v", value[1:])
+		playerAId, _ := strconv.Atoi(value[1])
+		playerBId, _ := strconv.Atoi(value[2])
+		playerCId, _ := strconv.Atoi(value[3])
+		playerDId, _ := strconv.Atoi(value[4])
+
 		isForfeit := value[5] == "Forfeit"
 		isRetired := value[6] == "retired"
 
+		set1 := value[7]
+		set2 := value[8]
+		set3 := value[9]
+
 		matches = append(matches, Match{
-			value[1],
-			value[2],
-			value[3],
-			value[4],
+			playerAId,
+			playerBId,
+			playerCId,
+			playerDId,
 			isForfeit || isRetired,
-			value[7],
-			value[8],
-			value[9],
+			set1,
+			set2,
+			set3,
 			year,
 		})
 	}
@@ -98,4 +115,22 @@ func GetSeasons(reader io.Reader) []Season {
 	}
 
 	return seasons
+}
+
+func GetPlayer(reader io.Reader, playerId int) Player {
+	var name string
+
+	bytes, _ := ioutil.ReadAll(reader)
+	nameMatch := playerNameRegexp.FindStringSubmatch(string(bytes))
+	if len(nameMatch) > 0 {
+		name = nameMatch[1]
+	}
+
+	imgUrl := fmt.Sprintf("http://bvbinfo.com/images/photos/%d.jpg", playerId)
+
+	return Player{
+		BvbId:  playerId,
+		Name:   name,
+		ImgUrl: imgUrl,
+	}
 }

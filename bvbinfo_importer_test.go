@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_BvbInfo_ImportMatches(t *testing.T) {
+func Test_Bvbinfo_ImportMatches(t *testing.T) {
 	// Given
 	inMemoryRepository := &vbscraper.InMemoryMatchRepository{}
-	importer := vbscraper.NewBvbInfoImporter(inMemoryRepository)
+	importer := vbscraper.NewBvbInfoImporter(inMemoryRepository, nil)
 	matchesReader, _ := os.Open("./assets/2017-avp-manhattan-beach-mens-matches.html")
 
 	// When

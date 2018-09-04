@@ -18,10 +18,10 @@ func Test_GetMatches_Handles3SetMatch(t *testing.T) {
 
 	// Then
 	match := matches[0]
-	assert.Equal(t, "5214", match.PlayerAId)
-	assert.Equal(t, "1931", match.PlayerBId)
-	assert.Equal(t, "13453", match.PlayerCId)
-	assert.Equal(t, "1163", match.PlayerDId)
+	assert.Equal(t, 5214, match.PlayerAId)
+	assert.Equal(t, 1931, match.PlayerBId)
+	assert.Equal(t, 13453, match.PlayerCId)
+	assert.Equal(t, 1163, match.PlayerDId)
 	assert.False(t, match.IsForfeit)
 	assert.Equal(t, "23-25", match.Set1)
 	assert.Equal(t, "21-18", match.Set2)
@@ -37,10 +37,10 @@ func Test_GetMatches_Handles2ndSetRetired(t *testing.T) {
 
 	// Then
 	match := matches[0]
-	assert.Equal(t, "16546", match.PlayerAId)
-	assert.Equal(t, "10736", match.PlayerBId)
-	assert.Equal(t, "7145", match.PlayerCId)
-	assert.Equal(t, "8011", match.PlayerDId)
+	assert.Equal(t, 16546, match.PlayerAId)
+	assert.Equal(t, 10736, match.PlayerBId)
+	assert.Equal(t, 7145, match.PlayerCId)
+	assert.Equal(t, 8011, match.PlayerDId)
 	assert.True(t, match.IsForfeit)
 	assert.Equal(t, "", match.Set1)
 	assert.Equal(t, "", match.Set2)
@@ -56,10 +56,10 @@ func Test_GetMatches_Handles3rdSetRetired(t *testing.T) {
 
 	// Then
 	match := matches[0]
-	assert.Equal(t, "7710", match.PlayerAId)
-	assert.Equal(t, "11131", match.PlayerBId)
-	assert.Equal(t, "7960", match.PlayerCId)
-	assert.Equal(t, "8777", match.PlayerDId)
+	assert.Equal(t, 7710, match.PlayerAId)
+	assert.Equal(t, 11131, match.PlayerBId)
+	assert.Equal(t, 7960, match.PlayerCId)
+	assert.Equal(t, 8777, match.PlayerDId)
 	assert.True(t, match.IsForfeit)
 	assert.Equal(t, "", match.Set1)
 	assert.Equal(t, "", match.Set2)
@@ -75,10 +75,10 @@ func Test_GetMatches_HandlesForfeit(t *testing.T) {
 
 	// Then
 	match := matches[0]
-	assert.Equal(t, "13513", match.PlayerAId)
-	assert.Equal(t, "14187", match.PlayerBId)
-	assert.Equal(t, "10935", match.PlayerCId)
-	assert.Equal(t, "15591", match.PlayerDId)
+	assert.Equal(t, 13513, match.PlayerAId)
+	assert.Equal(t, 14187, match.PlayerBId)
+	assert.Equal(t, 10935, match.PlayerCId)
+	assert.Equal(t, 15591, match.PlayerDId)
 	assert.True(t, match.IsForfeit)
 	assert.Equal(t, "", match.Set1)
 	assert.Equal(t, "", match.Set2)
@@ -147,4 +147,17 @@ func Test_GetSeasons(t *testing.T) {
 	assert.Equal(t, 269, len(seasons))
 	assert.Equal(t, "3", seasons[0].AssocID)
 	assert.Equal(t, "2019", seasons[0].Year)
+}
+
+func Test_GetPlayer(t *testing.T) {
+	// Given
+	file, _ := os.Open("./assets/misty-may-player.html")
+
+	// When
+	player := vbscraper.GetPlayer(file, 1256)
+
+	// Then
+	assert.Equal(t, 1256, player.BvbId)
+	assert.Equal(t, "Misty May-Treanor", player.Name)
+	assert.Equal(t, "http://bvbinfo.com/images/photos/1256.jpg", player.ImgUrl)
 }
