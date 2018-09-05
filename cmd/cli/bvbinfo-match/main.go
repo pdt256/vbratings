@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	fmt.Println("BVBInfo Importer")
+	fmt.Println("BVBInfo Match Importer")
 	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
 	dbPath := flag.String("dbPath", "./_data/vb.db", "sqlite db path")

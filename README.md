@@ -20,10 +20,10 @@ go test ./...
 
 ## Run
 
-### CLI Application
+### Bvbinfo Match Importer
 
 ```
-$ go run cmd/cli/bvbinfo/main.go --help
+$ go run cmd/cli/bvbinfo-match/main.go --help
 BVBInfo Importer
 Usage of bvbinfo:
   -allSeasons=false: load all seasons
@@ -36,13 +36,13 @@ Usage of bvbinfo:
 #### Initialize Database
 
 ```
-$ go run cmd/cli/bvbinfo/main.go -init
+$ go run cmd/cli/bvbinfo-match/main.go -init
 ```
 
 #### Import Matches from a Tournament
 
 ```
-$ go run cmd/cli/bvbinfo/main.go -tournamentUrl "http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches"
+$ go run cmd/cli/bvbinfo-match/main.go -tournamentUrl "http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches"
 BVBInfo Importer
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches
 84 matches imported
@@ -55,7 +55,7 @@ e6d2cd6b-9bde-40e7-bc62-c7dfeed7fada|14846|16729|6274|17246
 #### Import Matches from a Season
 
 ```
-$ go run cmd/cli/bvbinfo/main.go -seasonUrl "http://bvbinfo.com/Season.asp?AssocID=1&Year=2017"
+$ go run cmd/cli/bvbinfo-match/main.go -seasonUrl "http://bvbinfo.com/Season.asp?AssocID=1&Year=2017"
 BVBInfo Importer
 Importing Season: http://bvbinfo.com/Season.asp?AssocID=1&Year=2017
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches
@@ -69,7 +69,7 @@ $ sqlite3 _data/vb.db 'select count(*) from match;'
 #### Import Matches from all Seasons
 
 ```
-$ go run cmd/cli/bvbinfo/main.go -allSeasons
+$ go run cmd/cli/bvbinfo-match/main.go -allSeasons
 BVBInfo Importer
 Importing Season: http://bvbinfo.com/Season.asp?AssocID=3&Year=2019
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3547&Process=Matches
@@ -80,6 +80,34 @@ Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3485&Process=Matches
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3486&Process=Matches
 ...
 109531 matches imported
+```
+
+### Bvbinfo Player Importer
+
+```
+$ go run cmd/cli/bvbinfo-player/main.go --help
+BVBInfo Player Importer
+Usage of bvbinfo-player
+  -dbPath="./_data/vb.db": sqlite db path
+  -init=false: init db
+```
+
+#### Initialize Database
+
+```
+$ go run cmd/cli/bvbinfo-player/main.go -init
+```
+
+#### Import Players from recorded matches
+
+```
+$ go run cmd/cli/bvbinfo-player/main.go
+BVBInfo Player Importer
+...................................................................................
+...................................................................................
+...................................................................................
+...........
+260 players imported
 ```
 
 ## License

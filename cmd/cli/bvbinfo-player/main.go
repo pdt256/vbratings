@@ -50,5 +50,5 @@ func main() {
 		fmt.Print(".")
 	}
 
-	fmt.Printf("%d total imported", totalImported)
+	fmt.Printf("\n%d players imported\n", totalImported)
 }
