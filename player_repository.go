@@ -15,6 +15,8 @@ type sqlitePlayerRepository struct {
 	db *sql.DB
 }
 
+var _ PlayerRepository = (*sqlitePlayerRepository)(nil)
+
 func NewSqlitePlayerRepository(db *sql.DB) *sqlitePlayerRepository {
 	return &sqlitePlayerRepository{db}
 }
@@ -48,18 +50,3 @@ func (r *sqlitePlayerRepository) Create(player Player) error {
 
 	return nil
 }
-
-//func (r *sqlitePlayerRepository) Find(id string) *Player {
-//	var p Player
-//	row := r.db.QueryRow("SELECT bvbId, name, imgUrl FROM player WHERE id = $1", id)
-//	err := row.Scan(
-//		&p.BvbId,
-//		&p.Name,
-//		&p.ImgUrl,
-//	)
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//
-//	return &p
-//}

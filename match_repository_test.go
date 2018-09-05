@@ -1,9 +1,7 @@
 package vbscraper_test
 
 import (
-	"database/sql"
 	"fmt"
-	"os"
 	"testing"
 
 	"github.com/pdt256/vbscraper"
@@ -13,10 +11,9 @@ import (
 
 func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	// Given
-	dbPath := "./_data/vb_test.db"
-	os.Remove(dbPath)
-	db, _ := sql.Open("sqlite3", dbPath)
-	repository := vbscraper.NewSqliteMatchRepository(db)
+	db := NewInMemoryDB()
+	matchRepository := vbscraper.NewSqliteMatchRepository(db)
+	repository := matchRepository
 	repository.InitDB()
 	match := vbscraper.Match{
 		PlayerAId: 1,
@@ -47,9 +44,7 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 
 func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 	// Given
-	dbPath := "./_data/vb_test.db"
-	os.Remove(dbPath)
-	db, _ := sql.Open("sqlite3", dbPath)
+	db := NewInMemoryDB()
 	repository := vbscraper.NewSqliteMatchRepository(db)
 	repository.InitDB()
 	match := vbscraper.Match{
@@ -93,9 +88,7 @@ func Test_MatchRepository_GetAllPlayerIds(t *testing.T) {
 		Set2:      "21-15",
 		Set3:      "15-7",
 	}
-	dbPath := "./_data/vb_test.db"
-	os.Remove(dbPath)
-	db, _ := sql.Open("sqlite3", dbPath)
+	db := NewInMemoryDB()
 	repository := vbscraper.NewSqliteMatchRepository(db)
 	repository.InitDB()
 	repository.Create(match, "123-abc")

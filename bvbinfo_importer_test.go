@@ -10,8 +10,9 @@ import (
 
 func Test_Bvbinfo_ImportMatches(t *testing.T) {
 	// Given
-	inMemoryRepository := &vbscraper.InMemoryMatchRepository{}
-	importer := vbscraper.NewBvbInfoImporter(inMemoryRepository, nil)
+	db := NewInMemoryDB()
+	matchRepository := vbscraper.NewSqliteMatchRepository(db)
+	importer := vbscraper.NewBvbInfoImporter(matchRepository, nil)
 	matchesReader, _ := os.Open("./assets/2017-avp-manhattan-beach-mens-matches.html")
 
 	// When
@@ -19,5 +20,4 @@ func Test_Bvbinfo_ImportMatches(t *testing.T) {
 
 	// Then
 	assert.Equal(t, 159, totalImported)
-	assert.Equal(t, 159, inMemoryRepository.TotalMatches())
 }

@@ -11,11 +11,14 @@ type MatchRepository interface {
 	Create(match Match, id string) error
 	Find(id string) *Match
 	GetAllPlayerIds() []int
+	GetAllMatchesByYear(year int) []Match
 }
 
 type sqliteMatchRepository struct {
 	db *sql.DB
 }
+
+var _ MatchRepository = (*sqliteMatchRepository)(nil)
 
 func NewSqliteMatchRepository(db *sql.DB) *sqliteMatchRepository {
 	return &sqliteMatchRepository{db}
@@ -114,4 +117,39 @@ func (r *sqliteMatchRepository) GetAllPlayerIds() []int {
 	}
 
 	return playerIds
+}
+
+func (r *sqliteMatchRepository) GetAllMatchesByYear(year int) []Match {
+	var matches []Match
+
+	rows, queryErr := r.db.Query("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year FROM match WHERE year = $1", year)
+	if queryErr != nil {
+		log.Fatal(queryErr)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var m Match
+		scanErr := rows.Scan(
+			&m.PlayerAId,
+			&m.PlayerBId,
+			&m.PlayerCId,
+			&m.PlayerDId,
+			&m.IsForfeit,
+			&m.Set1,
+			&m.Set2,
+			&m.Set3,
+			&m.Year,
+		)
+		if scanErr != nil {
+			log.Fatal(scanErr)
+		}
+		matches = append(matches, m)
+	}
+	err := rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return matches
 }
