@@ -54,21 +54,27 @@ func (c *ratingCalculator) CalculateRatingsByYear(year int) {
 }
 
 func (c *ratingCalculator) getPlayerRating(playerId int, year int) PlayerRating {
-	// TODO:
-	//  if not exist, find in playerRatingRepository where (year - 1)
-	//  if not exist, new playerRating to $playerRatings with default SeedRating (1500)
-
 	if rating, ok := c.playerRatings[playerId]; ok {
 		return rating
-	} else {
-		//previousYear := year - 1
-		//playerARating := c.playerRatingRepository.GetPlayerRatingByYear(playerId, previousYear)
+	}
 
-		return PlayerRating{
+	var playerRating *PlayerRating
+
+	previousYear := year - 1
+	playerRating, getPlayerRatingErr := c.playerRatingRepository.GetPlayerRatingByYear(playerId, previousYear)
+	if getPlayerRatingErr == nil {
+		playerRating.Year = year
+		playerRating.SeedRating = playerRating.Rating
+	} else if _, ok := getPlayerRatingErr.(*NotFoundError); ok {
+		playerRating = &PlayerRating{
 			PlayerId:   playerId,
 			Year:       year,
 			SeedRating: defaultSeedRating,
 			Rating:     defaultSeedRating,
 		}
 	}
+
+	c.playerRatings[playerId] = *playerRating
+
+	return *playerRating
 }

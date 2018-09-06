@@ -16,7 +16,7 @@ type PlayerRating struct {
 
 type PlayerRatingRepository interface {
 	Create(playerRating PlayerRating) error
-	GetPlayerRatingByYear(playerId int, year int) *PlayerRating
+	GetPlayerRatingByYear(playerId int, year int) (*PlayerRating, error)
 }
 
 type sqlitePlayerRatingRepository struct {
@@ -61,7 +61,7 @@ func (r *sqlitePlayerRatingRepository) Create(playerRating PlayerRating) error {
 	return nil
 }
 
-func (r *sqlitePlayerRatingRepository) GetPlayerRatingByYear(playerId int, year int) *PlayerRating {
+func (r *sqlitePlayerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (*PlayerRating, error) {
 	var pr PlayerRating
 	row := r.db.QueryRow("SELECT playerId, year, seedRating, rating FROM player_rating WHERE playerId = $1 AND year = $2", playerId, year)
 	err := row.Scan(
@@ -72,10 +72,10 @@ func (r *sqlitePlayerRatingRepository) GetPlayerRatingByYear(playerId int, year 
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil
+			return nil, &NotFoundError{}
 		}
 		log.Fatalf("%#v", err)
 	}
 
-	return &pr
+	return &pr, nil
 }
