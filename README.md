@@ -24,7 +24,7 @@ go test ./...
 
 ```
 $ go run cmd/cli/bvbinfo-match/main.go --help
-BVBInfo Importer
+BVBInfo Match Importer
 Usage of bvbinfo:
   -allSeasons=false: load all seasons
   -dbPath="./_data/vb.db": sqlite db path
@@ -43,7 +43,7 @@ $ go run cmd/cli/bvbinfo-match/main.go -init
 
 ```
 $ go run cmd/cli/bvbinfo-match/main.go -tournamentUrl "http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches"
-BVBInfo Importer
+BVBInfo Match Importer
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches
 84 matches imported
 $ sqlite3 _data/vb.db 'select * from match limit 3;'
@@ -56,7 +56,7 @@ e6d2cd6b-9bde-40e7-bc62-c7dfeed7fada|14846|16729|6274|17246
 
 ```
 $ go run cmd/cli/bvbinfo-match/main.go -seasonUrl "http://bvbinfo.com/Season.asp?AssocID=1&Year=2017"
-BVBInfo Importer
+BVBInfo Match Importer
 Importing Season: http://bvbinfo.com/Season.asp?AssocID=1&Year=2017
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3321&Process=Matches
@@ -70,7 +70,7 @@ $ sqlite3 _data/vb.db 'select count(*) from match;'
 
 ```
 $ go run cmd/cli/bvbinfo-match/main.go -allSeasons
-BVBInfo Importer
+BVBInfo Match Importer
 Importing Season: http://bvbinfo.com/Season.asp?AssocID=3&Year=2019
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3547&Process=Matches
 Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3548&Process=Matches

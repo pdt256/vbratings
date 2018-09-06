@@ -28,7 +28,7 @@ func main() {
 	playerRepository := vbscraper.NewSqlitePlayerRepository(db)
 
 	if *shouldInitDb {
-		fmt.Println("Initializing database")
+		fmt.Println("Initializing player database")
 		playerRepository.InitDB()
 		return
 	}
