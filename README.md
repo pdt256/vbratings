@@ -118,7 +118,7 @@ BVBInfo Player Importer
 
 ```
 $ go run cmd/cli/bvbinfo-rating/main.go --help
-BVBInfo Player Importer
+BVBInfo Ratings
 Usage of bvbinfo-rating
   -dbPath="./_data/vb.db": sqlite db path
   -init=false: init db
