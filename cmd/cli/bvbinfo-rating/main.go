@@ -35,7 +35,7 @@ func main() {
 
 	ratingCalculator := vbscraper.NewRatingCalculator(matchRepository, playerRatingRepository)
 
-	ratingCalculator.CalculateRatingsByYear(*year)
+	totalCalculated := ratingCalculator.CalculateRatingsByYear(*year)
 
-	//fmt.Printf("\n%d ratings calculated\n", totalCalculated)
+	fmt.Printf("%d ratings calculated\n", totalCalculated)
 }

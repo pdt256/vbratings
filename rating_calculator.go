@@ -20,7 +20,7 @@ func NewRatingCalculator(matchRepository MatchRepository, playerRatingRepository
 	}
 }
 
-func (c *ratingCalculator) CalculateRatingsByYear(year int) {
+func (c *ratingCalculator) CalculateRatingsByYear(year int) int {
 
 	ratingCalculator := skill.NewEloCalculator(32)
 	duelingCalculator := skill.NewDuelingCalculator(ratingCalculator)
@@ -51,6 +51,8 @@ func (c *ratingCalculator) CalculateRatingsByYear(year int) {
 	for _, playerRating := range c.playerRatings {
 		c.playerRatingRepository.Create(playerRating)
 	}
+
+	return len(c.playerRatings)
 }
 
 func (c *ratingCalculator) getPlayerRating(playerId int, year int) PlayerRating {

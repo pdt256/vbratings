@@ -30,7 +30,7 @@ func NewSqlitePlayerRatingRepository(db *sql.DB) *sqlitePlayerRatingRepository {
 }
 
 func (r *sqlitePlayerRatingRepository) InitDB() {
-	sqlStmt := `CREATE TABLE player_rating (
+	sqlStmt := `CREATE TABLE IF NOT EXISTS player_rating (
 			playerId INT NOT NULL
 			,year INT NOT NULL
 			,seedRating INT NOT NULL
@@ -47,7 +47,7 @@ func (r *sqlitePlayerRatingRepository) InitDB() {
 
 func (r *sqlitePlayerRatingRepository) Create(playerRating PlayerRating) error {
 	_, err := r.db.Exec(
-		"INSERT INTO player_rating(playerId, year, seedRating, rating) VALUES ($1, $2, $3, $4)",
+		"INSERT OR REPLACE INTO player_rating(playerId, year, seedRating, rating) VALUES ($1, $2, $3, $4)",
 		playerRating.PlayerId,
 		playerRating.Year,
 		playerRating.SeedRating,

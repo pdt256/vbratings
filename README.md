@@ -82,6 +82,8 @@ Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3486&Process=Matches
 109531 matches imported
 ```
 
+---
+
 ### Bvbinfo Player Importer
 
 ```
@@ -109,6 +111,38 @@ BVBInfo Player Importer
 ...........
 260 players imported
 ```
+
+---
+
+### Bvbinfo Ratings Calculator
+
+```
+$ go run cmd/cli/bvbinfo-rating/main.go --help
+BVBInfo Player Importer
+Usage of bvbinfo-rating
+  -dbPath="./_data/vb.db": sqlite db path
+  -init=false: init db
+  -year=2018: year
+```
+
+### Calculate ratings for 2018 (seeded from previous year if exists)
+
+```
+$ go run cmd/cli/bvbinfo-rating/main.go -year 2018
+BVBInfo Ratings
+1846 ratings calculated
+```
+
+## Todo
+
+* Use Cases:
+  - As a fan of the sport, I want to see all player rankings by gender and year; so that
+    I can view the top players over time.
+  - As a player, I want to see my rankings for each year; so that I can monitor
+    my progress relative to other players.
+* Tasks:
+  - Add gender to player table
+  - Add # of games played to player_rating table and increment when matches are calculated
 
 ## License
 
