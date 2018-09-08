@@ -141,7 +141,6 @@ BVBInfo Ratings
   - As a player, I want to see my rating for each year; so that I can monitor
     my progress relative to other players.
 * Tasks:
-  - Add gender to player table
   - Add # of games played to player_rating table and increment when matches are calculated
 
 ## License

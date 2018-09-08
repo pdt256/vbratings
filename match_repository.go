@@ -36,6 +36,7 @@ func (r *sqliteMatchRepository) InitDB() {
 			,set2 TEXT NOT NULL
 			,set3 TEXT NOT NULL
 			,year INT NOT NULL
+			,gender INT NOT NULL
 		);
 		DELETE FROM match;`
 
@@ -48,7 +49,7 @@ func (r *sqliteMatchRepository) InitDB() {
 
 func (r *sqliteMatchRepository) Create(match Match, id string) {
 	_, err := r.db.Exec(
-		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
 		id,
 		match.PlayerAId,
 		match.PlayerBId,
@@ -59,14 +60,15 @@ func (r *sqliteMatchRepository) Create(match Match, id string) {
 		match.Set2,
 		match.Set3,
 		match.Year,
+		match.Gender,
 	)
 	checkError(err)
 }
 
 func (r *sqliteMatchRepository) Find(id string) *Match {
 	var m Match
-	row := r.db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year FROM match WHERE id = $1", id)
-	err := row.Scan(
+	row := r.db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year, gender FROM match WHERE id = $1", id)
+	checkError(row.Scan(
 		&m.PlayerAId,
 		&m.PlayerBId,
 		&m.PlayerCId,
@@ -76,8 +78,8 @@ func (r *sqliteMatchRepository) Find(id string) *Match {
 		&m.Set2,
 		&m.Set3,
 		&m.Year,
-	)
-	checkError(err)
+		&m.Gender,
+	))
 
 	return &m
 }
@@ -109,7 +111,7 @@ func (r *sqliteMatchRepository) GetAllPlayerIds() []int {
 func (r *sqliteMatchRepository) GetAllMatchesByYear(year int) []Match {
 	var matches []Match
 
-	rows, queryErr := r.db.Query("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year FROM match WHERE year = $1", year)
+	rows, queryErr := r.db.Query("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year, gender FROM match WHERE year = $1", year)
 	checkError(queryErr)
 
 	defer rows.Close()
@@ -126,6 +128,7 @@ func (r *sqliteMatchRepository) GetAllMatchesByYear(year int) []Match {
 			&m.Set2,
 			&m.Set3,
 			&m.Year,
+			&m.Gender,
 		))
 
 		matches = append(matches, m)

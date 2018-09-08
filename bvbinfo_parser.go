@@ -21,6 +21,7 @@ var matchRegexp = regexp.MustCompile(`(?m:<br>Match\s\d+:[^?]+` +
 	`)`)
 
 var tournamentInfoRegexp = regexp.MustCompile(`(?m:clsTournHeader[^<]+<BR>\s+[^,]+,\s([^\r|\n]+))`)
+var tournamentGenderRegexp = regexp.MustCompile(`(?m:clsTournHeader[^>]+>\s+([^\s]+)\s)`)
 
 var playerNameRegexp = regexp.MustCompile(`(?m:clsPlayerName">([^<]+)</td>)`)
 
@@ -34,6 +35,23 @@ type Tournament struct {
 	Name  string
 }
 
+type Gender uint
+
+func (gender Gender) String() string {
+	names := [...]string{
+		"Male",
+		"Female",
+		"Code",
+	}
+
+	return names[gender]
+}
+
+const (
+	Male Gender = iota
+	Female
+)
+
 type Match struct {
 	PlayerAId int
 	PlayerBId int
@@ -44,6 +62,7 @@ type Match struct {
 	Set2      string
 	Set3      string
 	Year      int
+	Gender    Gender
 }
 
 type Player struct {
@@ -54,14 +73,21 @@ type Player struct {
 
 func GetMatches(reader io.Reader) []Match {
 	bytes, _ := ioutil.ReadAll(reader)
-	tournamentInfoMatches := tournamentInfoRegexp.FindAllStringSubmatch(string(bytes), -1)
+	body := string(bytes)
+	tournamentInfoMatches := tournamentInfoRegexp.FindAllStringSubmatch(body, -1)
 
 	var year int
 	if len(tournamentInfoMatches) > 0 {
 		year, _ = strconv.Atoi(tournamentInfoMatches[0][1])
 	}
 
-	regexMatches := matchRegexp.FindAllStringSubmatch(string(bytes), -1)
+	tournamentGenderMatches := tournamentGenderRegexp.FindAllStringSubmatch(body, -1)
+	var gender Gender
+	if len(tournamentGenderMatches) > 0 {
+		gender = getGenderFromString(tournamentGenderMatches[0][1])
+	}
+
+	regexMatches := matchRegexp.FindAllStringSubmatch(body, -1)
 
 	var matches []Match
 	for _, value := range regexMatches {
@@ -87,10 +113,19 @@ func GetMatches(reader io.Reader) []Match {
 			set2,
 			set3,
 			year,
+			gender,
 		})
 	}
 
 	return matches
+}
+
+func getGenderFromString(input string) Gender {
+	if input == "Women's" {
+		return Female
+	}
+
+	return Male
 }
 
 func GetTournaments(reader io.Reader) []Tournament {
