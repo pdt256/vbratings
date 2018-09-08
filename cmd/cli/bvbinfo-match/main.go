@@ -24,9 +24,8 @@ func main() {
 	flag.Parse()
 
 	db, err := sql.Open("sqlite3", *dbPath)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
+
 	matchRepository := vbscraper.NewSqliteMatchRepository(db)
 	playerRepository := vbscraper.NewSqlitePlayerRepository(db)
 
@@ -64,9 +63,7 @@ func printTotal(total int) {
 func importTournament(tournamentUrl string, importer *vbscraper.BvbinfoImporter) int {
 	fmt.Printf("Importing Tournament: %s\n", tournamentUrl)
 	tournamentResponse, err := http.Get(tournamentUrl)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
 
 	defer tournamentResponse.Body.Close()
 
@@ -77,9 +74,8 @@ func importTournament(tournamentUrl string, importer *vbscraper.BvbinfoImporter)
 func importSeason(seasonUrl string, importer *vbscraper.BvbinfoImporter) int {
 	fmt.Printf("Importing Season: %s\n", seasonUrl)
 	seasonResponse, err := http.Get(seasonUrl)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
+
 	tournaments := vbscraper.GetTournaments(seasonResponse.Body)
 	seasonResponse.Body.Close()
 
@@ -94,9 +90,8 @@ func importSeason(seasonUrl string, importer *vbscraper.BvbinfoImporter) int {
 func importAllSeasons(importer *vbscraper.BvbinfoImporter) int {
 	allSeasonsUrl := "http://bvbinfo.com/season.asp"
 	allSeasonsResponse, err := http.Get(allSeasonsUrl)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
+
 	seasons := vbscraper.GetSeasons(allSeasonsResponse.Body)
 	allSeasonsResponse.Body.Close()
 
@@ -107,4 +102,10 @@ func importAllSeasons(importer *vbscraper.BvbinfoImporter) int {
 		fmt.Printf("%d matches imported\n", totalMatchesImported)
 	}
 	return totalMatchesImported
+}
+
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }

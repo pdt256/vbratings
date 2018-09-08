@@ -8,7 +8,7 @@ import (
 )
 
 type MatchRepository interface {
-	Create(match Match, id string) error
+	Create(match Match, id string)
 	Find(id string) *Match
 	GetAllPlayerIds() []int
 	GetAllMatchesByYear(year int) []Match
@@ -46,7 +46,7 @@ func (r *sqliteMatchRepository) InitDB() {
 	}
 }
 
-func (r *sqliteMatchRepository) Create(match Match, id string) error {
+func (r *sqliteMatchRepository) Create(match Match, id string) {
 	_, err := r.db.Exec(
 		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
 		id,
@@ -60,12 +60,7 @@ func (r *sqliteMatchRepository) Create(match Match, id string) error {
 		match.Set3,
 		match.Year,
 	)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	return nil
+	checkError(err)
 }
 
 func (r *sqliteMatchRepository) Find(id string) *Match {
@@ -82,9 +77,7 @@ func (r *sqliteMatchRepository) Find(id string) *Match {
 		&m.Set3,
 		&m.Year,
 	)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
 
 	return &m
 }
@@ -98,23 +91,17 @@ func (r *sqliteMatchRepository) GetAllPlayerIds() []int {
 		" UNION SELECT playerC_id AS id FROM match" +
 		" UNION SELECT playerD_id AS id FROM match)" +
 		" GROUP BY id")
-	if queryErr != nil {
-		log.Fatal(queryErr)
-	}
+	checkError(queryErr)
+
 	defer rows.Close()
 
 	for rows.Next() {
 		var playerId int
-		scanErr := rows.Scan(&playerId)
-		if scanErr != nil {
-			log.Fatal(scanErr)
-		}
+		checkError(rows.Scan(&playerId))
+
 		playerIds = append(playerIds, playerId)
 	}
-	err := rows.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(rows.Err())
 
 	return playerIds
 }
@@ -123,14 +110,13 @@ func (r *sqliteMatchRepository) GetAllMatchesByYear(year int) []Match {
 	var matches []Match
 
 	rows, queryErr := r.db.Query("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year FROM match WHERE year = $1", year)
-	if queryErr != nil {
-		log.Fatal(queryErr)
-	}
+	checkError(queryErr)
+
 	defer rows.Close()
 
 	for rows.Next() {
 		var m Match
-		scanErr := rows.Scan(
+		checkError(rows.Scan(
 			&m.PlayerAId,
 			&m.PlayerBId,
 			&m.PlayerCId,
@@ -140,16 +126,11 @@ func (r *sqliteMatchRepository) GetAllMatchesByYear(year int) []Match {
 			&m.Set2,
 			&m.Set3,
 			&m.Year,
-		)
-		if scanErr != nil {
-			log.Fatal(scanErr)
-		}
+		))
+
 		matches = append(matches, m)
 	}
-	err := rows.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(rows.Err())
 
 	return matches
 }

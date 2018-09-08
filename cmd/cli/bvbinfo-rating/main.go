@@ -21,9 +21,8 @@ func main() {
 	flag.Parse()
 
 	db, err := sql.Open("sqlite3", *dbPath)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
+
 	matchRepository := vbscraper.NewSqliteMatchRepository(db)
 	playerRatingRepository := vbscraper.NewSqlitePlayerRatingRepository(db)
 
@@ -38,4 +37,10 @@ func main() {
 	totalCalculated := ratingCalculator.CalculateRatingsByYear(*year)
 
 	fmt.Printf("%d ratings calculated\n", totalCalculated)
+}
+
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }

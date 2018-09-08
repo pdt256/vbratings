@@ -6,7 +6,6 @@ import (
 
 	"github.com/pdt256/vbscraper"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
@@ -26,10 +25,9 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	id := "123-abc"
 
 	// When
-	err := repository.Create(match, id)
+	repository.Create(match, id)
 
 	// Then
-	require.NoError(t, err)
 	actualMatch := repository.Find(id)
 	assert.Equal(t, 1, actualMatch.PlayerAId)
 	assert.Equal(t, 2, actualMatch.PlayerBId)
@@ -60,10 +58,9 @@ func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 	id := "123-abc"
 
 	// When
-	err := repository.Create(match, id)
+	repository.Create(match, id)
 
 	// Then
-	require.NoError(t, err)
 	actualMatch := repository.Find(id)
 	assert.Equal(t, 1, actualMatch.PlayerAId)
 	assert.Equal(t, 2, actualMatch.PlayerBId)

@@ -2,7 +2,6 @@ package vbscraper
 
 import (
 	"database/sql"
-	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -14,9 +13,15 @@ type PlayerRating struct {
 	Rating     int
 }
 
+type PlayerAndRating struct {
+	Player
+	PlayerRating
+}
+
 type PlayerRatingRepository interface {
-	Create(playerRating PlayerRating) error
+	Create(playerRating PlayerRating)
 	GetPlayerRatingByYear(playerId int, year int) (*PlayerRating, error)
+	GetTopPlayerRatings(year int) []PlayerAndRating
 }
 
 type sqlitePlayerRatingRepository struct {
@@ -39,13 +44,10 @@ func (r *sqlitePlayerRatingRepository) InitDB() {
 		DELETE FROM player_rating;`
 
 	_, createError := r.db.Exec(sqlStmt)
-	if createError != nil {
-		log.Printf("%q: %s\n", createError, sqlStmt)
-		return
-	}
+	checkError(createError)
 }
 
-func (r *sqlitePlayerRatingRepository) Create(playerRating PlayerRating) error {
+func (r *sqlitePlayerRatingRepository) Create(playerRating PlayerRating) {
 	_, err := r.db.Exec(
 		"INSERT OR REPLACE INTO player_rating(playerId, year, seedRating, rating) VALUES ($1, $2, $3, $4)",
 		playerRating.PlayerId,
@@ -53,12 +55,7 @@ func (r *sqlitePlayerRatingRepository) Create(playerRating PlayerRating) error {
 		playerRating.SeedRating,
 		playerRating.Rating,
 	)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	return nil
+	checkError(err)
 }
 
 func (r *sqlitePlayerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (*PlayerRating, error) {
@@ -74,8 +71,41 @@ func (r *sqlitePlayerRatingRepository) GetPlayerRatingByYear(playerId int, year 
 		if err == sql.ErrNoRows {
 			return nil, &NotFoundError{}
 		}
-		log.Fatalf("%#v", err)
+		checkError(err)
 	}
 
 	return &pr, nil
+}
+
+func (r *sqlitePlayerRatingRepository) GetTopPlayerRatings(year int) []PlayerAndRating {
+	var playerAndRatings []PlayerAndRating
+
+	rows, queryErr := r.db.Query(`SELECT
+		p.bvbId, p.name, p.imgUrl,
+		pr.playerId, pr.year, pr.seedRating, pr.rating
+		FROM player_rating AS pr
+		INNER JOIN player AS p ON p.bvbId = pr.playerId
+		WHERE year = 2018
+		ORDER BY rating DESC;`)
+	checkError(queryErr)
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var par PlayerAndRating
+		checkError(rows.Scan(
+			&par.BvbId,
+			&par.Name,
+			&par.ImgUrl,
+			&par.PlayerId,
+			&par.Year,
+			&par.SeedRating,
+			&par.Rating,
+		))
+
+		playerAndRatings = append(playerAndRatings, par)
+	}
+	checkError(rows.Err())
+
+	return playerAndRatings
 }

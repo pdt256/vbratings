@@ -136,9 +136,9 @@ BVBInfo Ratings
 ## Todo
 
 * Use Cases:
-  - As a fan of the sport, I want to see all player rankings by gender and year; so that
+  - As a fan of the sport, I want to see all player ratings by gender and year; so that
     I can view the top players over time.
-  - As a player, I want to see my rankings for each year; so that I can monitor
+  - As a player, I want to see my rating for each year; so that I can monitor
     my progress relative to other players.
 * Tasks:
   - Add gender to player table

@@ -21,9 +21,8 @@ func main() {
 	flag.Parse()
 
 	db, err := sql.Open("sqlite3", *dbPath)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkError(err)
+
 	matchRepository := vbscraper.NewSqliteMatchRepository(db)
 	playerRepository := vbscraper.NewSqlitePlayerRepository(db)
 
@@ -38,9 +37,7 @@ func main() {
 		playerUrl := fmt.Sprintf("http://bvbinfo.com/player.asp?ID=%d", playerId)
 
 		playerResponse, err := http.Get(playerUrl)
-		if err != nil {
-			log.Fatal(err)
-		}
+		checkError(err)
 
 		player := vbscraper.GetPlayer(playerResponse.Body, playerId)
 		playerResponse.Body.Close()
@@ -51,4 +48,10 @@ func main() {
 	}
 
 	fmt.Printf("\n%d players imported\n", totalImported)
+}
+
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
