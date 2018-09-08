@@ -1,4 +1,4 @@
-package vbscraper
+package bvbinfo
 
 import (
 	"fmt"
@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"regexp"
 	"strconv"
+
+	"github.com/pdt256/vbratings"
 )
 
 var tournamentRegexp = regexp.MustCompile(`<a href="Tournament.asp\?ID=(\d+)">(.+?)</a>`)
@@ -35,43 +37,7 @@ type Tournament struct {
 	Name  string
 }
 
-type Gender uint
-
-func (gender Gender) String() string {
-	names := [...]string{
-		"Male",
-		"Female",
-		"Code",
-	}
-
-	return names[gender]
-}
-
-const (
-	Male Gender = iota
-	Female
-)
-
-type Match struct {
-	PlayerAId int
-	PlayerBId int
-	PlayerCId int
-	PlayerDId int
-	IsForfeit bool
-	Set1      string
-	Set2      string
-	Set3      string
-	Year      int
-	Gender    Gender
-}
-
-type Player struct {
-	BvbId  int
-	Name   string
-	ImgUrl string
-}
-
-func GetMatches(reader io.Reader) []Match {
+func GetMatches(reader io.Reader) []vbratings.Match {
 	bytes, _ := ioutil.ReadAll(reader)
 	body := string(bytes)
 	tournamentInfoMatches := tournamentInfoRegexp.FindAllStringSubmatch(body, -1)
@@ -82,14 +48,14 @@ func GetMatches(reader io.Reader) []Match {
 	}
 
 	tournamentGenderMatches := tournamentGenderRegexp.FindAllStringSubmatch(body, -1)
-	var gender Gender
+	var gender vbratings.Gender
 	if len(tournamentGenderMatches) > 0 {
 		gender = getGenderFromString(tournamentGenderMatches[0][1])
 	}
 
 	regexMatches := matchRegexp.FindAllStringSubmatch(body, -1)
 
-	var matches []Match
+	var matches []vbratings.Match
 	for _, value := range regexMatches {
 		playerAId, _ := strconv.Atoi(value[1])
 		playerBId, _ := strconv.Atoi(value[2])
@@ -103,7 +69,7 @@ func GetMatches(reader io.Reader) []Match {
 		set2 := value[8]
 		set3 := value[9]
 
-		matches = append(matches, Match{
+		matches = append(matches, vbratings.Match{
 			playerAId,
 			playerBId,
 			playerCId,
@@ -120,12 +86,12 @@ func GetMatches(reader io.Reader) []Match {
 	return matches
 }
 
-func getGenderFromString(input string) Gender {
+func getGenderFromString(input string) vbratings.Gender {
 	if input == "Women's" {
-		return Female
+		return vbratings.Female
 	}
 
-	return Male
+	return vbratings.Male
 }
 
 func GetTournaments(reader io.Reader) []Tournament {
@@ -152,7 +118,7 @@ func GetSeasons(reader io.Reader) []Season {
 	return seasons
 }
 
-func GetPlayer(reader io.Reader, playerId int) Player {
+func GetPlayer(reader io.Reader, playerId int) vbratings.Player {
 	var name string
 
 	bytes, _ := ioutil.ReadAll(reader)
@@ -163,7 +129,7 @@ func GetPlayer(reader io.Reader, playerId int) Player {
 
 	imgUrl := fmt.Sprintf("http://bvbinfo.com/images/photos/%d.jpg", playerId)
 
-	return Player{
+	return vbratings.Player{
 		BvbId:  playerId,
 		Name:   name,
 		ImgUrl: imgUrl,

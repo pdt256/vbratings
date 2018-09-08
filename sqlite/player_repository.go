@@ -1,27 +1,24 @@
-package vbscraper
+package sqlite
 
 import (
 	"database/sql"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/pdt256/vbratings"
 )
 
-type PlayerRepository interface {
-	Create(player Player) error
-}
-
-type sqlitePlayerRepository struct {
+type playerRepository struct {
 	db *sql.DB
 }
 
-var _ PlayerRepository = (*sqlitePlayerRepository)(nil)
+var _ vbratings.PlayerRepository = (*playerRepository)(nil)
 
-func NewSqlitePlayerRepository(db *sql.DB) *sqlitePlayerRepository {
-	return &sqlitePlayerRepository{db}
+func NewPlayerRepository(db *sql.DB) *playerRepository {
+	return &playerRepository{db}
 }
 
-func (r *sqlitePlayerRepository) InitDB() {
+func (r *playerRepository) InitDB() {
 	sqlStmt := `CREATE TABLE player (
 			bvbId TEXT NOT NULL PRIMARY KEY
 			,name TEXT NOT NULL
@@ -36,7 +33,7 @@ func (r *sqlitePlayerRepository) InitDB() {
 	}
 }
 
-func (r *sqlitePlayerRepository) Create(player Player) error {
+func (r *playerRepository) Create(player vbratings.Player) error {
 	_, err := r.db.Exec(
 		"INSERT INTO player(bvbId, name, imgUrl) VALUES ($1, $2, $3)",
 		player.BvbId,

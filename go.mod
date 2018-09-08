@@ -1,4 +1,4 @@
-module github.com/pdt256/vbscraper
+module github.com/pdt256/vbratings
 
 require (
 	github.com/kr/pretty v0.1.0 // indirect

@@ -8,7 +8,8 @@ import (
 	"os"
 
 	"github.com/namsral/flag"
-	"github.com/pdt256/vbscraper"
+	"github.com/pdt256/vbratings/bvbinfo"
+	"github.com/pdt256/vbratings/sqlite"
 )
 
 func main() {
@@ -23,8 +24,8 @@ func main() {
 	db, err := sql.Open("sqlite3", *dbPath)
 	checkError(err)
 
-	matchRepository := vbscraper.NewSqliteMatchRepository(db)
-	playerRepository := vbscraper.NewSqlitePlayerRepository(db)
+	matchRepository := sqlite.NewMatchRepository(db)
+	playerRepository := sqlite.NewPlayerRepository(db)
 
 	if *shouldInitDb {
 		fmt.Println("Initializing player database")
@@ -39,7 +40,7 @@ func main() {
 		playerResponse, err := http.Get(playerUrl)
 		checkError(err)
 
-		player := vbscraper.GetPlayer(playerResponse.Body, playerId)
+		player := bvbinfo.GetPlayer(playerResponse.Body, playerId)
 		playerResponse.Body.Close()
 
 		playerRepository.Create(player)

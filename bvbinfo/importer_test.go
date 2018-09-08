@@ -1,20 +1,21 @@
-package vbscraper_test
+package bvbinfo_test
 
 import (
 	"os"
 	"testing"
 
-	"github.com/pdt256/vbscraper"
+	"github.com/pdt256/vbratings/bvbinfo"
+	"github.com/pdt256/vbratings/sqlite"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_Bvbinfo_ImportMatches(t *testing.T) {
 	// Given
-	db := NewInMemoryDB()
-	matchRepository := vbscraper.NewSqliteMatchRepository(db)
+	db := sqlite.NewInMemoryDB()
+	matchRepository := sqlite.NewMatchRepository(db)
 	matchRepository.InitDB()
-	importer := vbscraper.NewBvbInfoImporter(matchRepository, nil)
-	matchesReader, _ := os.Open("./assets/2017-avp-manhattan-beach-mens-matches.html")
+	importer := bvbinfo.NewImporter(matchRepository, nil)
+	matchesReader, _ := os.Open("./testdata/2017-avp-manhattan-beach-mens-matches.html")
 
 	// When
 	totalImported := importer.ImportMatches(matchesReader)

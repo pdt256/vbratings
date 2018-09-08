@@ -1,4 +1,4 @@
-package vbscraper_test
+package sqlite
 
 import (
 	"database/sql"

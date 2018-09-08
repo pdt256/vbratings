@@ -1,20 +1,21 @@
-package vbscraper_test
+package sqlite_test
 
 import (
 	"fmt"
 	"testing"
 
-	"github.com/pdt256/vbscraper"
+	"github.com/pdt256/vbratings"
+	"github.com/pdt256/vbratings/sqlite"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	// Given
-	db := NewInMemoryDB()
-	matchRepository := vbscraper.NewSqliteMatchRepository(db)
+	db := sqlite.NewInMemoryDB()
+	matchRepository := sqlite.NewMatchRepository(db)
 	repository := matchRepository
 	repository.InitDB()
-	match := vbscraper.Match{
+	match := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
 		PlayerCId: 3,
@@ -42,10 +43,10 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 
 func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 	// Given
-	db := NewInMemoryDB()
-	repository := vbscraper.NewSqliteMatchRepository(db)
+	db := sqlite.NewInMemoryDB()
+	repository := sqlite.NewMatchRepository(db)
 	repository.InitDB()
-	match := vbscraper.Match{
+	match := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
 		PlayerCId: 3,
@@ -75,7 +76,7 @@ func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 func Test_MatchRepository_GetAllPlayerIds(t *testing.T) {
 	// Given
 	expectedPlayerIds := "[1 2 3 4]"
-	match := vbscraper.Match{
+	match := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
 		PlayerCId: 3,
@@ -85,8 +86,8 @@ func Test_MatchRepository_GetAllPlayerIds(t *testing.T) {
 		Set2:      "21-15",
 		Set3:      "15-7",
 	}
-	db := NewInMemoryDB()
-	repository := vbscraper.NewSqliteMatchRepository(db)
+	db := sqlite.NewInMemoryDB()
+	repository := sqlite.NewMatchRepository(db)
 	repository.InitDB()
 	repository.Create(match, "123-abc")
 

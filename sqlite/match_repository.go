@@ -1,30 +1,24 @@
-package vbscraper
+package sqlite
 
 import (
 	"database/sql"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/pdt256/vbratings"
 )
 
-type MatchRepository interface {
-	Create(match Match, id string)
-	Find(id string) *Match
-	GetAllPlayerIds() []int
-	GetAllMatchesByYear(year int) []Match
-}
-
-type sqliteMatchRepository struct {
+type matchRepository struct {
 	db *sql.DB
 }
 
-var _ MatchRepository = (*sqliteMatchRepository)(nil)
+var _ vbratings.MatchRepository = (*matchRepository)(nil)
 
-func NewSqliteMatchRepository(db *sql.DB) *sqliteMatchRepository {
-	return &sqliteMatchRepository{db}
+func NewMatchRepository(db *sql.DB) *matchRepository {
+	return &matchRepository{db}
 }
 
-func (r *sqliteMatchRepository) InitDB() {
+func (r *matchRepository) InitDB() {
 	sqlStmt := `CREATE TABLE match (
 			id TEXT NOT NULL PRIMARY KEY
 			,playerA_id TEXT NOT NULL
@@ -47,7 +41,7 @@ func (r *sqliteMatchRepository) InitDB() {
 	}
 }
 
-func (r *sqliteMatchRepository) Create(match Match, id string) {
+func (r *matchRepository) Create(match vbratings.Match, id string) {
 	_, err := r.db.Exec(
 		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
 		id,
@@ -65,8 +59,8 @@ func (r *sqliteMatchRepository) Create(match Match, id string) {
 	checkError(err)
 }
 
-func (r *sqliteMatchRepository) Find(id string) *Match {
-	var m Match
+func (r *matchRepository) Find(id string) *vbratings.Match {
+	var m vbratings.Match
 	row := r.db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year, gender FROM match WHERE id = $1", id)
 	checkError(row.Scan(
 		&m.PlayerAId,
@@ -84,7 +78,7 @@ func (r *sqliteMatchRepository) Find(id string) *Match {
 	return &m
 }
 
-func (r *sqliteMatchRepository) GetAllPlayerIds() []int {
+func (r *matchRepository) GetAllPlayerIds() []int {
 	var playerIds []int
 
 	rows, queryErr := r.db.Query("SELECT *" +
@@ -108,8 +102,8 @@ func (r *sqliteMatchRepository) GetAllPlayerIds() []int {
 	return playerIds
 }
 
-func (r *sqliteMatchRepository) GetAllMatchesByYear(year int) []Match {
-	var matches []Match
+func (r *matchRepository) GetAllMatchesByYear(year int) []vbratings.Match {
+	var matches []vbratings.Match
 
 	rows, queryErr := r.db.Query("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year, gender FROM match WHERE year = $1", year)
 	checkError(queryErr)
@@ -117,7 +111,7 @@ func (r *sqliteMatchRepository) GetAllMatchesByYear(year int) []Match {
 	defer rows.Close()
 
 	for rows.Next() {
-		var m Match
+		var m vbratings.Match
 		checkError(rows.Scan(
 			&m.PlayerAId,
 			&m.PlayerBId,
@@ -136,4 +130,10 @@ func (r *sqliteMatchRepository) GetAllMatchesByYear(year int) []Match {
 	checkError(rows.Err())
 
 	return matches
+}
+
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }

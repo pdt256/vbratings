@@ -1,40 +1,23 @@
-package vbscraper
+package sqlite
 
 import (
 	"database/sql"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/pdt256/vbratings"
 )
 
-type PlayerRating struct {
-	PlayerId   int
-	Year       int
-	SeedRating int
-	Rating     int
-}
-
-type PlayerAndRating struct {
-	Player
-	PlayerRating
-}
-
-type PlayerRatingRepository interface {
-	Create(playerRating PlayerRating)
-	GetPlayerRatingByYear(playerId int, year int) (*PlayerRating, error)
-	GetTopPlayerRatings(year int) []PlayerAndRating
-}
-
-type sqlitePlayerRatingRepository struct {
+type playerRatingRepository struct {
 	db *sql.DB
 }
 
-var _ PlayerRatingRepository = (*sqlitePlayerRatingRepository)(nil)
+var _ vbratings.PlayerRatingRepository = (*playerRatingRepository)(nil)
 
-func NewSqlitePlayerRatingRepository(db *sql.DB) *sqlitePlayerRatingRepository {
-	return &sqlitePlayerRatingRepository{db}
+func NewPlayerRatingRepository(db *sql.DB) *playerRatingRepository {
+	return &playerRatingRepository{db}
 }
 
-func (r *sqlitePlayerRatingRepository) InitDB() {
+func (r *playerRatingRepository) InitDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS player_rating (
 			playerId INT NOT NULL
 			,year INT NOT NULL
@@ -47,7 +30,7 @@ func (r *sqlitePlayerRatingRepository) InitDB() {
 	checkError(createError)
 }
 
-func (r *sqlitePlayerRatingRepository) Create(playerRating PlayerRating) {
+func (r *playerRatingRepository) Create(playerRating vbratings.PlayerRating) {
 	_, err := r.db.Exec(
 		"INSERT OR REPLACE INTO player_rating(playerId, year, seedRating, rating) VALUES ($1, $2, $3, $4)",
 		playerRating.PlayerId,
@@ -58,8 +41,8 @@ func (r *sqlitePlayerRatingRepository) Create(playerRating PlayerRating) {
 	checkError(err)
 }
 
-func (r *sqlitePlayerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (*PlayerRating, error) {
-	var pr PlayerRating
+func (r *playerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (*vbratings.PlayerRating, error) {
+	var pr vbratings.PlayerRating
 	row := r.db.QueryRow("SELECT playerId, year, seedRating, rating FROM player_rating WHERE playerId = $1 AND year = $2", playerId, year)
 	err := row.Scan(
 		&pr.PlayerId,
@@ -69,7 +52,7 @@ func (r *sqlitePlayerRatingRepository) GetPlayerRatingByYear(playerId int, year 
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, &NotFoundError{}
+			return nil, &vbratings.PlayerRatingNotFoundError{}
 		}
 		checkError(err)
 	}
@@ -77,8 +60,8 @@ func (r *sqlitePlayerRatingRepository) GetPlayerRatingByYear(playerId int, year 
 	return &pr, nil
 }
 
-func (r *sqlitePlayerRatingRepository) GetTopPlayerRatings(year int) []PlayerAndRating {
-	var playerAndRatings []PlayerAndRating
+func (r *playerRatingRepository) GetTopPlayerRatings(year int) []vbratings.PlayerAndRating {
+	var playerAndRatings []vbratings.PlayerAndRating
 
 	rows, queryErr := r.db.Query(`SELECT
 		p.bvbId, p.name, p.imgUrl,
@@ -92,7 +75,7 @@ func (r *sqlitePlayerRatingRepository) GetTopPlayerRatings(year int) []PlayerAnd
 	defer rows.Close()
 
 	for rows.Next() {
-		var par PlayerAndRating
+		var par vbratings.PlayerAndRating
 		checkError(rows.Scan(
 			&par.BvbId,
 			&par.Name,

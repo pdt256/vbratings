@@ -7,7 +7,8 @@ import (
 	"os"
 
 	"github.com/namsral/flag"
-	"github.com/pdt256/vbscraper"
+	"github.com/pdt256/vbratings"
+	"github.com/pdt256/vbratings/sqlite"
 )
 
 func main() {
@@ -23,8 +24,8 @@ func main() {
 	db, err := sql.Open("sqlite3", *dbPath)
 	checkError(err)
 
-	matchRepository := vbscraper.NewSqliteMatchRepository(db)
-	playerRatingRepository := vbscraper.NewSqlitePlayerRatingRepository(db)
+	matchRepository := sqlite.NewMatchRepository(db)
+	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 
 	if *shouldInitDb {
 		fmt.Println("Initializing player_rating database")
@@ -32,7 +33,7 @@ func main() {
 		return
 	}
 
-	ratingCalculator := vbscraper.NewRatingCalculator(matchRepository, playerRatingRepository)
+	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
 	totalCalculated := ratingCalculator.CalculateRatingsByYear(*year)
 

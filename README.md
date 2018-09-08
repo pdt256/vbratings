@@ -1,6 +1,6 @@
 Volleyball Score Scraper
 ========================
-[![Build Status](https://travis-ci.org/pdt256/vbscraper.svg?branch=master)](https://travis-ci.org/pdt256/vbscraper)
+[![Build Status](https://travis-ci.org/pdt256/vbratings.svg?branch=master)](https://travis-ci.org/pdt256/vbratings)
 
 Download volleyball match results
 

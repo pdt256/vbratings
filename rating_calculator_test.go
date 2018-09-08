@@ -1,14 +1,15 @@
-package vbscraper_test
+package vbratings_test
 
 import (
 	"testing"
 
-	"github.com/pdt256/vbscraper"
+	"github.com/pdt256/vbratings"
+	"github.com/pdt256/vbratings/sqlite"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
-	match := vbscraper.Match{
+	match := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
 		PlayerCId: 3,
@@ -19,13 +20,13 @@ func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
 		Set3:      "15-7",
 		Year:      2018,
 	}
-	db := NewInMemoryDB()
-	matchRepository := vbscraper.NewSqliteMatchRepository(db)
+	db := sqlite.NewInMemoryDB()
+	matchRepository := sqlite.NewMatchRepository(db)
 	matchRepository.InitDB()
 	matchRepository.Create(match, "123-abc")
-	playerRatingRepository := vbscraper.NewSqlitePlayerRatingRepository(db)
+	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 	playerRatingRepository.InitDB()
-	ratingCalculator := vbscraper.NewRatingCalculator(matchRepository, playerRatingRepository)
+	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
 	// When
 	ratingCalculator.CalculateRatingsByYear(2018)
@@ -43,7 +44,7 @@ func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
 
 func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPreviousMatch(t *testing.T) {
 	// Given
-	match1 := vbscraper.Match{
+	match1 := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
 		PlayerCId: 3,
@@ -54,7 +55,7 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 		Set3:      "15-7",
 		Year:      2018,
 	}
-	match2 := vbscraper.Match{
+	match2 := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
 		PlayerCId: 3,
@@ -65,14 +66,14 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 		Set3:      "15-7",
 		Year:      2018,
 	}
-	db := NewInMemoryDB()
-	matchRepository := vbscraper.NewSqliteMatchRepository(db)
+	db := sqlite.NewInMemoryDB()
+	matchRepository := sqlite.NewMatchRepository(db)
 	matchRepository.InitDB()
 	matchRepository.Create(match1, "match1")
 	matchRepository.Create(match2, "match2")
-	playerRatingRepository := vbscraper.NewSqlitePlayerRatingRepository(db)
+	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 	playerRatingRepository.InitDB()
-	ratingCalculator := vbscraper.NewRatingCalculator(matchRepository, playerRatingRepository)
+	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
 	// When
 	ratingCalculator.CalculateRatingsByYear(2018)
@@ -90,13 +91,13 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 
 func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRating(t *testing.T) {
 	// Given
-	playerRating := vbscraper.PlayerRating{
+	playerRating := vbratings.PlayerRating{
 		PlayerId:   1,
 		Year:       2017,
 		SeedRating: 1500,
 		Rating:     1600,
 	}
-	match := vbscraper.Match{
+	match := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
 		PlayerCId: 3,
@@ -107,14 +108,14 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRa
 		Set3:      "15-7",
 		Year:      2018,
 	}
-	db := NewInMemoryDB()
-	matchRepository := vbscraper.NewSqliteMatchRepository(db)
+	db := sqlite.NewInMemoryDB()
+	matchRepository := sqlite.NewMatchRepository(db)
 	matchRepository.InitDB()
 	matchRepository.Create(match, "123-abc")
-	playerRatingRepository := vbscraper.NewSqlitePlayerRatingRepository(db)
+	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 	playerRatingRepository.InitDB()
 	playerRatingRepository.Create(playerRating)
-	ratingCalculator := vbscraper.NewRatingCalculator(matchRepository, playerRatingRepository)
+	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
 	// When
 	ratingCalculator.CalculateRatingsByYear(2018)
@@ -130,7 +131,7 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRa
 	assertPlayerRating(t, playerRatingD, 1500, 1486, 2018)
 }
 
-func assertPlayerRating(t *testing.T, playerRating *vbscraper.PlayerRating, expectedSeedRating int, expectedRating int, expectedYear int) {
+func assertPlayerRating(t *testing.T, playerRating *vbratings.PlayerRating, expectedSeedRating int, expectedRating int, expectedYear int) {
 	assert.Equal(t, expectedSeedRating, playerRating.SeedRating)
 	assert.Equal(t, expectedRating, playerRating.Rating)
 	assert.Equal(t, expectedYear, playerRating.Year)

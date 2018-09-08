@@ -8,7 +8,8 @@ import (
 	"os"
 
 	"github.com/namsral/flag"
-	"github.com/pdt256/vbscraper"
+	"github.com/pdt256/vbratings/bvbinfo"
+	"github.com/pdt256/vbratings/sqlite"
 )
 
 func main() {
@@ -26,8 +27,8 @@ func main() {
 	db, err := sql.Open("sqlite3", *dbPath)
 	checkError(err)
 
-	matchRepository := vbscraper.NewSqliteMatchRepository(db)
-	playerRepository := vbscraper.NewSqlitePlayerRepository(db)
+	matchRepository := sqlite.NewMatchRepository(db)
+	playerRepository := sqlite.NewPlayerRepository(db)
 
 	if *shouldInitDb {
 		fmt.Println("Initializing match database")
@@ -35,7 +36,7 @@ func main() {
 		return
 	}
 
-	importer := vbscraper.NewBvbInfoImporter(matchRepository, playerRepository)
+	importer := bvbinfo.NewImporter(matchRepository, playerRepository)
 
 	if *tournamentUrl != "" {
 		total := importTournament(*tournamentUrl, importer)
@@ -60,7 +61,7 @@ func printTotal(total int) {
 	fmt.Printf("%d matches imported\n", total)
 }
 
-func importTournament(tournamentUrl string, importer *vbscraper.BvbinfoImporter) int {
+func importTournament(tournamentUrl string, importer *bvbinfo.Importer) int {
 	fmt.Printf("Importing Tournament: %s\n", tournamentUrl)
 	tournamentResponse, err := http.Get(tournamentUrl)
 	checkError(err)
@@ -71,12 +72,12 @@ func importTournament(tournamentUrl string, importer *vbscraper.BvbinfoImporter)
 	return totalMatchesImported
 }
 
-func importSeason(seasonUrl string, importer *vbscraper.BvbinfoImporter) int {
+func importSeason(seasonUrl string, importer *bvbinfo.Importer) int {
 	fmt.Printf("Importing Season: %s\n", seasonUrl)
 	seasonResponse, err := http.Get(seasonUrl)
 	checkError(err)
 
-	tournaments := vbscraper.GetTournaments(seasonResponse.Body)
+	tournaments := bvbinfo.GetTournaments(seasonResponse.Body)
 	seasonResponse.Body.Close()
 
 	totalMatchesImported := 0
@@ -87,12 +88,12 @@ func importSeason(seasonUrl string, importer *vbscraper.BvbinfoImporter) int {
 	return totalMatchesImported
 }
 
-func importAllSeasons(importer *vbscraper.BvbinfoImporter) int {
+func importAllSeasons(importer *bvbinfo.Importer) int {
 	allSeasonsUrl := "http://bvbinfo.com/season.asp"
 	allSeasonsResponse, err := http.Get(allSeasonsUrl)
 	checkError(err)
 
-	seasons := vbscraper.GetSeasons(allSeasonsResponse.Body)
+	seasons := bvbinfo.GetSeasons(allSeasonsResponse.Body)
 	allSeasonsResponse.Body.Close()
 
 	totalMatchesImported := 0
