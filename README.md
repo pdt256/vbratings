@@ -1,8 +1,8 @@
-Volleyball Score Scraper
+Volleyball Ratings
 ========================
 [![Build Status](https://travis-ci.org/pdt256/vbratings.svg?branch=master)](https://travis-ci.org/pdt256/vbratings)
 
-Download volleyball match results
+Calculate volleyball player ratings from public match results
 
 ## Setup
 
