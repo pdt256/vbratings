@@ -19,7 +19,7 @@ func NewPlayerRepository(db *sql.DB) *playerRepository {
 }
 
 func (r *playerRepository) InitDB() {
-	sqlStmt := `CREATE TABLE player (
+	sqlStmt := `CREATE TABLE IF NOT EXISTS player (
 			bvbId TEXT NOT NULL PRIMARY KEY
 			,name TEXT NOT NULL
 			,imgUrl TEXT NOT NULL

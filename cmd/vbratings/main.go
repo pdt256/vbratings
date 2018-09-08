@@ -1,9 +1,7 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/namsral/flag"
@@ -12,7 +10,7 @@ import (
 )
 
 func main() {
-	fmt.Println("BVBInfo Ratings")
+	fmt.Println("Volleyball Ratings")
 	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
 	dbPath := flag.String("dbPath", "./_data/vb.db", "sqlite db path")
@@ -21,9 +19,7 @@ func main() {
 
 	flag.Parse()
 
-	db, err := sql.Open("sqlite3", *dbPath)
-	checkError(err)
-
+	db := sqlite.NewFileDB(*dbPath)
 	matchRepository := sqlite.NewMatchRepository(db)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 
@@ -38,10 +34,4 @@ func main() {
 	totalCalculated := ratingCalculator.CalculateRatingsByYear(*year)
 
 	fmt.Printf("%d ratings calculated\n", totalCalculated)
-}
-
-func checkError(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
 }

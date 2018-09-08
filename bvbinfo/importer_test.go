@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_Bvbinfo_ImportMatches(t *testing.T) {
+func Test_Importer_ImportMatches(t *testing.T) {
 	// Given
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)

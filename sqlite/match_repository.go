@@ -19,7 +19,7 @@ func NewMatchRepository(db *sql.DB) *matchRepository {
 }
 
 func (r *matchRepository) InitDB() {
-	sqlStmt := `CREATE TABLE match (
+	sqlStmt := `CREATE TABLE IF NOT EXISTS match (
 			id TEXT NOT NULL PRIMARY KEY
 			,playerA_id TEXT NOT NULL
 			,playerB_id TEXT NOT NULL

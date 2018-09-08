@@ -20,106 +20,49 @@ go test ./...
 
 ## Run
 
-### Bvbinfo Match Importer
+### Bvbinfo Importer
 
 ```
-$ go run cmd/cli/bvbinfo-match/main.go --help
-BVBInfo Match Importer
-Usage of bvbinfo:
-  -allSeasons=false: load all seasons
+$ go run bvbinfo/cmd/import/main.go -h
+BVBInfo Importer
+Usage:
   -dbPath="./_data/vb.db": sqlite db path
   -init=false: init db
-  -seasonUrl="": season url
-  -tournamentUrl="": tournament url
 ```
 
 #### Initialize Database
 
 ```
-$ go run cmd/cli/bvbinfo-match/main.go -init
+$ go run bvbinfo/cmd/import/main.go -init
+BVBInfo Importer
+Initializing DB
 ```
 
-#### Import Matches from a Tournament
+#### Import from BvbInfo
 
 ```
-$ go run cmd/cli/bvbinfo-match/main.go -tournamentUrl "http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches"
-BVBInfo Match Importer
-Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches
-84 matches imported
-$ sqlite3 _data/vb.db 'select * from match limit 3;'
-4007e6ea-1e98-4310-8aa0-7185809e2e0a|1171|11005|17456|7060
-e6d2cd6b-9bde-40e7-bc62-c7dfeed7fada|14846|16729|6274|17246
-284e5ec8-cdc2-4e0c-9835-c1f12c0d9da1|6908|7376|16023|6276
-```
-
-#### Import Matches from a Season
-
-```
-$ go run cmd/cli/bvbinfo-match/main.go -seasonUrl "http://bvbinfo.com/Season.asp?AssocID=1&Year=2017"
-BVBInfo Match Importer
-Importing Season: http://bvbinfo.com/Season.asp?AssocID=1&Year=2017
-Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3320&Process=Matches
-Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3321&Process=Matches
-...
-1389 matches imported
-$ sqlite3 _data/vb.db 'select count(*) from match;'
-1389
-```
-
-#### Import Matches from all Seasons
-
-```
-$ go run cmd/cli/bvbinfo-match/main.go -allSeasons
-BVBInfo Match Importer
-Importing Season: http://bvbinfo.com/Season.asp?AssocID=3&Year=2019
-Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3547&Process=Matches
-Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3548&Process=Matches
-...
-Importing Season: http://bvbinfo.com/Season.asp?AssocID=1&Year=2018
-Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3485&Process=Matches
-Importing Tournament: http://bvbinfo.com/Tournament.asp?ID=3486&Process=Matches
-...
+$ go run bvbinfo/cmd/import/main.go
+BVBInfo Importer
+Importing Matches
+...............................................................................
+...............................................................................
+...............................................................................
+...............................................................................
 109531 matches imported
-```
-
----
-
-### Bvbinfo Player Importer
-
-```
-$ go run cmd/cli/bvbinfo-player/main.go --help
-BVBInfo Player Importer
-Usage of bvbinfo-player
-  -dbPath="./_data/vb.db": sqlite db path
-  -init=false: init db
-```
-
-#### Initialize Database
-
-```
-$ go run cmd/cli/bvbinfo-player/main.go -init
-```
-
-#### Import Players from recorded matches
-
-```
-$ go run cmd/cli/bvbinfo-player/main.go
-BVBInfo Player Importer
-...................................................................................
-...................................................................................
-...................................................................................
-...........
+Importing Players
+...............................................................................
+...............................................................................
 260 players imported
 ```
 
 ---
 
-### Bvbinfo Ratings Calculator
+### Volleyball Ratings
 
 ```
-$ go run cmd/cli/bvbinfo-rating/main.go --help
-BVBInfo Ratings
-Usage of bvbinfo-rating
+$ go run cmd/vbratings/main.go --help
+Volleyball Ratings
+Usage:
   -dbPath="./_data/vb.db": sqlite db path
   -init=false: init db
   -year=2018: year
@@ -128,7 +71,7 @@ Usage of bvbinfo-rating
 ### Calculate ratings for 2018 (seeded from previous year if exists)
 
 ```
-$ go run cmd/cli/bvbinfo-rating/main.go -year 2018
+$ go run cmd/vbratings/main.go -year 2018
 BVBInfo Ratings
 1846 ratings calculated
 ```
