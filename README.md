@@ -30,15 +30,13 @@ Usage:
   -init=false: init db
 ```
 
-#### Initialize Database
+#### Import
 
 ```
 $ go run bvbinfo/cmd/import/main.go -init
 BVBInfo Importer
 Initializing DB
 ```
-
-#### Import from BvbInfo
 
 ```
 $ go run bvbinfo/cmd/import/main.go
@@ -47,12 +45,13 @@ Importing Matches
 ...............................................................................
 ...............................................................................
 ...............................................................................
-...............................................................................
-109531 matches imported
+94218 matches imported
 Importing Players
 ...............................................................................
 ...............................................................................
-260 players imported
+...............................................................................
+...............................................................................
+11373 players imported
 ```
 
 ---
@@ -68,11 +67,17 @@ Usage:
   -year=2018: year
 ```
 
+```
+$ go run cmd/vbratings/main.go -init
+Volleyball Ratings
+Initializing player_rating DB
+```
+
 ### Calculate ratings for 2018 (seeded from previous year if exists)
 
 ```
 $ go run cmd/vbratings/main.go -year 2018
-BVBInfo Ratings
+Volleyball Ratings
 1846 ratings calculated
 ```
 

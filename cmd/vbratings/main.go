@@ -24,7 +24,7 @@ func main() {
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 
 	if *shouldInitDb {
-		fmt.Println("Initializing player_rating database")
+		fmt.Println("Initializing player_rating DB")
 		playerRatingRepository.InitDB()
 		return
 	}
