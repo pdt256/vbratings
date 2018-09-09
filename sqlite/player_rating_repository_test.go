@@ -13,23 +13,25 @@ func Test_PlayerRatingRepository_GetTopPlayerRatings(t *testing.T) {
 	topPlayerRating := vbratings.PlayerRating{
 		PlayerId:   1,
 		Year:       2018,
+		Gender:     vbratings.Female,
 		SeedRating: 1500,
 		Rating:     2400,
 	}
 	topPlayer := vbratings.Player{
 		BvbId:  1,
-		Name:   "John Doe",
+		Name:   "Jane Doe",
 		ImgUrl: "http://example.com/1.jpg",
 	}
 	secondPlayerRating := vbratings.PlayerRating{
 		PlayerId:   2,
 		Year:       2018,
+		Gender:     vbratings.Female,
 		SeedRating: 1500,
 		Rating:     2000,
 	}
 	secondPlayer := vbratings.Player{
 		BvbId:  2,
-		Name:   "John Smith",
+		Name:   "Jane Smith",
 		ImgUrl: "http://example.com/2.jpg",
 	}
 	db := sqlite.NewInMemoryDB()
@@ -43,11 +45,11 @@ func Test_PlayerRatingRepository_GetTopPlayerRatings(t *testing.T) {
 	playerRatingRepository.Create(secondPlayerRating)
 
 	// When
-	playerAndRatings := playerRatingRepository.GetTopPlayerRatings(2018)
+	playerAndRatings := playerRatingRepository.GetTopPlayerRatings(2018, vbratings.Female)
 
 	// Then
 	actualTopPlayer := playerAndRatings[0]
 	assert.Equal(t, 1, actualTopPlayer.PlayerId)
-	assert.Equal(t, "John Doe", actualTopPlayer.Name)
+	assert.Equal(t, "Jane Doe", actualTopPlayer.Name)
 	assert.Equal(t, 2400, actualTopPlayer.Rating)
 }

@@ -21,6 +21,7 @@ func (r *playerRatingRepository) InitDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS player_rating (
 			playerId INT NOT NULL
 			,year INT NOT NULL
+			,gender INT NOT NULL
 			,seedRating INT NOT NULL
 			,rating INT NOT NULL
 			,totalMatches INT NOT NULL
@@ -33,9 +34,10 @@ func (r *playerRatingRepository) InitDB() {
 
 func (r *playerRatingRepository) Create(playerRating vbratings.PlayerRating) {
 	_, err := r.db.Exec(
-		"INSERT OR REPLACE INTO player_rating(playerId, year, seedRating, rating, totalMatches) VALUES ($1, $2, $3, $4, $5)",
+		"INSERT OR REPLACE INTO player_rating(playerId, year, gender, seedRating, rating, totalMatches) VALUES ($1, $2, $3, $4, $5, $6)",
 		playerRating.PlayerId,
 		playerRating.Year,
+		playerRating.Gender,
 		playerRating.SeedRating,
 		playerRating.Rating,
 		playerRating.TotalMatches,
@@ -45,10 +47,11 @@ func (r *playerRatingRepository) Create(playerRating vbratings.PlayerRating) {
 
 func (r *playerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (*vbratings.PlayerRating, error) {
 	var pr vbratings.PlayerRating
-	row := r.db.QueryRow("SELECT playerId, year, seedRating, rating, totalMatches FROM player_rating WHERE playerId = $1 AND year = $2", playerId, year)
+	row := r.db.QueryRow("SELECT playerId, year, gender, seedRating, rating, totalMatches FROM player_rating WHERE playerId = $1 AND year = $2", playerId, year)
 	err := row.Scan(
 		&pr.PlayerId,
 		&pr.Year,
+		&pr.Gender,
 		&pr.SeedRating,
 		&pr.Rating,
 		&pr.TotalMatches,
@@ -63,7 +66,7 @@ func (r *playerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (
 	return &pr, nil
 }
 
-func (r *playerRatingRepository) GetTopPlayerRatings(year int) []vbratings.PlayerAndRating {
+func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender vbratings.Gender) []vbratings.PlayerAndRating {
 	var playerAndRatings []vbratings.PlayerAndRating
 
 	rows, queryErr := r.db.Query(`SELECT
@@ -71,8 +74,8 @@ func (r *playerRatingRepository) GetTopPlayerRatings(year int) []vbratings.Playe
 		pr.playerId, pr.year, pr.seedRating, pr.rating, pr.totalMatches
 		FROM player_rating AS pr
 		INNER JOIN player AS p ON p.bvbId = pr.playerId
-		WHERE year = 2018
-		ORDER BY rating DESC;`)
+		WHERE pr.year = $1 AND pr.gender = $2
+		ORDER BY rating DESC;`, year, gender)
 	checkError(queryErr)
 
 	defer rows.Close()
