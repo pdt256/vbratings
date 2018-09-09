@@ -1,5 +1,9 @@
 package vbratings
 
+import (
+	"errors"
+)
+
 type PlayerRating struct {
 	PlayerId   int
 	Year       int
@@ -18,6 +22,4 @@ type PlayerRatingRepository interface {
 	GetTopPlayerRatings(year int) []PlayerAndRating
 }
 
-type PlayerRatingNotFoundError struct{ Err error }
-
-func (e *PlayerRatingNotFoundError) Error() string { return "player rating not found" }
+var PlayerRatingNotFoundError = errors.New("player rating not fount")

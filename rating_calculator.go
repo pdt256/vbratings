@@ -67,7 +67,7 @@ func (c *ratingCalculator) getPlayerRating(playerId int, year int) PlayerRating 
 	if getPlayerRatingErr == nil {
 		playerRating.Year = year
 		playerRating.SeedRating = playerRating.Rating
-	} else if _, ok := getPlayerRatingErr.(*PlayerRatingNotFoundError); ok {
+	} else if getPlayerRatingErr == PlayerRatingNotFoundError {
 		playerRating = &PlayerRating{
 			PlayerId:   playerId,
 			Year:       year,

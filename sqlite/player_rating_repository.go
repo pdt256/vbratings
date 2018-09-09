@@ -52,7 +52,7 @@ func (r *playerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, &vbratings.PlayerRatingNotFoundError{}
+			return nil, vbratings.PlayerRatingNotFoundError
 		}
 		checkError(err)
 	}
