@@ -5,10 +5,11 @@ import (
 )
 
 type PlayerRating struct {
-	PlayerId   int
-	Year       int
-	SeedRating int
-	Rating     int
+	PlayerId     int
+	Year         int
+	SeedRating   int
+	Rating       int
+	TotalMatches int
 }
 
 type PlayerAndRating struct {

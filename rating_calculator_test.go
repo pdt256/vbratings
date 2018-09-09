@@ -87,6 +87,7 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 	assertPlayerRating(t, playerRatingB, 1500, 1530, 2018)
 	assertPlayerRating(t, playerRatingC, 1500, 1469, 2018)
 	assertPlayerRating(t, playerRatingD, 1500, 1469, 2018)
+	assert.Equal(t, 2, playerRatingA.TotalMatches)
 }
 
 func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRating(t *testing.T) {

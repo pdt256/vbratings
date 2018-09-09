@@ -62,6 +62,7 @@ Importing Players
 $ go run cmd/vbratings/main.go --help
 Volleyball Ratings
 Usage:
+  -allYears=false: calculate for all years
   -dbPath="./_data/vb.db": sqlite db path
   -init=false: init db
   -year=2018: year
@@ -73,12 +74,13 @@ Volleyball Ratings
 Initializing player_rating DB
 ```
 
-### Calculate ratings for 2018 (seeded from previous year if exists)
+### Calculate ratings for all years
 
 ```
-$ go run cmd/vbratings/main.go -year 2018
+$ go run cmd/vbratings/main.go -allYears
 Volleyball Ratings
-1846 ratings calculated
+..................
+20532 ratings calculated
 ```
 
 ## Todo
@@ -88,8 +90,6 @@ Volleyball Ratings
     I can view the top players over time.
   - As a player, I want to see my rating for each year; so that I can monitor
     my progress relative to other players.
-* Tasks:
-  - Add # of games played to player_rating table and increment when matches are calculated
 
 ## License
 

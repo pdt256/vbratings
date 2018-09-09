@@ -42,6 +42,11 @@ func (c *ratingCalculator) CalculateRatingsByYear(year int) int {
 		playerCRating.Rating = newRatingsB[0]
 		playerDRating.Rating = newRatingsB[1]
 
+		playerARating.TotalMatches++
+		playerBRating.TotalMatches++
+		playerCRating.TotalMatches++
+		playerDRating.TotalMatches++
+
 		c.playerRatings[match.PlayerAId] = playerARating
 		c.playerRatings[match.PlayerBId] = playerBRating
 		c.playerRatings[match.PlayerCId] = playerCRating
