@@ -88,6 +88,17 @@ Volleyball Ratings Calculator
 ### Volleyball Ratings
 
 ```
+$ go run cmd/view-vbratings/main.go -h
+Volleyball Ratings
+Usage:
+  -dbPath="./_data/vb.db": sqlite db path
+  -gender="male": gender (male, female)
+  -limit=10: number of players to show
+  -topPlayers=false: view top players
+  -year=2018: year
+```
+
+```
 $ go run cmd/view-vbratings/main.go -topPlayers -gender male -year 2018 -limit 10
 Volleyball Ratings
 +--------+-------------------------+--------------+
