@@ -30,8 +30,6 @@ Usage:
   -init=false: init db
 ```
 
-#### Import
-
 ```
 $ go run bvbinfo/cmd/import/main.go -init
 BVBInfo Importer
@@ -73,8 +71,6 @@ $ go run cmd/calculate-vbratings/main.go -init
 Volleyball Ratings Calculator
 Initializing player_rating DB
 ```
-
-#### Calculate ratings for all years
 
 ```
 $ go run cmd/calculate-vbratings/main.go -allYears
