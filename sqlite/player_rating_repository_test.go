@@ -45,7 +45,7 @@ func Test_PlayerRatingRepository_GetTopPlayerRatings(t *testing.T) {
 	playerRatingRepository.Create(secondPlayerRating)
 
 	// When
-	playerAndRatings := playerRatingRepository.GetTopPlayerRatings(2018, vbratings.Female)
+	playerAndRatings := playerRatingRepository.GetTopPlayerRatings(2018, vbratings.Female, 5)
 
 	// Then
 	actualTopPlayer := playerAndRatings[0]

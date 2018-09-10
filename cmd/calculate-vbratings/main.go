@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Volleyball Ratings")
+	fmt.Println("Volleyball Ratings Calculator")
 	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
 	dbPath := flag.String("dbPath", "./_data/vb.db", "sqlite db path")

@@ -1,5 +1,9 @@
 package vbratings
 
+import (
+	"strings"
+)
+
 type Match struct {
 	PlayerAId int
 	PlayerBId int
@@ -36,3 +40,11 @@ const (
 	Male Gender = iota
 	Female
 )
+
+func GenderFromString(input string) Gender {
+	if strings.ToLower(input) == "female" {
+		return Female
+	}
+
+	return Male
+}

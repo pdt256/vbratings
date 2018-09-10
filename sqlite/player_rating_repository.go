@@ -66,7 +66,7 @@ func (r *playerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (
 	return &pr, nil
 }
 
-func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender vbratings.Gender) []vbratings.PlayerAndRating {
+func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender vbratings.Gender, limit int) []vbratings.PlayerAndRating {
 	var playerAndRatings []vbratings.PlayerAndRating
 
 	rows, queryErr := r.db.Query(`SELECT
@@ -75,7 +75,8 @@ func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender vbratings.
 		FROM player_rating AS pr
 		INNER JOIN player AS p ON p.bvbId = pr.playerId
 		WHERE pr.year = $1 AND pr.gender = $2
-		ORDER BY rating DESC;`, year, gender)
+		ORDER BY rating DESC
+		LIMIT $3;`, year, gender, limit)
 	checkError(queryErr)
 
 	defer rows.Close()

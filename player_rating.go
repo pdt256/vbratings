@@ -21,7 +21,7 @@ type PlayerAndRating struct {
 type PlayerRatingRepository interface {
 	Create(playerRating PlayerRating)
 	GetPlayerRatingByYear(playerId int, year int) (*PlayerRating, error)
-	GetTopPlayerRatings(year int, gender Gender) []PlayerAndRating
+	GetTopPlayerRatings(year int, gender Gender, limit int) []PlayerAndRating
 }
 
 var PlayerRatingNotFoundError = errors.New("player rating not fount")
