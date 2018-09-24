@@ -1,10 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
-	"github.com/namsral/flag"
 	"github.com/pdt256/vbratings"
 	"github.com/pdt256/vbratings/sqlite"
 )

@@ -5,33 +5,40 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/namsral/flag"
 	"github.com/olekukonko/tablewriter"
 	"github.com/pdt256/vbratings"
 	"github.com/pdt256/vbratings/sqlite"
+	"github.com/spf13/cobra"
 )
 
 func main() {
-	fmt.Println("Volleyball Ratings")
-	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	var dbPath string
 
-	dbPath := flag.String("dbPath", "./_data/vb.db", "sqlite db path")
-	topPlayers := flag.Bool("topPlayers", false, "view top players")
-	year := flag.Int("year", 2018, "year")
-	gender := flag.String("gender", "male", "gender (male, female)")
-	limit := flag.Int("limit", 10, "number of players to show")
+	var year int
+	var gender string
+	var limit int
+	var cmdTopPlayers = &cobra.Command{
+		Use:   "topPlayers ",
+		Short: "List Top Players By Year",
+		Args:  cobra.MinimumNArgs(0),
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Printf("Top %d %s Players in %d\n", limit, gender, year)
 
-	flag.Parse()
+			db := sqlite.NewFileDB(dbPath)
+			playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 
-	db := sqlite.NewFileDB(*dbPath)
-	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-
-	if *topPlayers {
-		playerRatings := playerRatingRepository.GetTopPlayerRatings(*year, vbratings.GenderFromString(*gender), *limit)
-		showTable(playerRatings)
-	} else {
-		fmt.Println("No query selected")
+			playerRatings := playerRatingRepository.GetTopPlayerRatings(year, vbratings.GenderFromString(gender), limit)
+			showTable(playerRatings)
+		},
 	}
+	cmdTopPlayers.Flags().IntVarP(&year, "year", "y", 2018, "year")
+	cmdTopPlayers.Flags().StringVarP(&gender, "gender", "g", "male", "gender")
+	cmdTopPlayers.Flags().IntVarP(&limit, "limit", "l", 10, "limit")
+
+	var rootCmd = &cobra.Command{Use: "app"}
+	rootCmd.Flags().StringVarP(&dbPath, "dbPath", "d", "./_data/vb.db", "sqlite db path")
+	rootCmd.AddCommand(cmdTopPlayers)
+	rootCmd.Execute()
 }
 
 func showTable(playerAndRatings []vbratings.PlayerAndRating) {

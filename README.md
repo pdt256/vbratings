@@ -85,18 +85,37 @@ Volleyball Ratings Calculator
 
 ```
 $ go run cmd/view-vbratings/main.go -h
-Volleyball Ratings
 Usage:
-  -dbPath="./_data/vb.db": sqlite db path
-  -gender="male": gender (male, female)
-  -limit=10: number of players to show
-  -topPlayers=false: view top players
-  -year=2018: year
+  app [command]
+
+Available Commands:
+  help        Help about any command
+  topPlayers  List Top Players By Year
+
+Flags:
+  -d, --dbPath string   sqlite db path (default "./_data/vb.db")
+  -h, --help            help for app
+
+Use "app [command] --help" for more information about a command.
 ```
 
 ```
-$ go run cmd/view-vbratings/main.go -topPlayers -gender male -year 2018 -limit 10
-Volleyball Ratings
+$ go run cmd/view-vbratings/main.go topPlayers -h
+List Top Players By Year
+
+Usage:
+  app topPlayers  [flags]
+
+Flags:
+  -g, --gender string   gender (default "male")
+  -h, --help            help for topPlayers
+  -l, --limit int       limit (default 10)
+  -y, --year int        year (default 2018)
+```
+
+```
+$ go run cmd/view-vbratings/main.go topPlayers --gender male --year 2018 --limit 10
+Top 10 male Players in 2018
 +--------+-------------------------+--------------+
 | RATING |          NAME           | TOTALMATCHES |
 +--------+-------------------------+--------------+
@@ -120,6 +139,13 @@ Volleyball Ratings
 * Use Cases:
   - As a player, I want to see my rating for each year; so that I can monitor
     my progress relative to other players.
+  - As a fan of the sport, I want to see all player ratings by gender and year that
+    include results from AVPFirst, and AVPNext; while not colliding with AVP results
+    from Bvbinfo; so that I can see more accurate player rankings among lower
+    rated players.
+    - Import results from AVPNext
+    - Normalize player ID to work across tournament organizations
+    - Calculate rankings based on tournament results instead of match results.
 
 ## License
 
