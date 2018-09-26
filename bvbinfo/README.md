@@ -3,11 +3,13 @@
 ## Run
 
 ```
-$ go run cmd/import/main.go -h
+$ go run cmd/import/main.go --help
 BVBInfo Importer
 Usage:
-  -dbPath="./_data/vb.db": sqlite db path
-  -init=false: init db
+  -dbPath string
+        sqlite db path (default "./_data/vb.db")
+  -init
+        init db
 ```
 
 ```

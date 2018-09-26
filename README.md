@@ -31,10 +31,14 @@ go test ./...
 $ go run cmd/calculate-vbratings/main.go --help
 Volleyball Ratings Calculator
 Usage:
-  -allYears=false: calculate for all years
-  -dbPath="./_data/vb.db": sqlite db path
-  -init=false: init db
-  -year=2018: year
+  -allYears
+        calculate for all years
+  -dbPath string
+        sqlite db path (default "./_data/vb.db")
+  -init
+        init db
+  -year int
+        year (default 2018)
 ```
 
 ```
@@ -55,7 +59,7 @@ Volleyball Ratings Calculator
 ### Volleyball Ratings
 
 ```
-$ go run cmd/view-vbratings/main.go -h
+$ go run cmd/view-vbratings/main.go --help
 Usage:
   app [command]
 

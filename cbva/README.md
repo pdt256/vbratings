@@ -3,8 +3,13 @@
 ## Run
 
 ```
-$ go run cmd/import/main.go -h
+$ go run cmd/import/main.go --help
 CBVA Importer
+Usage:
+  -dbPath string
+        sqlite db path (default "./_data/vb.db")
+  -init
+        init db
 ```
 
 ```
