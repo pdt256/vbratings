@@ -75,7 +75,6 @@ func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 
 func Test_MatchRepository_GetAllPlayerIds(t *testing.T) {
 	// Given
-	expectedPlayerIds := "[1 2 3 4]"
 	match := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
@@ -95,5 +94,5 @@ func Test_MatchRepository_GetAllPlayerIds(t *testing.T) {
 	actualPlayerIds := repository.GetAllPlayerIds()
 
 	// Then
-	assert.Equal(t, expectedPlayerIds, fmt.Sprintf("%+v", actualPlayerIds))
+	assert.Equal(t, "[1 2 3 4]", fmt.Sprintf("%+v", actualPlayerIds))
 }

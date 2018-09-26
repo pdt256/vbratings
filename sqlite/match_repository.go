@@ -131,9 +131,3 @@ func (r *matchRepository) GetAllMatchesByYear(year int) []vbratings.Match {
 
 	return matches
 }
-
-func checkError(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
-}

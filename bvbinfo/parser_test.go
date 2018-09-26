@@ -114,19 +114,19 @@ func Test_GetMatches_GetsFemaleGender(t *testing.T) {
 func Test_GetMatches_ReturnsCorrectMatchCounts(t *testing.T) {
 	// Given
 	var tournaments = []struct {
-		filePath             string
 		expectedTotalMatches int
+		filePath             string
 	}{
-		{"./testdata/2014-avp-st-petersburg-mens-matches.html", 76},
-		{"./testdata/2015-avp-manhattan-beach-mens-matches.html", 107},
-		{"./testdata/2017-avp-manhattan-beach-mens-matches.html", 159},
-		{"./testdata/2018-fivb-gstaad-major-mens-matches.html", 79},
+		{76, "2014-avp-st-petersburg-mens-matches.html"},
+		{107, "2015-avp-manhattan-beach-mens-matches.html"},
+		{159, "2017-avp-manhattan-beach-mens-matches.html"},
+		{79, "2018-fivb-gstaad-major-mens-matches.html"},
 	}
 
 	for _, tt := range tournaments {
 		t.Run(tt.filePath, func(t *testing.T) {
 			// Given
-			file, _ := os.Open(tt.filePath)
+			file, _ := os.Open("./testdata/" + tt.filePath)
 
 			// When
 			matches := bvbinfo.GetMatches(file)

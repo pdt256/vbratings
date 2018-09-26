@@ -18,39 +18,10 @@ go get ./...
 go test ./...
 ```
 
-## Run
+## Sub Packages
 
-### Bvbinfo Importer
-
-```
-$ go run bvbinfo/cmd/import/main.go -h
-BVBInfo Importer
-Usage:
-  -dbPath="./_data/vb.db": sqlite db path
-  -init=false: init db
-```
-
-```
-$ go run bvbinfo/cmd/import/main.go -init
-BVBInfo Importer
-Initializing DB
-```
-
-```
-$ go run bvbinfo/cmd/import/main.go
-BVBInfo Importer
-Importing Matches
-...............................................................................
-...............................................................................
-...............................................................................
-94218 matches imported
-Importing Players
-...............................................................................
-...............................................................................
-...............................................................................
-...............................................................................
-11373 players imported
-```
+- [BVBInfo Importer](bvbinfo/README.md)
+- [CBVA Importer](cbva/README.md)
 
 ---
 

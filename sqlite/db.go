@@ -22,3 +22,9 @@ func NewFileDB(dbPath string) *sql.DB {
 
 	return db
 }
+
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
