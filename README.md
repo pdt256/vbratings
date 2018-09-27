@@ -25,7 +25,7 @@ go test ./...
 
 ---
 
-### Calculate Volleyball Ratings
+## Calculate Volleyball Ratings
 
 ```
 $ go run cmd/calculate-vbratings/main.go --help
@@ -56,9 +56,9 @@ Volleyball Ratings Calculator
 
 ---
 
-### Volleyball Ratings
+## Volleyball Ratings
 
-#### CLI
+### CLI
 
 ```
 $ go run cmd/view-vbratings/main.go --help
@@ -109,7 +109,7 @@ Top 10 male Players in 2018
 +--------+-------------------------+--------------+
 ```
 
-#### GraphQL
+### GraphQL
 
 ```
 $ go run cmd/vbratings-graphql/main.go --help
@@ -121,11 +121,27 @@ Usage:
         port (default 8080)
 ```
 
+#### Start GraphQL API Server
+
 ```
 $ go run cmd/vbratings-graphql/main.go
 Volleyball Ratings GraphQL
 Starting on port 8080
 ```
+
+#### Example Query
+
+```
+{
+  topPlayers(year: 2018, gender: "male", limit: 2) {
+    rating
+    playerName
+    totalMatches
+  }
+}
+```
+
+#### Example Response
 
 ```
 $ curl -s -XPOST -d '{"query": "{ topPlayers(year: 2018, gender: \"male\", limit: 2) { rating playerName totalMatches } }"}' localhost:8080/query | python -m json.tool
