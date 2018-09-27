@@ -58,6 +58,8 @@ Volleyball Ratings Calculator
 
 ### Volleyball Ratings
 
+#### CLI
+
 ```
 $ go run cmd/view-vbratings/main.go --help
 Usage:
@@ -107,6 +109,44 @@ Top 10 male Players in 2018
 +--------+-------------------------+--------------+
 ```
 
+#### GraphQL
+
+```
+$ go run cmd/vbratings-graphql/main.go --help
+Volleyball Ratings GraphQL
+Usage:
+  -dbPath string
+        sqlite db path (default "./_data/vb.db")
+  -port int
+        port (default 8080)
+```
+
+```
+$ go run cmd/vbratings-graphql/main.go
+Volleyball Ratings GraphQL
+Starting on port 8080
+```
+
+```
+$ curl -s -XPOST -d '{"query": "{ topPlayers(year: 2018, gender: \"male\", limit: 2) { rating playerName totalMatches } }"}' localhost:8080/query | python -m json.tool
+{
+    "data": {
+        "topPlayers": [
+            {
+                "playerName": "Nick Lucena",
+                "rating": 1921,
+                "totalMatches": 841
+            },
+            {
+                "playerName": "Phil Dalhausser",
+                "rating": 1894,
+                "totalMatches": 885
+            }
+        ]
+    }
+}
+```
+
 ---
 
 ## Todo
@@ -115,12 +155,12 @@ Top 10 male Players in 2018
   - As a player, I want to see my rating for each year; so that I can monitor
     my progress relative to other players.
   - As a fan of the sport, I want to see all player ratings by gender and year that
-    include results from AVPFirst, and AVPNext; while not colliding with AVP results
+    include results from CBVA, AVPFirst, and AVPNext; while not colliding with AVP results
     from Bvbinfo; so that I can see more accurate player rankings among lower
     rated players.
-    - Import results from AVPNext
-    - Normalize player ID to work across tournament organizations
-    - Calculate rankings based on tournament results instead of match results.
+    - Import results from CBVA
+    - Normalize player ID to work across tournament organizations by using full name slugs
+    - Calculate rankings based on tournament results in addition to match results.
 
 ## License
 
