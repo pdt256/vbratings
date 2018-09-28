@@ -13,7 +13,7 @@ func Test_Importer_ImportMatches(t *testing.T) {
 	// Given
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.InitDB()
+	matchRepository.MigrateDB()
 	importer := bvbinfo.NewImporter(matchRepository, nil)
 	matchesReader, _ := os.Open("./testdata/2017-avp-manhattan-beach-mens-matches.html")
 

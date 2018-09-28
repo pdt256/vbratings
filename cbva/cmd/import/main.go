@@ -26,7 +26,7 @@ func main() {
 
 	if *shouldInitDb {
 		fmt.Println("Initializing DB")
-		tournamentRepository.InitDB()
+		tournamentRepository.MigrateDB()
 		return
 	}
 

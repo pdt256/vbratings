@@ -17,7 +17,7 @@ func NewPlayerRatingRepository(db *sql.DB) *playerRatingRepository {
 	return &playerRatingRepository{db}
 }
 
-func (r *playerRatingRepository) InitDB() {
+func (r *playerRatingRepository) MigrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS player_rating (
 			playerId INT NOT NULL
 			,year INT NOT NULL
@@ -25,8 +25,7 @@ func (r *playerRatingRepository) InitDB() {
 			,seedRating INT NOT NULL
 			,rating INT NOT NULL
 			,totalMatches INT NOT NULL
-		);
-		DELETE FROM player_rating;`
+		);`
 
 	_, createError := r.db.Exec(sqlStmt)
 	checkError(createError)

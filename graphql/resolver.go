@@ -1,7 +1,10 @@
 package graphql
 
 import (
+	"github.com/graph-gophers/graphql-go"
+	"github.com/graph-gophers/graphql-go/relay"
 	"github.com/pdt256/vbratings"
+	"github.com/pdt256/vbratings/app"
 )
 
 type PlayerRatingResolver struct {
@@ -21,48 +24,22 @@ func (p *PlayerRatingResolver) TotalMatches() int32 {
 }
 
 type query struct {
-	playerRatingRepository vbratings.PlayerRatingRepository
+	app *app.App
 }
 
-func NewQuery(playerRatingRepository vbratings.PlayerRatingRepository) *query {
-	return &query{playerRatingRepository}
+func NewQuery(app *app.App) *query {
+	return &query{app}
 }
 
-type TopPlayersArgs struct {
-	Year   *int32
-	Gender *string
-	Limit  *int32
-}
-
-func (a *TopPlayersArgs) GetYear() int {
-	if a.Year != nil {
-		return int(*a.Year)
-	}
-
-	return 2018
-}
-
-func (a *TopPlayersArgs) GetGender() string {
-	if a.Gender != nil {
-		return *a.Gender
-	}
-
-	return "male"
-}
-
-func (a *TopPlayersArgs) GetLimit() int {
-	if a.Limit != nil {
-		return int(*a.Limit)
-	}
-
-	return 10
-}
-
-func (q *query) TopPlayers(args TopPlayersArgs) []*PlayerRatingResolver {
-	playerAndRatings := q.playerRatingRepository.GetTopPlayerRatings(
-		args.GetYear(),
-		vbratings.GenderFromString(args.GetGender()),
-		args.GetLimit())
+func (q *query) GetTopPlayerRatings(args struct {
+	Year   int32
+	Gender string
+	Limit  int32
+}) []*PlayerRatingResolver {
+	playerAndRatings := q.app.PlayerRating.GetTopPlayerRatings(
+		int(args.Year),
+		args.Gender,
+		int(args.Limit))
 
 	var r []*PlayerRatingResolver
 	for _, value := range playerAndRatings {
@@ -70,4 +47,33 @@ func (q *query) TopPlayers(args TopPlayersArgs) []*PlayerRatingResolver {
 	}
 
 	return r
+}
+
+func NewGraphQLHandler(app *app.App) *relay.Handler {
+	query := NewQuery(app)
+	schema := graphql.MustParseSchema(getSchemaString(), query)
+	return &relay.Handler{Schema: schema}
+}
+
+func getSchemaString() string {
+	return `
+		schema {
+	    	query: Query
+		}
+
+		type Query {
+			# Top player ratings by year and gender
+    		getTopPlayerRatings(
+				year: Int!
+				gender: String!
+				limit: Int!
+			): [PlayerRating]!
+		}
+
+		type PlayerRating {
+    		rating: Int!
+    		playerName: String!
+    		totalMatches: Int!
+		}
+	`
 }

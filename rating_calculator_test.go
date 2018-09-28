@@ -22,10 +22,10 @@ func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
 	}
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.InitDB()
+	matchRepository.MigrateDB()
 	matchRepository.Create(match, "123-abc")
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-	playerRatingRepository.InitDB()
+	playerRatingRepository.MigrateDB()
 	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
 	// When
@@ -70,11 +70,11 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 	}
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.InitDB()
+	matchRepository.MigrateDB()
 	matchRepository.Create(match1, "match1")
 	matchRepository.Create(match2, "match2")
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-	playerRatingRepository.InitDB()
+	playerRatingRepository.MigrateDB()
 	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
 	// When
@@ -114,10 +114,10 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRa
 	}
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.InitDB()
+	matchRepository.MigrateDB()
 	matchRepository.Create(match, "123-abc")
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-	playerRatingRepository.InitDB()
+	playerRatingRepository.MigrateDB()
 	playerRatingRepository.Create(playerRating)
 	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 

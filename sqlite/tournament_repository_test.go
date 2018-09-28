@@ -18,7 +18,7 @@ func Test_TournamentRepository_GetAllTournamentResults(t *testing.T) {
 	}
 	db := sqlite.NewInMemoryDB()
 	repository := sqlite.NewTournamentRepository(db)
-	repository.InitDB()
+	repository.MigrateDB()
 	repository.AddTournamentResult(tournamentResult, "123-abc")
 
 	// When

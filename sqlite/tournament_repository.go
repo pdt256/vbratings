@@ -18,14 +18,13 @@ func NewTournamentRepository(db *sql.DB) *tournamentRepository {
 	return &tournamentRepository{db}
 }
 
-func (r *tournamentRepository) InitDB() {
+func (r *tournamentRepository) MigrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS tournament_result (
 			id TEXT NOT NULL PRIMARY KEY
 			,player1Name TEXT NOT NULL
 			,player2Name TEXT NOT NULL
 			,earnedFinish INT NOT NULL
-		);
-		DELETE FROM tournament_result;`
+		);`
 
 	_, createError := r.db.Exec(sqlStmt)
 	if createError != nil {

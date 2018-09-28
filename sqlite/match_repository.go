@@ -18,7 +18,7 @@ func NewMatchRepository(db *sql.DB) *matchRepository {
 	return &matchRepository{db}
 }
 
-func (r *matchRepository) InitDB() {
+func (r *matchRepository) MigrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS match (
 			id TEXT NOT NULL PRIMARY KEY
 			,playerA_id TEXT NOT NULL
@@ -31,8 +31,7 @@ func (r *matchRepository) InitDB() {
 			,set3 TEXT NOT NULL
 			,year INT NOT NULL
 			,gender INT NOT NULL
-		);
-		DELETE FROM match;`
+		);`
 
 	_, createError := r.db.Exec(sqlStmt)
 	if createError != nil {

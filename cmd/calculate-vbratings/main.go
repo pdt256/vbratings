@@ -26,7 +26,7 @@ func main() {
 
 	if *shouldInitDb {
 		fmt.Println("Initializing player_rating DB")
-		playerRatingRepository.InitDB()
+		playerRatingRepository.MigrateDB()
 		return
 	}
 

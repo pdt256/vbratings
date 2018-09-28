@@ -144,10 +144,10 @@ Starting on port 8080
 #### Example Response
 
 ```
-$ curl -s -XPOST -d '{"query": "{ topPlayers(year: 2018, gender: \"male\", limit: 2) { rating playerName totalMatches } }"}' localhost:8080/query | python -m json.tool
+$ curl -s -XPOST -d '{"query": "{ getTopPlayerRatings(year: 2018, gender: \"male\", limit: 2) { rating playerName totalMatches } }"}' localhost:8080/query | python -m json.tool
 {
     "data": {
-        "topPlayers": [
+        "getTopPlayerRatings": [
             {
                 "playerName": "Nick Lucena",
                 "rating": 1921,

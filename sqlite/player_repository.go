@@ -18,13 +18,12 @@ func NewPlayerRepository(db *sql.DB) *playerRepository {
 	return &playerRepository{db}
 }
 
-func (r *playerRepository) InitDB() {
+func (r *playerRepository) MigrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS player (
 			bvbId TEXT NOT NULL PRIMARY KEY
 			,name TEXT NOT NULL
 			,imgUrl TEXT NOT NULL
-		);
-		DELETE FROM player;`
+		);`
 
 	_, createError := r.db.Exec(sqlStmt)
 	if createError != nil {

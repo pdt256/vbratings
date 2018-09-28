@@ -14,7 +14,7 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)
 	repository := matchRepository
-	repository.InitDB()
+	repository.MigrateDB()
 	match := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
@@ -45,7 +45,7 @@ func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 	// Given
 	db := sqlite.NewInMemoryDB()
 	repository := sqlite.NewMatchRepository(db)
-	repository.InitDB()
+	repository.MigrateDB()
 	match := vbratings.Match{
 		PlayerAId: 1,
 		PlayerBId: 2,
@@ -87,7 +87,7 @@ func Test_MatchRepository_GetAllPlayerIds(t *testing.T) {
 	}
 	db := sqlite.NewInMemoryDB()
 	repository := sqlite.NewMatchRepository(db)
-	repository.InitDB()
+	repository.MigrateDB()
 	repository.Create(match, "123-abc")
 
 	// When

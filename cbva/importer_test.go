@@ -13,7 +13,7 @@ func Test_Importer_ImportMatches(t *testing.T) {
 	// Given
 	db := sqlite.NewInMemoryDB()
 	tournamentRepository := sqlite.NewTournamentRepository(db)
-	tournamentRepository.InitDB()
+	tournamentRepository.MigrateDB()
 	importer := cbva.NewImporter(tournamentRepository, nil)
 	reader, _ := os.Open("./testdata/2018-09-23-marine-street-mens-aa.json")
 

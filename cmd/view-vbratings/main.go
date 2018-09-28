@@ -7,7 +7,7 @@ import (
 
 	"github.com/olekukonko/tablewriter"
 	"github.com/pdt256/vbratings"
-	"github.com/pdt256/vbratings/sqlite"
+	"github.com/pdt256/vbratings/app"
 	"github.com/spf13/cobra"
 )
 
@@ -24,10 +24,9 @@ func main() {
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Printf("Top %d %s Players in %d\n", limit, gender, year)
 
-			db := sqlite.NewFileDB(dbPath)
-			playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-
-			playerRatings := playerRatingRepository.GetTopPlayerRatings(year, vbratings.GenderFromString(gender), limit)
+			configuration := app.NewConfiguration(dbPath)
+			application := app.New(configuration)
+			playerRatings := application.PlayerRating.GetTopPlayerRatings(year, gender, limit)
 			showTable(playerRatings)
 		},
 	}

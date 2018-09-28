@@ -24,4 +24,4 @@ type PlayerRatingRepository interface {
 	GetTopPlayerRatings(year int, gender Gender, limit int) []PlayerAndRating
 }
 
-var PlayerRatingNotFoundError = errors.New("player rating not fount")
+var PlayerRatingNotFoundError = errors.New("player rating not found")
