@@ -28,7 +28,7 @@ go test ./...
 ## Calculate Volleyball Ratings
 
 ```
-$ go run cmd/calculate-vbratings/main.go --help
+$ go run cmd/calculate/main.go --help
 Volleyball Ratings Calculator
 Usage:
   -allYears
@@ -42,13 +42,13 @@ Usage:
 ```
 
 ```
-$ go run cmd/calculate-vbratings/main.go -init
+$ go run cmd/calculate/main.go -init
 Volleyball Ratings Calculator
 Initializing player_rating DB
 ```
 
 ```
-$ go run cmd/calculate-vbratings/main.go -allYears
+$ go run cmd/calculate/main.go -allYears
 Volleyball Ratings Calculator
 ..................
 20532 ratings calculated
@@ -61,7 +61,7 @@ Volleyball Ratings Calculator
 ### CLI
 
 ```
-$ go run cmd/view-vbratings/main.go --help
+$ go run cmd/cli/main.go --help
 Usage:
   app [command]
 
@@ -77,7 +77,7 @@ Use "app [command] --help" for more information about a command.
 ```
 
 ```
-$ go run cmd/view-vbratings/main.go topPlayers -h
+$ go run cmd/cli/main.go topPlayers -h
 List Top Players By Year
 
 Usage:
@@ -91,7 +91,7 @@ Flags:
 ```
 
 ```
-$ go run cmd/view-vbratings/main.go topPlayers --gender male --year 2018 --limit 10
+$ go run cmd/cli/main.go topPlayers --gender male --year 2018 --limit 10
 Top 10 male Players in 2018
 +--------+-------------------------+--------------+
 | RATING |          NAME           | TOTALMATCHES |
