@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/pdt256/vbratings"
@@ -31,7 +32,7 @@ func (r *playerRatingRepository) MigrateDB() {
 	checkError(createError)
 }
 
-func (r *playerRatingRepository) Create(playerRating vbratings.PlayerRating) {
+func (r *playerRatingRepository) Create(playerRating vbratings.PlayerRating) error {
 	_, err := r.db.Exec(
 		"INSERT OR REPLACE INTO player_rating(playerId, year, gender, seedRating, rating, totalMatches) VALUES ($1, $2, $3, $4, $5, $6)",
 		playerRating.PlayerId,
@@ -41,7 +42,13 @@ func (r *playerRatingRepository) Create(playerRating vbratings.PlayerRating) {
 		playerRating.Rating,
 		playerRating.TotalMatches,
 	)
-	checkError(err)
+
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
 }
 
 func (r *playerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (*vbratings.PlayerRating, error) {

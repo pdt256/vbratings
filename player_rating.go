@@ -19,7 +19,7 @@ type PlayerAndRating struct {
 }
 
 type PlayerRatingRepository interface {
-	Create(playerRating PlayerRating)
+	Create(playerRating PlayerRating) error
 	GetPlayerRatingByYear(playerId int, year int) (*PlayerRating, error)
 	GetTopPlayerRatings(year int, gender Gender, limit int) []PlayerAndRating
 }

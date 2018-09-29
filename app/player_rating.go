@@ -23,7 +23,7 @@ func (pr *PlayerRating) Create(
 	gender string,
 	seedRating int,
 	rating int,
-	totalMatches int) {
+	totalMatches int) error {
 	playerRating := vbratings.PlayerRating{
 		PlayerId:     playerId,
 		Year:         year,
@@ -32,7 +32,7 @@ func (pr *PlayerRating) Create(
 		Rating:       rating,
 		TotalMatches: totalMatches,
 	}
-	pr.playerRatingRepository.Create(playerRating)
+	return pr.playerRatingRepository.Create(playerRating)
 }
 
 func (pr *PlayerRating) DoIt(isNow bool) {}

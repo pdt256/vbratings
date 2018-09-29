@@ -23,7 +23,7 @@ func main() {
 
 	configuration := app.NewConfiguration(*dbPath)
 	application := app.New(configuration)
-	graphqlHandler := vbgraphql.NewGraphQLHandler(application)
+	graphqlHandler := vbgraphql.NewHandler(application)
 	http.Handle("/query", graphqlHandler)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
 }
