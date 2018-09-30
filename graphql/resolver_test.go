@@ -17,8 +17,21 @@ func Test_Query_PlayerRatingsQueries_GetTopPlayerRatings(t *testing.T) {
 	configuration := app.NewConfiguration(":memory:")
 	application := app.New(configuration)
 	handler := graphql.NewHandler(application)
-	query := `query { playerRatingQueries { getTopPlayerRatings(year: 2018, gender: \"male\", limit: 10) { player { Name } } } }`
-	request := getRequestWithQuery(query)
+	query := `query ($year: Int!, $gender: String!, $limit: Int!) {
+		playerRatingQueries {
+			getTopPlayerRatings(year: $year, gender: $gender, limit: $limit) {
+				player {
+					Name
+				}
+			}
+		}
+	}`
+	variables := `{
+		"year": 2018,
+		"gender": "male",
+		"limit": 10
+	}`
+	request := getRequest(query, variables)
 	response := httptest.NewRecorder()
 
 	// When
@@ -34,8 +47,17 @@ func Test_Mutation_PlayerCommands_Create(t *testing.T) {
 	configuration := app.NewConfiguration(":memory:")
 	application := app.New(configuration)
 	handler := graphql.NewHandler(application)
-	mutation := `mutation { playerCommands { create(bvbId: 1, name: \"John Doe\", imgUrl: \"\") } }`
-	request := getRequestWithQuery(mutation)
+	mutation := `mutation ($bvbId: Int!, $name: String!, $imgUrl: String!) {
+		playerCommands {
+			create(bvbId: $bvbId, name: $name, imgUrl: $imgUrl)
+		}
+	}`
+	variables := `{
+		"bvbId": 1,
+		"name": "John Doe",
+		"imgUrl": "http://example.com/1.jpg"
+	}`
+	request := getRequest(mutation, variables)
 	response := httptest.NewRecorder()
 
 	// When
@@ -46,10 +68,18 @@ func Test_Mutation_PlayerCommands_Create(t *testing.T) {
 	assert.Equal(t, expectedBody, response.Body.String())
 }
 
-func getRequestWithQuery(query string) *http.Request {
-	body := fmt.Sprintf(`{"query": "%s"}`, query)
+func getRequest(query string, variables string) *http.Request {
+	body := fmt.Sprintf(
+		`{"query": "%s", "variables": %s}`,
+		trimSpaces(query),
+		trimSpaces(variables),
+	)
 	bodyReader := strings.NewReader(body)
 	request := httptest.NewRequest("POST", "/", bodyReader)
 	request.Header.Set("Content-Type", "application/json")
 	return request
+}
+
+func trimSpaces(s string) string {
+	return strings.Join(strings.Fields(s), " ")
 }
