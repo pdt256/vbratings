@@ -3,10 +3,93 @@ package generator
 import (
 	"fmt"
 	"go/ast"
+	"io"
+	"strings"
+	"unicode"
 )
 
 type Root struct {
 	Domains []*Domain
+}
+
+func (r Root) GraphQLSchema(schema io.Writer) {
+	fmt.Fprintf(schema, "schema {\n")
+
+	if r.hasQueries() {
+		fmt.Fprintf(schema, "\tquery: Query\n")
+	}
+
+	if r.hasCommands() {
+		fmt.Fprintf(schema, "\tmutation: Mutation\n")
+	}
+
+	fmt.Fprintf(schema, "}\n")
+
+	if r.hasQueries() {
+		fmt.Fprintf(schema, "\ntype Query {\n")
+
+		for _, domain := range r.Domains {
+			fmt.Fprintf(schema, "\t%sQueries: %sQueries\n", lowerInitial(domain.Name), domain.Name)
+		}
+		fmt.Fprintf(schema, "}\n")
+
+		for _, domain := range r.Domains {
+			fmt.Fprintf(schema, "\ntype %sQueries {\n", domain.Name)
+			for _, query := range domain.Queries {
+				addDocs(query, schema)
+				fmt.Fprintf(schema, "\t%s: %s\n", lowerInitial(query.Name), getGraphQLType(query.ReturnTypes[0].Type))
+			}
+			fmt.Fprintf(schema, "}\n")
+		}
+	}
+
+	if r.hasCommands() {
+		fmt.Fprintf(schema, "\ntype Mutation {\n")
+
+		for _, domain := range r.Domains {
+			fmt.Fprintf(schema, "\t%sCommands: %sCommands\n", lowerInitial(domain.Name), domain.Name)
+		}
+		fmt.Fprintf(schema, "}\n")
+
+		for _, domain := range r.Domains {
+			fmt.Fprintf(schema, "\ntype %sCommands {\n", domain.Name)
+			for _, command := range domain.Commands {
+				addDocs(command, schema)
+				fmt.Fprintf(schema, "\t%s: %s\n", lowerInitial(command.Name), "Boolean!")
+			}
+			fmt.Fprintf(schema, "}\n")
+		}
+	}
+}
+
+func addDocs(useCase *UseCase, schema io.Writer) {
+	for _, doc := range useCase.Docs {
+		fmt.Fprintf(schema, "\t# %s\n", strings.TrimPrefix(doc, "// "))
+	}
+}
+
+func getGraphQLType(s string) string {
+	switch s {
+	case "bool":
+		return "Boolean!"
+	}
+
+	return s
+}
+
+func lowerInitial(str string) string {
+	for i, v := range str {
+		return string(unicode.ToLower(v)) + str[i+1:]
+	}
+	return ""
+}
+
+func (r Root) hasQueries() bool {
+	return true
+}
+
+func (r Root) hasCommands() bool {
+	return true
 }
 
 type Domain struct {

@@ -1,10 +1,12 @@
 package generator_test
 
 import (
+	"bytes"
 	"go/parser"
 	"go/token"
 	"testing"
 
+	"github.com/graph-gophers/graphql-go"
 	"github.com/pdt256/vbratings/graphql/generator"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -79,5 +81,49 @@ func Test_Parse_Commands(t *testing.T) {
 	assert.Equal(t, "twoString", commandWithParams.Params[1].Name)
 	assert.Equal(t, "string", commandWithParams.Params[1].Type)
 	assert.Equal(t, "threeBool", commandWithParams.Params[2].Name)
+}
 
+func Test_GraphQLSchema(t *testing.T) {
+	// Given
+	filePath := `./testdata/simple_domain.go`
+	fs := token.NewFileSet()
+	node, _ := parser.ParseFile(fs, filePath, nil, parser.ParseComments)
+	domainRoot := generator.ParseDomain(node)
+	var schema bytes.Buffer
+
+	// When
+	domainRoot.GraphQLSchema(&schema)
+
+	// Then
+	expectedSchema := `schema {
+	query: Query
+	mutation: Mutation
+}
+
+type Query {
+	simpleDomainQueries: SimpleDomainQueries
+}
+
+type SimpleDomainQueries {
+	# Query 1 Doc
+	query1: Boolean!
+	# Query 2 Doc
+	# Second Line
+	query2: Boolean!
+}
+
+type Mutation {
+	simpleDomainCommands: SimpleDomainCommands
+}
+
+type SimpleDomainCommands {
+	# Command 1 Doc
+	command1: Boolean!
+	# Command 2 Doc
+	command2: Boolean!
+}
+`
+	assert.Equal(t, expectedSchema, schema.String())
+	_, err := graphql.ParseSchema(schema.String(), nil)
+	require.NoError(t, err)
 }

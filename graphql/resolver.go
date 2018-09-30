@@ -171,7 +171,6 @@ func getSchemaString() string {
 			playerRatingCommands: PlayerRatingCommands
 		}
 
-		# Player Rating Queries
 		type PlayerRatingQueries {
 			# Top player ratings by year and gender
     		getTopPlayerRatings(
@@ -181,7 +180,6 @@ func getSchemaString() string {
 			): [PlayerAndRating]!
 		}
 
-		# Player Commands
 		type PlayerCommands {
 			create(
 				bvbId: Int!
