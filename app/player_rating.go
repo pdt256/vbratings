@@ -8,8 +8,7 @@ type PlayerRating struct {
 	playerRatingRepository vbratings.PlayerRatingRepository
 }
 
-// Top player ratings
-// by year and gender
+// Top player ratings by year and gender
 func (pr *PlayerRating) GetTopPlayerRatings(year int, gender string, limit int) []vbratings.PlayerAndRating {
 	return pr.playerRatingRepository.GetTopPlayerRatings(
 		year,

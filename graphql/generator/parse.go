@@ -10,9 +10,9 @@ type Root struct {
 }
 
 type Domain struct {
-	Name string
-	//Commands []*UseCase
-	Queries []*UseCase
+	Name     string
+	Commands []*UseCase
+	Queries  []*UseCase
 }
 
 type UseCase struct {
@@ -55,10 +55,18 @@ func (v *Visitor) Visit(node ast.Node) (w ast.Visitor) {
 		currentUseCase := &UseCase{
 			Name: useCaseName,
 		}
-		v.currentDomain.Queries = append(
-			v.currentDomain.Queries,
-			currentUseCase,
-		)
+
+		if isCommand(n) {
+			v.currentDomain.Commands = append(
+				v.currentDomain.Commands,
+				currentUseCase,
+			)
+		} else {
+			v.currentDomain.Queries = append(
+				v.currentDomain.Queries,
+				currentUseCase,
+			)
+		}
 
 		if n.Doc != nil {
 			for _, comment := range n.Doc.List {
@@ -80,15 +88,18 @@ func (v *Visitor) Visit(node ast.Node) (w ast.Visitor) {
 		if n.Type.Results != nil {
 			for _, result := range n.Type.Results.List {
 				switch r := result.Type.(type) {
-				//case *ast.ArrayType:
-				//	switch s := r.Elt.(type) {
-				//	case *ast.SelectorExpr:
-				//		fmt.Printf("      []%s\n", s.Sel.Name)
-				//	case *ast.Ident:
-				//		fmt.Printf("      []%s\n", s.Name)
-				//	default:
-				//		fmt.Printf(" UNKNOWN %#v\n", s)
-				//	}
+				case *ast.ArrayType:
+					switch s := r.Elt.(type) {
+					//case *ast.SelectorExpr:
+					//	fmt.Printf("      []%s\n", s.Sel.Name)
+					case *ast.Ident:
+						currentUseCase.ReturnTypes = append(
+							currentUseCase.ReturnTypes,
+							ReturnType{
+								Type: fmt.Sprintf("[]%s", s.Name),
+							},
+						)
+					}
 				case *ast.Ident:
 					currentUseCase.ReturnTypes = append(
 						currentUseCase.ReturnTypes,
@@ -96,13 +107,26 @@ func (v *Visitor) Visit(node ast.Node) (w ast.Visitor) {
 							Type: fmt.Sprintf("%s", r.Name),
 						},
 					)
-					//default:
-					//	fmt.Printf(" UNKNOWN %#v\n", r)
 				}
-
 			}
 		}
 	}
 
 	return v
+}
+
+func isCommand(n *ast.FuncDecl) bool {
+	if n.Type.Results == nil {
+		return true
+	}
+
+	if len(n.Type.Results.List) == 1 {
+		if v, ok := n.Type.Results.List[0].Type.(*ast.Ident); ok {
+			if v.Name == "error" {
+				return true
+			}
+		}
+	}
+
+	return false
 }
