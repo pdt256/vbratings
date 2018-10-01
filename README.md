@@ -132,33 +132,58 @@ Starting on port 8080
 #### Example Query
 
 ```
-{
-  topPlayers(year: 2018, gender: "male", limit: 2) {
-    rating
-    playerName
-    totalMatches
+query($year: Int!, $gender: String!, $limit: Int!) {
+  playerRatingQueries {
+    getTopPlayerRatings(year: $year, gender: $gender, limit: $limit) {
+      player {
+        Name
+      }
+      playerRating {
+        Rating
+        TotalMatches
+      }
+    }
   }
+}
+```
+
+#### Variables
+```
+{
+  "year": 2018,
+  "gender": "male",
+  "limit": 2
 }
 ```
 
 #### Example Response
 
 ```
-$ curl -s -XPOST -d '{"query": "{ getTopPlayerRatings(year: 2018, gender: \"male\", limit: 2) { rating playerName totalMatches } }"}' localhost:8080/query | python -m json.tool
+$ curl -s XPOST -d '{"query": "query($year: Int!, $gender: String!, $limit: Int!) { playerRatingQueries { getTopPlayerRatings(year: $year, gender: $gender, limit: $limit) { player { Name } playerRating { Rating TotalMatches } } } }", "variables": {"year": 2018, "gender": "male", "limit": 2} }' localhost:8080/query | python -m json.tool
 {
     "data": {
-        "getTopPlayerRatings": [
-            {
-                "playerName": "Nick Lucena",
-                "rating": 1921,
-                "totalMatches": 841
-            },
-            {
-                "playerName": "Phil Dalhausser",
-                "rating": 1894,
-                "totalMatches": 885
-            }
-        ]
+        "playerRatingQueries": {
+            "getTopPlayerRatings": [
+                {
+                    "player": {
+                        "Name": "Nick Lucena"
+                    },
+                    "playerRating": {
+                        "Rating": 1921,
+                        "TotalMatches": 841
+                    }
+                },
+                {
+                    "player": {
+                        "Name": "Phil Dalhausser"
+                    },
+                    "playerRating": {
+                        "Rating": 1894,
+                        "TotalMatches": 885
+                    }
+                }
+            ]
+        }
     }
 }
 ```
