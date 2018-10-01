@@ -32,6 +32,24 @@ func (r *playerRepository) MigrateDB() {
 	}
 }
 
+func (r *playerRepository) GetPlayer(bvbId int) (*vbratings.Player, error) {
+	var p vbratings.Player
+	row := r.db.QueryRow("SELECT bvbId, name, imgUrl FROM player WHERE bvbId = $1", bvbId)
+	err := row.Scan(
+		&p.BvbId,
+		&p.Name,
+		&p.ImgUrl,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, vbratings.PlayerNotFound
+		}
+		checkError(err)
+	}
+
+	return &p, nil
+}
+
 func (r *playerRepository) Create(player vbratings.Player) error {
 	_, err := r.db.Exec(
 		"INSERT INTO player(bvbId, name, imgUrl) VALUES ($1, $2, $3)",

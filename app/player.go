@@ -8,6 +8,7 @@ type Player struct {
 	playerRepository vbratings.PlayerRepository
 }
 
+// Create Player
 func (p *Player) Create(
 	bvbId int,
 	name string,
@@ -18,4 +19,9 @@ func (p *Player) Create(
 		ImgUrl: imgUrl,
 	}
 	return p.playerRepository.Create(player)
+}
+
+// Get Player by id
+func (p *Player) GetPlayer(bvbId int) (*vbratings.Player, error) {
+	return p.playerRepository.GetPlayer(bvbId)
 }
