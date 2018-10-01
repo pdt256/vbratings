@@ -109,7 +109,12 @@ type SimpleDomainQueries {
 	query1: Boolean!
 	# Query 2 Doc
 	# Second Line
-	query2: Boolean!
+	query2: String!
+	query3(
+		one: Int!
+		two: String!
+		three: Boolean!
+	): Int!
 }
 
 type Mutation {
@@ -121,6 +126,11 @@ type SimpleDomainCommands {
 	command1: Boolean!
 	# Command 2 Doc
 	command2: Boolean!
+	command3(
+		one: Int!
+		two: String!
+		three: Boolean!
+	): Boolean!
 }
 `
 	assert.Equal(t, expectedSchema, schema.String())

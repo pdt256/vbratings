@@ -37,7 +37,11 @@ func (r Root) GraphQLSchema(schema io.Writer) {
 			fmt.Fprintf(schema, "\ntype %sQueries {\n", domain.Name)
 			for _, query := range domain.Queries {
 				addDocs(query, schema)
-				fmt.Fprintf(schema, "\t%s: %s\n", lowerInitial(query.Name), getGraphQLType(query.ReturnTypes[0].Type))
+				fmt.Fprintf(schema, "\t%s", lowerInitial(query.Name))
+
+				addParams(query, schema)
+
+				fmt.Fprintf(schema, ": %s\n", getGraphQLType(query.ReturnTypes[0].Type))
 			}
 			fmt.Fprintf(schema, "}\n")
 		}
@@ -55,7 +59,12 @@ func (r Root) GraphQLSchema(schema io.Writer) {
 			fmt.Fprintf(schema, "\ntype %sCommands {\n", domain.Name)
 			for _, command := range domain.Commands {
 				addDocs(command, schema)
-				fmt.Fprintf(schema, "\t%s: %s\n", lowerInitial(command.Name), "Boolean!")
+				fmt.Fprintf(schema, "\t%s", lowerInitial(command.Name))
+
+				addParams(command, schema)
+
+				fmt.Fprintf(schema, ": %s\n", "Boolean!")
+
 			}
 			fmt.Fprintf(schema, "}\n")
 		}
@@ -68,10 +77,24 @@ func addDocs(useCase *UseCase, schema io.Writer) {
 	}
 }
 
+func addParams(useCase *UseCase, schema io.Writer) {
+	if len(useCase.Params) > 0 {
+		fmt.Fprintf(schema, "(")
+		for _, param := range useCase.Params {
+			fmt.Fprintf(schema, "\n\t\t%s: %s", param.Name, getGraphQLType(param.Type))
+		}
+		fmt.Fprintf(schema, "\n\t)")
+	}
+}
+
 func getGraphQLType(s string) string {
 	switch s {
 	case "bool":
 		return "Boolean!"
+	case "int":
+		return "Int!"
+	case "string":
+		return "String!"
 	}
 
 	return s
