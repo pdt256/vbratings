@@ -1,5 +1,9 @@
 package testdata
 
+import (
+	"github.com/pdt256/vbratings/graphql/generator/testdata/sample"
+)
+
 type SimpleDomainQueries struct{}
 
 func (d *SimpleDomainQueries) QueryWithNoParams() bool {
@@ -16,6 +20,26 @@ func (d *SimpleDomainQueries) QueryWithParams(oneInt int, twoString string, thre
 	return true
 }
 
-func (d *SimpleDomainQueries) QueryWithArrayReturn() []bool {
+func (d *SimpleDomainQueries) QueryWithArrayIdentReturn() []bool {
 	return []bool{true, false}
+}
+
+func (d *SimpleDomainQueries) QueryWithStructReturn() SimpleStruct {
+	return SimpleStruct{}
+}
+
+func (d *SimpleDomainQueries) QueryWithSelectorStructReturn() sample.SimpleStruct {
+	return sample.SimpleStruct{}
+}
+
+func (d *SimpleDomainQueries) QueryWithArrayStructReturn() []SimpleStruct {
+	return []SimpleStruct{}
+}
+
+func (d *SimpleDomainQueries) QueryWithArraySelectorStructReturn() []sample.SimpleStruct {
+	return []sample.SimpleStruct{}
+}
+
+type SimpleStruct struct {
+	Name string
 }

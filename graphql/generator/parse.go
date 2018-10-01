@@ -95,9 +95,9 @@ func getGraphQLType(s string) string {
 		return "Int!"
 	case "string":
 		return "String!"
+	default:
+		return s + "!"
 	}
-
-	return s
 }
 
 func lowerInitial(str string) string {
@@ -134,7 +134,8 @@ type Param struct {
 }
 
 type ReturnType struct {
-	Type string
+	Package string
+	Type    string
 }
 
 func ParseDomain(node *ast.File) *Root {
@@ -194,10 +195,24 @@ func (v *Visitor) Visit(node ast.Node) (w ast.Visitor) {
 		if n.Type.Results != nil {
 			for _, result := range n.Type.Results.List {
 				switch r := result.Type.(type) {
+				case *ast.SelectorExpr:
+					currentUseCase.ReturnTypes = append(
+						currentUseCase.ReturnTypes,
+						ReturnType{
+							Package: r.X.(*ast.Ident).Name,
+							Type:    r.Sel.Name,
+						},
+					)
 				case *ast.ArrayType:
 					switch s := r.Elt.(type) {
-					//case *ast.SelectorExpr:
-					//	fmt.Printf("      []%s\n", s.Sel.Name)
+					case *ast.SelectorExpr:
+						currentUseCase.ReturnTypes = append(
+							currentUseCase.ReturnTypes,
+							ReturnType{
+								Package: s.X.(*ast.Ident).Name,
+								Type:    fmt.Sprintf("[]%s", s.Sel.Name),
+							},
+						)
 					case *ast.Ident:
 						currentUseCase.ReturnTypes = append(
 							currentUseCase.ReturnTypes,

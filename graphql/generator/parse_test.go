@@ -46,9 +46,29 @@ func Test_Parse_Queries(t *testing.T) {
 	assert.Equal(t, "bool", queryWithParams.Params[2].Type)
 	assert.Equal(t, "bool", queryWithParams.ReturnTypes[0].Type)
 
-	queryWithArrayReturn := domain.Queries[3]
-	assert.Equal(t, "QueryWithArrayReturn", queryWithArrayReturn.Name)
-	assert.Equal(t, "[]bool", queryWithArrayReturn.ReturnTypes[0].Type)
+	queryWithArrayIdentReturn := domain.Queries[3]
+	assert.Equal(t, "QueryWithArrayIdentReturn", queryWithArrayIdentReturn.Name)
+	assert.Equal(t, "[]bool", queryWithArrayIdentReturn.ReturnTypes[0].Type)
+
+	queryWithStructReturn := domain.Queries[4]
+	assert.Equal(t, "QueryWithStructReturn", queryWithStructReturn.Name)
+	assert.Equal(t, "", queryWithStructReturn.ReturnTypes[0].Package)
+	assert.Equal(t, "SimpleStruct", queryWithStructReturn.ReturnTypes[0].Type)
+
+	queryWithSelectorStructReturn := domain.Queries[5]
+	assert.Equal(t, "QueryWithSelectorStructReturn", queryWithSelectorStructReturn.Name)
+	assert.Equal(t, "sample", queryWithSelectorStructReturn.ReturnTypes[0].Package)
+	assert.Equal(t, "SimpleStruct", queryWithSelectorStructReturn.ReturnTypes[0].Type)
+
+	queryWithArrayStructReturn := domain.Queries[6]
+	assert.Equal(t, "QueryWithArrayStructReturn", queryWithArrayStructReturn.Name)
+	assert.Equal(t, "", queryWithArrayStructReturn.ReturnTypes[0].Package)
+	assert.Equal(t, "[]SimpleStruct", queryWithArrayStructReturn.ReturnTypes[0].Type)
+
+	queryWithArraySelectorStructReturn := domain.Queries[7]
+	assert.Equal(t, "QueryWithArraySelectorStructReturn", queryWithArraySelectorStructReturn.Name)
+	assert.Equal(t, "sample", queryWithArraySelectorStructReturn.ReturnTypes[0].Package)
+	assert.Equal(t, "[]SimpleStruct", queryWithArraySelectorStructReturn.ReturnTypes[0].Type)
 }
 
 func Test_Parse_Commands(t *testing.T) {
