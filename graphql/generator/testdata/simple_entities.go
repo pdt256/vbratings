@@ -5,3 +5,11 @@ type Struct1 struct {
 	two   string
 	three bool
 }
+
+type ParentStruct struct {
+	ChildStruct
+}
+
+type ChildStruct struct {
+	name string
+}

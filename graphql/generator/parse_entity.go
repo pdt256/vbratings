@@ -41,11 +41,20 @@ func (v *EntityVisitor) Visit(node ast.Node) ast.Visitor {
 			}
 			v.entityRoot.Entities = append(v.entityRoot.Entities, currentEntity)
 			for _, field := range s.Fields.List {
+				typeName := fmt.Sprintf("%s", field.Type)
+
+				var name string
+				if len(field.Names) > 0 {
+					name = field.Names[0].Name
+				} else {
+					name = lowerInitial(typeName)
+				}
+
 				currentEntity.Fields = append(
 					currentEntity.Fields,
 					Field{
-						Name: field.Names[0].Name,
-						Type: fmt.Sprintf("%s", field.Type),
+						Name: name,
+						Type: typeName,
 					},
 				)
 			}

@@ -29,21 +29,25 @@ func (r DomainRoot) GraphQLSchema(schema io.Writer) {
 		fmt.Fprintf(schema, "\ntype Query {\n")
 
 		for _, domain := range r.Domains {
-			fmt.Fprintf(schema, "\t%sQueries: %sQueries\n", lowerInitial(domain.Name), domain.Name)
+			if len(domain.Queries) > 0 {
+				fmt.Fprintf(schema, "\t%sQueries: %sQueries\n", lowerInitial(domain.Name), domain.Name)
+			}
 		}
 		fmt.Fprintf(schema, "}\n")
 
 		for _, domain := range r.Domains {
-			fmt.Fprintf(schema, "\ntype %sQueries {\n", domain.Name)
-			for _, query := range domain.Queries {
-				addDocs(query, schema)
-				fmt.Fprintf(schema, "\t%s", lowerInitial(query.Name))
+			if len(domain.Queries) > 0 {
+				fmt.Fprintf(schema, "\ntype %sQueries {\n", domain.Name)
+				for _, query := range domain.Queries {
+					addDocs(query, schema)
+					fmt.Fprintf(schema, "\t%s", lowerInitial(query.Name))
 
-				addParams(query, schema)
+					addParams(query, schema)
 
-				fmt.Fprintf(schema, ": %s\n", getGraphQLType(query.ReturnTypes[0].Type))
+					fmt.Fprintf(schema, ": %s\n", getGraphQLType(query.ReturnTypes[0].Type))
+				}
+				fmt.Fprintf(schema, "}\n")
 			}
-			fmt.Fprintf(schema, "}\n")
 		}
 	}
 
@@ -51,22 +55,26 @@ func (r DomainRoot) GraphQLSchema(schema io.Writer) {
 		fmt.Fprintf(schema, "\ntype Mutation {\n")
 
 		for _, domain := range r.Domains {
-			fmt.Fprintf(schema, "\t%sCommands: %sCommands\n", lowerInitial(domain.Name), domain.Name)
+			if len(domain.Commands) > 0 {
+				fmt.Fprintf(schema, "\t%sCommands: %sCommands\n", lowerInitial(domain.Name), domain.Name)
+			}
 		}
 		fmt.Fprintf(schema, "}\n")
 
 		for _, domain := range r.Domains {
-			fmt.Fprintf(schema, "\ntype %sCommands {\n", domain.Name)
-			for _, command := range domain.Commands {
-				addDocs(command, schema)
-				fmt.Fprintf(schema, "\t%s", lowerInitial(command.Name))
+			if len(domain.Commands) > 0 {
+				fmt.Fprintf(schema, "\ntype %sCommands {\n", domain.Name)
+				for _, command := range domain.Commands {
+					addDocs(command, schema)
+					fmt.Fprintf(schema, "\t%s", lowerInitial(command.Name))
 
-				addParams(command, schema)
+					addParams(command, schema)
 
-				fmt.Fprintf(schema, ": %s\n", "Boolean!")
+					fmt.Fprintf(schema, ": %s\n", "Boolean!")
 
+				}
+				fmt.Fprintf(schema, "}\n")
 			}
-			fmt.Fprintf(schema, "}\n")
 		}
 	}
 
@@ -118,9 +126,21 @@ func lowerInitial(str string) string {
 }
 
 func (r DomainRoot) hasQueries() bool {
-	return true
+	for _, domain := range r.Domains {
+		if len(domain.Queries) > 0 {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (r DomainRoot) hasCommands() bool {
-	return true
+	for _, domain := range r.Domains {
+		if len(domain.Commands) > 0 {
+			return true
+		}
+	}
+
+	return false
 }

@@ -16,6 +16,7 @@ func (pr *PlayerRating) GetTopPlayerRatings(year int, gender string, limit int) 
 		limit)
 }
 
+// Create player rating
 func (pr *PlayerRating) Create(
 	playerId int,
 	year int,
@@ -32,10 +33,4 @@ func (pr *PlayerRating) Create(
 		TotalMatches: totalMatches,
 	}
 	return pr.playerRatingRepository.Create(playerRating)
-}
-
-func (pr *PlayerRating) DoIt(isNow bool) {}
-
-func (pr *PlayerRating) ReturnInts() []int {
-	return []int{}
 }

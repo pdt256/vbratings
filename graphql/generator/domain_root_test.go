@@ -77,6 +77,14 @@ type Struct1 {
 	two: String!
 	three: Boolean!
 }
+
+type ParentStruct {
+	childStruct: ChildStruct!
+}
+
+type ChildStruct {
+	name: String!
+}
 `
 	_, err := graphql.ParseSchema(schema.String(), nil)
 	require.NoError(t, err)

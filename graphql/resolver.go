@@ -166,11 +166,6 @@ func getSchemaString() string {
 			playerRatingQueries: PlayerRatingQueries
 		}
 
-		type Mutation {
-			playerCommands: PlayerCommands
-			playerRatingCommands: PlayerRatingCommands
-		}
-
 		type PlayerRatingQueries {
 			# Top player ratings by year and gender
     		getTopPlayerRatings(
@@ -178,6 +173,11 @@ func getSchemaString() string {
 				gender: String!
 				limit: Int!
 			): [PlayerAndRating]!
+		}
+
+		type Mutation {
+			playerCommands: PlayerCommands
+			playerRatingCommands: PlayerRatingCommands
 		}
 
 		type PlayerCommands {
@@ -188,7 +188,6 @@ func getSchemaString() string {
 			): Boolean!
 		}
 
-		# Player Rating Commands
 		type PlayerRatingCommands {
 			# Create player rating
 			create(
@@ -199,11 +198,6 @@ func getSchemaString() string {
 				rating: Int!
 				totalMatches: Int!
 			): Boolean!
-		}
-
-		type PlayerAndRating {
-			player: Player!
-			playerRating: PlayerRating
 		}
 
 		type Player {
@@ -219,6 +213,11 @@ func getSchemaString() string {
 			SeedRating: Int!
 			Rating: Int!
 			TotalMatches: Int!			
+		}
+
+		type PlayerAndRating {
+			player: Player!
+			playerRating: PlayerRating
 		}
 	`
 }
