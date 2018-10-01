@@ -11,6 +11,8 @@ func (d *SimpleDomain) Query2() (string, error) { return "", nil }
 
 func (d *SimpleDomain) Query3(one int, two string, three bool) int { return 1 }
 
+func (d *SimpleDomain) Query4() Struct1 { return Struct1{} }
+
 // Command 1 Doc
 func (d *SimpleDomain) Command1() {}
 
