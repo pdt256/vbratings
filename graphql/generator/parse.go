@@ -138,7 +138,7 @@ type ReturnType struct {
 	Type    string
 }
 
-func ParseDomain(node *ast.File) *Root {
+func ParseDomain(node ast.Node) *Root {
 	visitor := Visitor{}
 	ast.Walk(&visitor, node)
 

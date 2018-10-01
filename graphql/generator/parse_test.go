@@ -2,6 +2,7 @@ package generator_test
 
 import (
 	"bytes"
+	"go/ast"
 	"go/parser"
 	"go/token"
 	"testing"
@@ -12,95 +13,198 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_Parse_Queries(t *testing.T) {
+func Test_Parse_QueryWithNoParams(t *testing.T) {
 	// Given
-	filePath := `./testdata/simple_domain_queries.go`
-	fs := token.NewFileSet()
-	node, err := parser.ParseFile(fs, filePath, nil, parser.ParseComments)
-	require.NoError(t, err)
+	code := `func (d *Domain) Query() bool { return true }`
+	node := getNodeForFunction(t, code)
 
 	// When
 	domainRoot := generator.ParseDomain(node)
 
 	// Then
 	domain := domainRoot.Domains[0]
-	assert.Equal(t, "SimpleDomainQueries", domain.Name)
-
-	queryWithNoParams := domain.Queries[0]
-	assert.Equal(t, "QueryWithNoParams", queryWithNoParams.Name)
-	assert.Equal(t, 0, len(queryWithNoParams.Params))
-	assert.Equal(t, "bool", queryWithNoParams.ReturnTypes[0].Type)
-
-	queryWithDoc := domain.Queries[1]
-	assert.Equal(t, "QueryWithDoc", queryWithDoc.Name)
-	assert.Equal(t, "// Line 1", queryWithDoc.Docs[0])
-	assert.Equal(t, "// Line 2", queryWithDoc.Docs[1])
-
-	queryWithParams := domain.Queries[2]
-	assert.Equal(t, "QueryWithParams", queryWithParams.Name)
-	assert.Equal(t, "oneInt", queryWithParams.Params[0].Name)
-	assert.Equal(t, "int", queryWithParams.Params[0].Type)
-	assert.Equal(t, "twoString", queryWithParams.Params[1].Name)
-	assert.Equal(t, "string", queryWithParams.Params[1].Type)
-	assert.Equal(t, "threeBool", queryWithParams.Params[2].Name)
-	assert.Equal(t, "bool", queryWithParams.Params[2].Type)
-	assert.Equal(t, "bool", queryWithParams.ReturnTypes[0].Type)
-
-	queryWithArrayIdentReturn := domain.Queries[3]
-	assert.Equal(t, "QueryWithArrayIdentReturn", queryWithArrayIdentReturn.Name)
-	assert.Equal(t, "[]bool", queryWithArrayIdentReturn.ReturnTypes[0].Type)
-
-	queryWithStructReturn := domain.Queries[4]
-	assert.Equal(t, "QueryWithStructReturn", queryWithStructReturn.Name)
-	assert.Equal(t, "", queryWithStructReturn.ReturnTypes[0].Package)
-	assert.Equal(t, "SimpleStruct", queryWithStructReturn.ReturnTypes[0].Type)
-
-	queryWithSelectorStructReturn := domain.Queries[5]
-	assert.Equal(t, "QueryWithSelectorStructReturn", queryWithSelectorStructReturn.Name)
-	assert.Equal(t, "sample", queryWithSelectorStructReturn.ReturnTypes[0].Package)
-	assert.Equal(t, "SimpleStruct", queryWithSelectorStructReturn.ReturnTypes[0].Type)
-
-	queryWithArrayStructReturn := domain.Queries[6]
-	assert.Equal(t, "QueryWithArrayStructReturn", queryWithArrayStructReturn.Name)
-	assert.Equal(t, "", queryWithArrayStructReturn.ReturnTypes[0].Package)
-	assert.Equal(t, "[]SimpleStruct", queryWithArrayStructReturn.ReturnTypes[0].Type)
-
-	queryWithArraySelectorStructReturn := domain.Queries[7]
-	assert.Equal(t, "QueryWithArraySelectorStructReturn", queryWithArraySelectorStructReturn.Name)
-	assert.Equal(t, "sample", queryWithArraySelectorStructReturn.ReturnTypes[0].Package)
-	assert.Equal(t, "[]SimpleStruct", queryWithArraySelectorStructReturn.ReturnTypes[0].Type)
+	query := domain.Queries[0]
+	assert.Equal(t, "Query", query.Name)
+	assert.Equal(t, 0, len(query.Params))
+	assert.Equal(t, "bool", query.ReturnTypes[0].Type)
 }
 
-func Test_Parse_Commands(t *testing.T) {
+func Test_Parse_QueryWithDoc(t *testing.T) {
 	// Given
-	filePath := `./testdata/simple_domain_commands.go`
-	fs := token.NewFileSet()
-	node, err := parser.ParseFile(fs, filePath, nil, parser.ParseComments)
-	require.NoError(t, err)
+	code := `// Line 1
+// Line 2
+func (d *Domain) Query() bool { return true }`
+	node := getNodeForFunction(t, code)
 
 	// When
 	domainRoot := generator.ParseDomain(node)
 
 	// Then
 	domain := domainRoot.Domains[0]
-	assert.Equal(t, "SimpleDomainCommands", domain.Name)
+	query := domain.Queries[0]
+	assert.Equal(t, "// Line 1", query.Docs[0])
+	assert.Equal(t, "// Line 2", query.Docs[1])
+}
 
-	commandWithNoReturn := domain.Commands[0]
-	assert.Equal(t, "CommandWithNoReturn", commandWithNoReturn.Name)
-	assert.Equal(t, 0, len(commandWithNoReturn.Params))
-	assert.Equal(t, 0, len(commandWithNoReturn.ReturnTypes))
+func Test_Parse_QueryWithParams(t *testing.T) {
+	// Given
+	code := `func (d *Domain) Query(one int, two string, three bool) bool { return true }`
+	node := getNodeForFunction(t, code)
 
-	commandReturnsError := domain.Commands[1]
-	assert.Equal(t, "CommandReturnsError", commandReturnsError.Name)
-	assert.Equal(t, 0, len(commandReturnsError.Params))
-	assert.Equal(t, "error", commandReturnsError.ReturnTypes[0].Type)
+	// When
+	domainRoot := generator.ParseDomain(node)
 
-	commandWithParams := domain.Commands[2]
-	assert.Equal(t, "oneInt", commandWithParams.Params[0].Name)
-	assert.Equal(t, "int", commandWithParams.Params[0].Type)
-	assert.Equal(t, "twoString", commandWithParams.Params[1].Name)
-	assert.Equal(t, "string", commandWithParams.Params[1].Type)
-	assert.Equal(t, "threeBool", commandWithParams.Params[2].Name)
+	// Then
+	domain := domainRoot.Domains[0]
+	query := domain.Queries[0]
+	assert.Equal(t, "one", query.Params[0].Name)
+	assert.Equal(t, "int", query.Params[0].Type)
+	assert.Equal(t, "two", query.Params[1].Name)
+	assert.Equal(t, "string", query.Params[1].Type)
+	assert.Equal(t, "three", query.Params[2].Name)
+	assert.Equal(t, "bool", query.Params[2].Type)
+}
+
+func Test_Parse_QueryWithArrayIdentReturn(t *testing.T) {
+	// Given
+	code := `func (d *Domain) Query() []bool { return []bool{true} }`
+	node := getNodeForFunction(t, code)
+
+	// When
+	domainRoot := generator.ParseDomain(node)
+
+	// Then
+	domain := domainRoot.Domains[0]
+	query := domain.Queries[0]
+	assert.Equal(t, "[]bool", query.ReturnTypes[0].Type)
+}
+
+func Test_Parse_QueryWithStructReturn(t *testing.T) {
+	// Given
+	code := `func (d *Domain) Query() SimpleStruct { return SimpleStruct{} }`
+	node := getNodeForFunction(t, code)
+
+	// When
+	domainRoot := generator.ParseDomain(node)
+
+	// Then
+	domain := domainRoot.Domains[0]
+	query := domain.Queries[0]
+	assert.Equal(t, "", query.ReturnTypes[0].Package)
+	assert.Equal(t, "SimpleStruct", query.ReturnTypes[0].Type)
+}
+
+func Test_Parse_QueryWithPackageStructReturn(t *testing.T) {
+	// Given
+	code := `func (d *Domain) Query() testing.discard { return testing.discard{} }`
+	node := getNodeForFunction(t, code)
+
+	// When
+	domainRoot := generator.ParseDomain(node)
+
+	// Then
+	domain := domainRoot.Domains[0]
+	query := domain.Queries[0]
+	assert.Equal(t, "testing", query.ReturnTypes[0].Package)
+	assert.Equal(t, "discard", query.ReturnTypes[0].Type)
+}
+
+func Test_Parse_QueryWithArrayStructReturn(t *testing.T) {
+	// Given
+	code := `func (d *Domain) Query() SimpleStruct { return SimpleStruct{} }`
+	node := getNodeForFunction(t, code)
+
+	// When
+	domainRoot := generator.ParseDomain(node)
+
+	// Then
+	domain := domainRoot.Domains[0]
+	query := domain.Queries[0]
+	assert.Equal(t, "", query.ReturnTypes[0].Package)
+	assert.Equal(t, "SimpleStruct", query.ReturnTypes[0].Type)
+}
+
+func Test_Parse_QueryWithArrayPackageStructReturn(t *testing.T) {
+	// Given
+	code := `func (d *Domain) Query() []testing.discard { return []testing.discard{} }`
+	node := getNodeForFunction(t, code)
+
+	// When
+	domainRoot := generator.ParseDomain(node)
+
+	// Then
+	domain := domainRoot.Domains[0]
+	query := domain.Queries[0]
+	assert.Equal(t, "testing", query.ReturnTypes[0].Package)
+	assert.Equal(t, "[]discard", query.ReturnTypes[0].Type)
+}
+
+func Test_Parse_CommandWithNoReturn(t *testing.T) {
+	// Given
+	code := `func (d *Domain) Command() {}`
+	node := getNodeForFunction(t, code)
+
+	// When
+	domainRoot := generator.ParseDomain(node)
+
+	// Then
+	domain := domainRoot.Domains[0]
+	command := domain.Commands[0]
+	assert.Equal(t, "Command", command.Name)
+	assert.Equal(t, 0, len(command.Params))
+	assert.Equal(t, 0, len(command.ReturnTypes))
+}
+
+func Test_Parse_CommandReturnsError(t *testing.T) {
+	// Given
+	code := `func (d *Domain) Command() error { return nil }`
+	node := getNodeForFunction(t, code)
+
+	// When
+	domainRoot := generator.ParseDomain(node)
+
+	// Then
+	domain := domainRoot.Domains[0]
+	command := domain.Commands[0]
+	assert.Equal(t, "Command", command.Name)
+	assert.Equal(t, 0, len(command.Params))
+	assert.Equal(t, "error", command.ReturnTypes[0].Type)
+}
+
+func Test_Parse_CommandWithDoc(t *testing.T) {
+	// Given
+	code := `// Line 1
+// Line 2
+func (d *Domain) Command() {}`
+	node := getNodeForFunction(t, code)
+
+	// When
+	domainRoot := generator.ParseDomain(node)
+
+	// Then
+	domain := domainRoot.Domains[0]
+	command := domain.Commands[0]
+	assert.Equal(t, "// Line 1", command.Docs[0])
+	assert.Equal(t, "// Line 2", command.Docs[1])
+}
+
+func Test_Parse_CommandWithParams(t *testing.T) {
+	// Given
+	code := `func (d *Domain) Command(one int, two string, three bool) {}`
+	node := getNodeForFunction(t, code)
+
+	// When
+	domainRoot := generator.ParseDomain(node)
+
+	// Then
+	domain := domainRoot.Domains[0]
+	command := domain.Commands[0]
+	assert.Equal(t, "one", command.Params[0].Name)
+	assert.Equal(t, "int", command.Params[0].Type)
+	assert.Equal(t, "two", command.Params[1].Name)
+	assert.Equal(t, "string", command.Params[1].Type)
+	assert.Equal(t, "three", command.Params[2].Name)
+	assert.Equal(t, "bool", command.Params[2].Type)
 }
 
 func Test_GraphQLSchema(t *testing.T) {
@@ -156,4 +260,15 @@ type SimpleDomainCommands {
 	assert.Equal(t, expectedSchema, schema.String())
 	_, err := graphql.ParseSchema(schema.String(), nil)
 	require.NoError(t, err)
+}
+
+func getNodeForFunction(t *testing.T, function string) *ast.File {
+	code := `package test
+type Domain struct{}
+` + function
+
+	fs := token.NewFileSet()
+	node, err := parser.ParseFile(fs, "", code, parser.ParseComments)
+	require.NoError(t, err)
+	return node
 }
