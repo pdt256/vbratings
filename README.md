@@ -22,6 +22,7 @@ go test ./...
 
 - [BVBInfo Importer](bvbinfo/README.md)
 - [CBVA Importer](cbva/README.md)
+- [GraphQL API](graphql/README.md)
 
 ---
 
@@ -107,85 +108,6 @@ Top 10 male Players in 2018
 |   1853 | Daniele Lupo            |          282 |
 |   1850 | Christian Sandlie Sørum |          131 |
 +--------+-------------------------+--------------+
-```
-
-### GraphQL
-
-```
-$ go run cmd/vbratings-graphql/main.go --help
-Volleyball Ratings GraphQL
-Usage:
-  -dbPath string
-        sqlite db path (default "./_data/vb.db")
-  -port int
-        port (default 8080)
-```
-
-#### Start GraphQL API Server
-
-```
-$ go run cmd/vbratings-graphql/main.go
-Volleyball Ratings GraphQL
-Starting on port 8080
-```
-
-#### Example Query
-
-```
-query($year: Int!, $gender: String!, $limit: Int!) {
-  playerRatingQueries {
-    getTopPlayerRatings(year: $year, gender: $gender, limit: $limit) {
-      player {
-        Name
-      }
-      playerRating {
-        Rating
-        TotalMatches
-      }
-    }
-  }
-}
-```
-
-#### Variables
-```
-{
-  "year": 2018,
-  "gender": "male",
-  "limit": 2
-}
-```
-
-#### Example Response
-
-```
-$ curl -s XPOST -d '{"query": "query($year: Int!, $gender: String!, $limit: Int!) { playerRatingQueries { getTopPlayerRatings(year: $year, gender: $gender, limit: $limit) { player { Name } playerRating { Rating TotalMatches } } } }", "variables": {"year": 2018, "gender": "male", "limit": 2} }' localhost:8080/query | python -m json.tool
-{
-    "data": {
-        "playerRatingQueries": {
-            "getTopPlayerRatings": [
-                {
-                    "player": {
-                        "Name": "Nick Lucena"
-                    },
-                    "playerRating": {
-                        "Rating": 1921,
-                        "TotalMatches": 841
-                    }
-                },
-                {
-                    "player": {
-                        "Name": "Phil Dalhausser"
-                    },
-                    "playerRating": {
-                        "Rating": 1894,
-                        "TotalMatches": 885
-                    }
-                }
-            ]
-        }
-    }
-}
 ```
 
 ---
