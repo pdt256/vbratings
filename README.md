@@ -36,16 +36,8 @@ Usage:
         calculate for all years
   -dbPath string
         sqlite db path (default "./_data/vb.db")
-  -init
-        init db
   -year int
         year (default 2018)
-```
-
-```
-$ go run cmd/calculate/main.go -init
-Volleyball Ratings Calculator
-Initializing player_rating DB
 ```
 
 ```
@@ -122,7 +114,6 @@ Top 10 male Players in 2018
     from Bvbinfo; so that I can see more accurate player rankings among lower
     rated players.
     - Import results from CBVA
-    - Normalize player ID to work across tournament organizations by using full name slugs
     - Calculate rankings based on tournament results in addition to match results.
 
 ## License

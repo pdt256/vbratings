@@ -47,13 +47,13 @@ func Test_Mutation_PlayerCommands_Create(t *testing.T) {
 	configuration := app.NewConfiguration(":memory:")
 	application := app.New(configuration)
 	handler := graphql.NewHandler(application)
-	mutation := `mutation ($bvbId: Int!, $name: String!, $imgUrl: String!) {
+	mutation := `mutation ($id: String!, $name: String!, $imgUrl: String!) {
 		playerCommands {
-			create(bvbId: $bvbId, name: $name, imgUrl: $imgUrl)
+			create(Id: $id, name: $name, imgUrl: $imgUrl)
 		}
 	}`
 	variables := `{
-		"bvbId": 1,
+		"id": "b0282573b90a4f1591888820b63906f6",
 		"name": "John Doe",
 		"imgUrl": "http://example.com/1.jpg"
 	}`

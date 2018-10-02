@@ -15,12 +15,14 @@ type playerRatingRepository struct {
 var _ vbratings.PlayerRatingRepository = (*playerRatingRepository)(nil)
 
 func NewPlayerRatingRepository(db *sql.DB) *playerRatingRepository {
-	return &playerRatingRepository{db}
+	r := &playerRatingRepository{db}
+	r.migrateDB()
+	return r
 }
 
-func (r *playerRatingRepository) MigrateDB() {
+func (r *playerRatingRepository) migrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS player_rating (
-			playerId INT NOT NULL
+			playerId TEXT NOT NULL
 			,year INT NOT NULL
 			,gender INT NOT NULL
 			,seedRating INT NOT NULL
@@ -51,7 +53,7 @@ func (r *playerRatingRepository) Create(playerRating vbratings.PlayerRating) err
 	return nil
 }
 
-func (r *playerRatingRepository) GetPlayerRatingByYear(playerId int, year int) (*vbratings.PlayerRating, error) {
+func (r *playerRatingRepository) GetPlayerRatingByYear(playerId string, year int) (*vbratings.PlayerRating, error) {
 	var pr vbratings.PlayerRating
 	row := r.db.QueryRow("SELECT playerId, year, gender, seedRating, rating, totalMatches FROM player_rating WHERE playerId = $1 AND year = $2", playerId, year)
 	err := row.Scan(
@@ -76,10 +78,10 @@ func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender vbratings.
 	var playerAndRatings []vbratings.PlayerAndRating
 
 	rows, queryErr := r.db.Query(`SELECT
-		p.bvbId, p.name, p.imgUrl,
+		p.id, p.name, p.imgUrl,
 		pr.playerId, pr.year, pr.seedRating, pr.rating, pr.totalMatches
 		FROM player_rating AS pr
-		INNER JOIN player AS p ON p.bvbId = pr.playerId
+		INNER JOIN player AS p ON p.id = pr.playerId
 		WHERE pr.year = $1 AND pr.gender = $2
 		ORDER BY rating DESC
 		LIMIT $3;`, year, gender, limit)
@@ -90,7 +92,7 @@ func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender vbratings.
 	for rows.Next() {
 		var par vbratings.PlayerAndRating
 		checkError(rows.Scan(
-			&par.BvbId,
+			&par.Id,
 			&par.Name,
 			&par.ImgUrl,
 			&par.PlayerId,

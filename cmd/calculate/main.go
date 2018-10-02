@@ -16,19 +16,12 @@ func main() {
 	dbPath := flag.String("dbPath", "./_data/vb.db", "sqlite db path")
 	allYears := flag.Bool("allYears", false, "calculate for all years")
 	year := flag.Int("year", 2018, "year")
-	shouldInitDb := flag.Bool("init", false, "init db")
 
 	flag.Parse()
 
 	db := sqlite.NewFileDB(*dbPath)
 	matchRepository := sqlite.NewMatchRepository(db)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-
-	if *shouldInitDb {
-		fmt.Println("Initializing player_rating DB")
-		playerRatingRepository.MigrateDB()
-		return
-	}
 
 	var totalCalculated int
 	if *allYears {

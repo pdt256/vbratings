@@ -2,7 +2,6 @@ package sqlite
 
 import (
 	"database/sql"
-	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/pdt256/vbratings"
@@ -15,10 +14,12 @@ type tournamentRepository struct {
 var _ vbratings.TournamentRepository = (*tournamentRepository)(nil)
 
 func NewTournamentRepository(db *sql.DB) *tournamentRepository {
-	return &tournamentRepository{db}
+	r := &tournamentRepository{db}
+	r.migrateDB()
+	return r
 }
 
-func (r *tournamentRepository) MigrateDB() {
+func (r *tournamentRepository) migrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS tournament_result (
 			id TEXT NOT NULL PRIMARY KEY
 			,player1Name TEXT NOT NULL
@@ -27,10 +28,7 @@ func (r *tournamentRepository) MigrateDB() {
 		);`
 
 	_, createError := r.db.Exec(sqlStmt)
-	if createError != nil {
-		log.Printf("%q: %s\n", createError, sqlStmt)
-		return
-	}
+	checkError(createError)
 }
 
 func (r *tournamentRepository) AddTournamentResult(tournamentResult vbratings.TournamentResult, id string) {

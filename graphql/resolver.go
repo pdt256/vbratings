@@ -64,14 +64,14 @@ type PlayerCommands struct {
 }
 
 type playerCreateInput struct {
-	BvbId  int32
+	Id     string
 	Name   string
 	ImgUrl string
 }
 
 func (c *PlayerCommands) Create(args playerCreateInput) (bool, error) {
 	return true, c.app.Player.Create(
-		int(args.BvbId),
+		args.Id,
 		args.Name,
 		args.ImgUrl)
 }
@@ -81,7 +81,7 @@ type PlayerRatingCommands struct {
 }
 
 func (c *PlayerRatingCommands) Create(args struct {
-	PlayerId     int32
+	PlayerId     string
 	Year         int32
 	Gender       string
 	SeedRating   int32
@@ -89,7 +89,7 @@ func (c *PlayerRatingCommands) Create(args struct {
 	TotalMatches int32
 }) (bool, error) {
 	return true, c.app.PlayerRating.Create(
-		int(args.PlayerId),
+		args.PlayerId,
 		int(args.Year),
 		args.Gender,
 		int(args.SeedRating),
@@ -115,8 +115,8 @@ type PlayerResolver struct {
 	player vbratings.Player
 }
 
-func (p *PlayerResolver) BvbId() int32 {
-	return int32(p.player.BvbId)
+func (p *PlayerResolver) Id() string {
+	return p.player.Id
 }
 
 func (p *PlayerResolver) Name() string {
@@ -131,8 +131,8 @@ type PlayerRatingResolver struct {
 	playerRating vbratings.PlayerRating
 }
 
-func (pr *PlayerRatingResolver) PlayerId() int32 {
-	return int32(pr.playerRating.PlayerId)
+func (pr *PlayerRatingResolver) PlayerId() string {
+	return pr.playerRating.PlayerId
 }
 
 func (pr *PlayerRatingResolver) Year() int32 {
@@ -182,7 +182,7 @@ func getSchemaString() string {
 
 		type PlayerCommands {
 			create(
-				bvbId: Int!
+				Id: String!
 				name: String!
 				imgUrl: String!
 			): Boolean!
@@ -191,7 +191,7 @@ func getSchemaString() string {
 		type PlayerRatingCommands {
 			# Create player rating
 			create(
-				playerId: Int!
+				playerId: String!
 				year: Int!
 				gender: String!
 				seedRating: Int!
@@ -201,13 +201,13 @@ func getSchemaString() string {
 		}
 
 		type Player {
-			BvbId: Int!
+			Id: String!
 			Name: String!
 			ImgUrl: String!
 		}
 
 		type PlayerRating {
-			PlayerId: Int!
+			PlayerId: String!
 			Year: Int!
 			Gender: String!
 			SeedRating: Int!

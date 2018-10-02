@@ -5,10 +5,10 @@ import (
 )
 
 type Match struct {
-	PlayerAId int
-	PlayerBId int
-	PlayerCId int
-	PlayerDId int
+	PlayerAId string
+	PlayerBId string
+	PlayerCId string
+	PlayerDId string
 	IsForfeit bool
 	Set1      string
 	Set2      string
@@ -20,7 +20,7 @@ type Match struct {
 type MatchRepository interface {
 	Create(match Match, id string)
 	Find(id string) *Match
-	GetAllPlayerIds() []int
+	GetAllPlayerIds() []string
 	GetAllMatchesByYear(year int) []Match
 }
 

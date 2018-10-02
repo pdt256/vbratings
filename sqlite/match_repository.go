@@ -2,7 +2,6 @@ package sqlite
 
 import (
 	"database/sql"
-	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/pdt256/vbratings"
@@ -15,10 +14,12 @@ type matchRepository struct {
 var _ vbratings.MatchRepository = (*matchRepository)(nil)
 
 func NewMatchRepository(db *sql.DB) *matchRepository {
-	return &matchRepository{db}
+	r := &matchRepository{db}
+	r.migrateDB()
+	return r
 }
 
-func (r *matchRepository) MigrateDB() {
+func (r *matchRepository) migrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS match (
 			id TEXT NOT NULL PRIMARY KEY
 			,playerA_id TEXT NOT NULL
@@ -34,10 +35,7 @@ func (r *matchRepository) MigrateDB() {
 		);`
 
 	_, createError := r.db.Exec(sqlStmt)
-	if createError != nil {
-		log.Printf("%q: %s\n", createError, sqlStmt)
-		return
-	}
+	checkError(createError)
 }
 
 func (r *matchRepository) Create(match vbratings.Match, id string) {
@@ -77,8 +75,8 @@ func (r *matchRepository) Find(id string) *vbratings.Match {
 	return &m
 }
 
-func (r *matchRepository) GetAllPlayerIds() []int {
-	var playerIds []int
+func (r *matchRepository) GetAllPlayerIds() []string {
+	var playerIds []string
 
 	rows, queryErr := r.db.Query("SELECT *" +
 		" FROM (SELECT playerA_id AS id FROM match" +
@@ -91,7 +89,7 @@ func (r *matchRepository) GetAllPlayerIds() []int {
 	defer rows.Close()
 
 	for rows.Next() {
-		var playerId int
+		var playerId string
 		checkError(rows.Scan(&playerId))
 
 		playerIds = append(playerIds, playerId)

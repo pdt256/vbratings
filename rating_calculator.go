@@ -9,14 +9,14 @@ const defaultSeedRating = 1500
 type ratingCalculator struct {
 	matchRepository        MatchRepository
 	playerRatingRepository PlayerRatingRepository
-	playerRatings          map[int]PlayerRating
+	playerRatings          map[string]PlayerRating
 }
 
 func NewRatingCalculator(matchRepository MatchRepository, playerRatingRepository PlayerRatingRepository) *ratingCalculator {
 	return &ratingCalculator{
 		matchRepository:        matchRepository,
 		playerRatingRepository: playerRatingRepository,
-		playerRatings:          make(map[int]PlayerRating),
+		playerRatings:          make(map[string]PlayerRating),
 	}
 }
 
@@ -65,7 +65,7 @@ func (c *ratingCalculator) CalculateRatingsByYear(year int) int {
 	return len(c.playerRatings)
 }
 
-func (c *ratingCalculator) getPlayerRating(playerId int, year int) PlayerRating {
+func (c *ratingCalculator) getPlayerRating(playerId string, year int) PlayerRating {
 	if rating, ok := c.playerRatings[playerId]; ok {
 		return rating
 	}

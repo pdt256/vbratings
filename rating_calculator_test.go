@@ -8,12 +8,19 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var (
+	playerAId = "98556e2665224abc99c2d07d621befa7"
+	playerBId = "7a30fab9631a442d83b70c9bf1293be8"
+	playerCId = "91f67d94a9a54c91b9f0ee0efc497c28"
+	playerDId = "ee655d72d148459ca10d05cce939bcab"
+)
+
 func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
 	match := vbratings.Match{
-		PlayerAId: 1,
-		PlayerBId: 2,
-		PlayerCId: 3,
-		PlayerDId: 4,
+		PlayerAId: playerAId,
+		PlayerBId: playerBId,
+		PlayerCId: playerCId,
+		PlayerDId: playerDId,
 		IsForfeit: false,
 		Set1:      "17-21",
 		Set2:      "21-15",
@@ -22,20 +29,18 @@ func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
 	}
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.MigrateDB()
 	matchRepository.Create(match, "123-abc")
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-	playerRatingRepository.MigrateDB()
 	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
 	// When
 	ratingCalculator.CalculateRatingsByYear(2018)
 
 	// Then
-	playerRatingA, _ := playerRatingRepository.GetPlayerRatingByYear(1, 2018)
-	playerRatingB, _ := playerRatingRepository.GetPlayerRatingByYear(2, 2018)
-	playerRatingC, _ := playerRatingRepository.GetPlayerRatingByYear(3, 2018)
-	playerRatingD, _ := playerRatingRepository.GetPlayerRatingByYear(4, 2018)
+	playerRatingA, _ := playerRatingRepository.GetPlayerRatingByYear(playerAId, 2018)
+	playerRatingB, _ := playerRatingRepository.GetPlayerRatingByYear(playerBId, 2018)
+	playerRatingC, _ := playerRatingRepository.GetPlayerRatingByYear(playerCId, 2018)
+	playerRatingD, _ := playerRatingRepository.GetPlayerRatingByYear(playerDId, 2018)
 	assertPlayerRating(t, playerRatingA, 1500, 1516, 2018)
 	assertPlayerRating(t, playerRatingB, 1500, 1516, 2018)
 	assertPlayerRating(t, playerRatingC, 1500, 1484, 2018)
@@ -45,10 +50,10 @@ func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
 func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPreviousMatch(t *testing.T) {
 	// Given
 	match1 := vbratings.Match{
-		PlayerAId: 1,
-		PlayerBId: 2,
-		PlayerCId: 3,
-		PlayerDId: 4,
+		PlayerAId: playerAId,
+		PlayerBId: playerBId,
+		PlayerCId: playerCId,
+		PlayerDId: playerDId,
 		IsForfeit: false,
 		Set1:      "17-21",
 		Set2:      "21-15",
@@ -57,10 +62,10 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 		Gender:    vbratings.Female,
 	}
 	match2 := vbratings.Match{
-		PlayerAId: 1,
-		PlayerBId: 2,
-		PlayerCId: 3,
-		PlayerDId: 4,
+		PlayerAId: playerAId,
+		PlayerBId: playerBId,
+		PlayerCId: playerCId,
+		PlayerDId: playerDId,
 		IsForfeit: false,
 		Set1:      "17-21",
 		Set2:      "21-15",
@@ -70,21 +75,19 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 	}
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.MigrateDB()
 	matchRepository.Create(match1, "match1")
 	matchRepository.Create(match2, "match2")
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-	playerRatingRepository.MigrateDB()
 	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
 	// When
 	ratingCalculator.CalculateRatingsByYear(2018)
 
 	// Then
-	playerRatingA, _ := playerRatingRepository.GetPlayerRatingByYear(1, 2018)
-	playerRatingB, _ := playerRatingRepository.GetPlayerRatingByYear(2, 2018)
-	playerRatingC, _ := playerRatingRepository.GetPlayerRatingByYear(3, 2018)
-	playerRatingD, _ := playerRatingRepository.GetPlayerRatingByYear(4, 2018)
+	playerRatingA, _ := playerRatingRepository.GetPlayerRatingByYear(playerAId, 2018)
+	playerRatingB, _ := playerRatingRepository.GetPlayerRatingByYear(playerBId, 2018)
+	playerRatingC, _ := playerRatingRepository.GetPlayerRatingByYear(playerCId, 2018)
+	playerRatingD, _ := playerRatingRepository.GetPlayerRatingByYear(playerDId, 2018)
 	assertPlayerRating(t, playerRatingA, 1500, 1530, 2018)
 	assertPlayerRating(t, playerRatingB, 1500, 1530, 2018)
 	assertPlayerRating(t, playerRatingC, 1500, 1469, 2018)
@@ -96,16 +99,16 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRating(t *testing.T) {
 	// Given
 	playerRating := vbratings.PlayerRating{
-		PlayerId:   1,
+		PlayerId:   playerAId,
 		Year:       2017,
 		SeedRating: 1500,
 		Rating:     1600,
 	}
 	match := vbratings.Match{
-		PlayerAId: 1,
-		PlayerBId: 2,
-		PlayerCId: 3,
-		PlayerDId: 4,
+		PlayerAId: playerAId,
+		PlayerBId: playerBId,
+		PlayerCId: playerCId,
+		PlayerDId: playerDId,
 		IsForfeit: false,
 		Set1:      "17-21",
 		Set2:      "21-15",
@@ -114,10 +117,8 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRa
 	}
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.MigrateDB()
 	matchRepository.Create(match, "123-abc")
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-	playerRatingRepository.MigrateDB()
 	playerRatingRepository.Create(playerRating)
 	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
@@ -125,10 +126,10 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRa
 	ratingCalculator.CalculateRatingsByYear(2018)
 
 	// Then
-	playerRatingA, _ := playerRatingRepository.GetPlayerRatingByYear(1, 2018)
-	playerRatingB, _ := playerRatingRepository.GetPlayerRatingByYear(2, 2018)
-	playerRatingC, _ := playerRatingRepository.GetPlayerRatingByYear(3, 2018)
-	playerRatingD, _ := playerRatingRepository.GetPlayerRatingByYear(4, 2018)
+	playerRatingA, _ := playerRatingRepository.GetPlayerRatingByYear(playerAId, 2018)
+	playerRatingB, _ := playerRatingRepository.GetPlayerRatingByYear(playerBId, 2018)
+	playerRatingC, _ := playerRatingRepository.GetPlayerRatingByYear(playerCId, 2018)
+	playerRatingD, _ := playerRatingRepository.GetPlayerRatingByYear(playerDId, 2018)
 	assertPlayerRating(t, playerRatingA, 1600, 1611, 2018)
 	assertPlayerRating(t, playerRatingB, 1500, 1516, 2018)
 	assertPlayerRating(t, playerRatingC, 1500, 1486, 2018)

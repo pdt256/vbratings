@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/pdt256/vbratings/bvbinfo"
+	"github.com/pdt256/vbratings/pkg/uuid"
 	"github.com/pdt256/vbratings/sqlite"
 )
 
@@ -14,28 +15,25 @@ func main() {
 	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
 	dbPath := flag.String("dbPath", "./_data/vb.db", "sqlite db path")
-	shouldInitDb := flag.Bool("init", false, "init db")
 
 	flag.Parse()
 
 	db := sqlite.NewFileDB(*dbPath)
 	matchRepository := sqlite.NewMatchRepository(db)
 	playerRepository := sqlite.NewPlayerRepository(db)
+	bvbInfoRepository := bvbinfo.NewRepositoryWithCaching(db)
 
-	if *shouldInitDb {
-		fmt.Println("Initializing DB")
-		matchRepository.MigrateDB()
-		playerRepository.MigrateDB()
-		return
-	}
+	uuidGenerator := uuid.NewService()
 
-	importer := bvbinfo.NewImporter(matchRepository, playerRepository)
+	importer := bvbinfo.NewImporter(
+		matchRepository,
+		playerRepository,
+		bvbInfoRepository,
+		uuidGenerator,
+	)
 
 	fmt.Println("Importing Matches")
-	totalMatchesImported := importer.ImportAllSeasons()
-	fmt.Printf("\n%d matches imported\n", totalMatchesImported)
-
-	fmt.Println("Importing Players")
-	totalPlayersImported := importer.ImportAllPlayers()
-	fmt.Printf("\n%d players imported\n", totalPlayersImported)
+	totalMatches, totalPlayers := importer.ImportAllSeasons()
+	fmt.Printf("\n%d totalMatches imported\n", totalMatches)
+	fmt.Printf("%d totalPlayers imported\n", totalPlayers)
 }

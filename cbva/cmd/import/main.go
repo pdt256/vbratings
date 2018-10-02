@@ -16,19 +16,12 @@ func main() {
 	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 
 	dbPath := flag.String("dbPath", "./_data/vb.db", "sqlite db path")
-	shouldInitDb := flag.Bool("init", false, "init db")
 
 	flag.Parse()
 
 	db := sqlite.NewFileDB(*dbPath)
 	tournamentRepository := sqlite.NewTournamentRepository(db)
 	playerRepository := sqlite.NewPlayerRepository(db)
-
-	if *shouldInitDb {
-		fmt.Println("Initializing DB")
-		tournamentRepository.MigrateDB()
-		return
-	}
 
 	fmt.Println("Importing Tournaments")
 

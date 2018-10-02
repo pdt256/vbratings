@@ -15,28 +15,27 @@ type playerRepository struct {
 var _ vbratings.PlayerRepository = (*playerRepository)(nil)
 
 func NewPlayerRepository(db *sql.DB) *playerRepository {
-	return &playerRepository{db}
+	r := &playerRepository{db}
+	r.migrateDB()
+	return r
 }
 
-func (r *playerRepository) MigrateDB() {
+func (r *playerRepository) migrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS player (
-			bvbId TEXT NOT NULL PRIMARY KEY
+			id TEXT NOT NULL PRIMARY KEY
 			,name TEXT NOT NULL
 			,imgUrl TEXT NOT NULL
 		);`
 
 	_, createError := r.db.Exec(sqlStmt)
-	if createError != nil {
-		log.Printf("%q: %s\n", createError, sqlStmt)
-		return
-	}
+	checkError(createError)
 }
 
-func (r *playerRepository) GetPlayer(bvbId int) (*vbratings.Player, error) {
+func (r *playerRepository) GetPlayer(id string) (*vbratings.Player, error) {
 	var p vbratings.Player
-	row := r.db.QueryRow("SELECT bvbId, name, imgUrl FROM player WHERE bvbId = $1", bvbId)
+	row := r.db.QueryRow("SELECT id, name, imgUrl FROM player WHERE id = $1", id)
 	err := row.Scan(
-		&p.BvbId,
+		&p.Id,
 		&p.Name,
 		&p.ImgUrl,
 	)
@@ -52,8 +51,8 @@ func (r *playerRepository) GetPlayer(bvbId int) (*vbratings.Player, error) {
 
 func (r *playerRepository) Create(player vbratings.Player) error {
 	_, err := r.db.Exec(
-		"INSERT INTO player(bvbId, name, imgUrl) VALUES ($1, $2, $3)",
-		player.BvbId,
+		"INSERT INTO player(id, name, imgUrl) VALUES ($1, $2, $3)",
+		player.Id,
 		player.Name,
 		player.ImgUrl,
 	)

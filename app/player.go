@@ -10,11 +10,11 @@ type Player struct {
 
 // Create Player
 func (p *Player) Create(
-	bvbId int,
+	id string,
 	name string,
 	imgUrl string) error {
 	player := vbratings.Player{
-		BvbId:  bvbId,
+		Id:     id,
 		Name:   name,
 		ImgUrl: imgUrl,
 	}
@@ -22,6 +22,6 @@ func (p *Player) Create(
 }
 
 // Get Player by id
-func (p *Player) GetPlayer(bvbId int) (*vbratings.Player, error) {
-	return p.playerRepository.GetPlayer(bvbId)
+func (p *Player) GetPlayer(id string) (*vbratings.Player, error) {
+	return p.playerRepository.GetPlayer(id)
 }

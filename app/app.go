@@ -12,10 +12,7 @@ type App struct {
 func New(configuration *Configuration) *App {
 	db := sqlite.NewFileDB(configuration.DbPath)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-	playerRatingRepository.MigrateDB()
-
 	playerRepository := sqlite.NewPlayerRepository(db)
-	playerRepository.MigrateDB()
 
 	return &App{
 		PlayerRating: PlayerRating{playerRatingRepository},

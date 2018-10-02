@@ -18,7 +18,7 @@ func (pr *PlayerRating) GetTopPlayerRatings(year int, gender string, limit int) 
 
 // Create player rating
 func (pr *PlayerRating) Create(
-	playerId int,
+	playerId string,
 	year int,
 	gender string,
 	seedRating int,

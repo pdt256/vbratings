@@ -8,14 +8,6 @@ CBVA Importer
 Usage:
   -dbPath string
         sqlite db path (default "./_data/vb.db")
-  -init
-        init db
-```
-
-```
-$ go run cmd/import/main.go -init
-CBVA Importer
-Initializing DB
 ```
 
 ```
