@@ -12,7 +12,7 @@ type PlayerRating struct {
 func (pr *PlayerRating) GetTopPlayerRatings(year int, gender string, limit int) []vbratings.PlayerAndRating {
 	return pr.playerRatingRepository.GetTopPlayerRatings(
 		year,
-		vbratings.GenderFromString(gender),
+		gender,
 		limit)
 }
 
@@ -27,7 +27,7 @@ func (pr *PlayerRating) Create(
 	playerRating := vbratings.PlayerRating{
 		PlayerId:     playerId,
 		Year:         year,
-		Gender:       vbratings.GenderFromString(gender),
+		Gender:       gender,
 		SeedRating:   seedRating,
 		Rating:       rating,
 		TotalMatches: totalMatches,

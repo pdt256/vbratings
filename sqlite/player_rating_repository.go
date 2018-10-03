@@ -26,7 +26,7 @@ func (r *playerRatingRepository) migrateDB() {
 			,year INT NOT NULL
 			,gender TEXT NOT NULL
 			,seedRating INT NOT NULL
-			,rating INT NOT NULL
+			,rating TEXT NOT NULL
 			,totalMatches INT NOT NULL
 		);`
 

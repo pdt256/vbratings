@@ -30,7 +30,7 @@ func Test_GetMatches_Handles3SetMatch(t *testing.T) {
 	assert.Equal(t, "23-25", match.Set1)
 	assert.Equal(t, "21-18", match.Set2)
 	assert.Equal(t, "15-10", match.Set3)
-	assert.Equal(t, "", match.Gender)
+	assert.Equal(t, "male", match.Gender)
 }
 
 func Test_GetMatches_Handles2ndSetRetired(t *testing.T) {

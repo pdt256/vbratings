@@ -1,9 +1,5 @@
 package vbratings
 
-import (
-	"strings"
-)
-
 type Match struct {
 	PlayerAId string
 	PlayerBId string
@@ -22,12 +18,4 @@ type MatchRepository interface {
 	Find(id string) *Match
 	GetAllPlayerIds() []string
 	GetAllMatchesByYear(year int) []Match
-}
-
-func GenderFromString(input string) string {
-	if strings.ToLower(input) == "female" {
-		return "female"
-	}
-
-	return "male"
 }

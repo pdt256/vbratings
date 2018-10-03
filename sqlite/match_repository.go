@@ -31,7 +31,7 @@ func (r *matchRepository) migrateDB() {
 			,set2 TEXT NOT NULL
 			,set3 TEXT NOT NULL
 			,year INT NOT NULL
-			,gender INT NOT NULL
+			,gender TEXT NOT NULL
 		);`
 
 	_, createError := r.db.Exec(sqlStmt)

@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 var tournamentRegexp = regexp.MustCompile(`<a href="Tournament.asp\?ID=(\d+)">(.+?)</a>`)
@@ -63,8 +64,9 @@ func GetMatches(reader io.Reader) []Match {
 	tournamentGenderMatches := tournamentGenderRegexp.FindAllStringSubmatch(body, -1)
 	var gender string
 	if len(tournamentGenderMatches) > 0 {
-		gender = normalizeGender(tournamentGenderMatches[0][1])
+		gender = tournamentGenderMatches[0][1]
 	}
+	gender = normalizeGender(gender)
 
 	regexMatches := matchRegexp.FindAllStringSubmatch(body, -1)
 
@@ -113,7 +115,8 @@ func GetMatches(reader io.Reader) []Match {
 }
 
 func normalizeGender(input string) string {
-	if input == "Women's" {
+	lowerInput := strings.ToLower(input)
+	if lowerInput == "women's" || lowerInput == "female" {
 		return "female"
 	}
 

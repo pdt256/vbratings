@@ -105,7 +105,7 @@ func (i *Importer) ImportMatches(reader io.Reader) (int, int) {
 			Set1:      bvbInfoMatch.Set1,
 			Set2:      bvbInfoMatch.Set2,
 			Set3:      bvbInfoMatch.Set3,
-			Gender:    vbratings.GenderFromString(bvbInfoMatch.Gender),
+			Gender:    bvbInfoMatch.Gender,
 		}
 
 		i.matchRepository.Create(match, id)
