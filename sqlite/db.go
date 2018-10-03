@@ -5,8 +5,11 @@ import (
 	"log"
 )
 
+var InMemorySharedDbPath = "file:db?mode=memory&cache=shared"
+var InMemoryDbPath = ":memory:"
+
 func NewInMemoryDB() *sql.DB {
-	db, err := sql.Open("sqlite3", ":memory:")
+	db, err := sql.Open("sqlite3", InMemoryDbPath)
 	if err != nil {
 		log.Fatal(err)
 	}

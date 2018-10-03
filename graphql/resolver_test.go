@@ -9,12 +9,13 @@ import (
 
 	"github.com/pdt256/vbratings/app"
 	"github.com/pdt256/vbratings/graphql"
+	"github.com/pdt256/vbratings/sqlite"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_Query_PlayerRatingsQueries_GetTopPlayerRatings(t *testing.T) {
 	// Given
-	configuration := app.NewConfiguration(":memory:")
+	configuration := app.NewConfiguration(sqlite.InMemorySharedDbPath)
 	application := app.New(configuration)
 	handler := graphql.NewHandler(application)
 	query := `query ($year: Int!, $gender: String!, $limit: Int!) {
@@ -44,7 +45,7 @@ func Test_Query_PlayerRatingsQueries_GetTopPlayerRatings(t *testing.T) {
 
 func Test_Mutation_PlayerCommands_Create(t *testing.T) {
 	// Given
-	configuration := app.NewConfiguration(":memory:")
+	configuration := app.NewConfiguration(sqlite.InMemorySharedDbPath)
 	application := app.New(configuration)
 	handler := graphql.NewHandler(application)
 	mutation := `mutation ($id: String!, $name: String!, $imgUrl: String!) {
