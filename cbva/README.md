@@ -11,14 +11,14 @@ Usage:
 ```
 
 ```
-// TODO: Update with real results
 $ go run cmd/import/main.go
 CBVA Importer
 Importing Tournaments
 ...............................................................................
 ...............................................................................
 ...............................................................................
-x tournament results imported
+5197 tournament results imported
+4220 players imported
 ```
 
 ## License
