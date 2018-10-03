@@ -20,7 +20,7 @@ func NewTournamentRepository(db *sql.DB) *tournamentRepository {
 }
 
 func (r *tournamentRepository) migrateDB() {
-	sqlStmt := `CREATE TABLE IF NOT EXISTS tournament_result (
+	sqlStmt1 := `CREATE TABLE IF NOT EXISTS tournament_result (
 			id TEXT NOT NULL PRIMARY KEY
 			,player1Id TEXT NOT NULL
 			,player2Id TEXT NOT NULL
@@ -28,8 +28,37 @@ func (r *tournamentRepository) migrateDB() {
 			,tournamentId TEXT NOT NULL
 		);`
 
+	_, err1 := r.db.Exec(sqlStmt1)
+	checkError(err1)
+
+	sqlStmt2 := `CREATE TABLE IF NOT EXISTS tournament (
+			id TEXT NOT NULL PRIMARY KEY
+			,date TEXT NOT NULL
+			,rating TEXT NOT NULL
+			,gender TEXT NOT NULL
+			,location TEXT NOT NULL
+		);`
+
+	_, err2 := r.db.Exec(sqlStmt2)
+	checkError(err2)
+}
+
+func (r *tournamentRepository) executeStatementSafe(sqlStmt string) {
 	_, createError := r.db.Exec(sqlStmt)
 	checkError(createError)
+
+}
+
+func (r *tournamentRepository) AddTournament(tournament vbratings.Tournament) {
+	_, err := r.db.Exec(
+		"INSERT INTO tournament(id, date, rating, gender, location) VALUES ($1, $2, $3, $4, $5)",
+		tournament.Id,
+		tournament.Date,
+		tournament.Rating,
+		tournament.Gender,
+		tournament.Location,
+	)
+	checkError(err)
 }
 
 func (r *tournamentRepository) AddTournamentResult(tournamentResult vbratings.TournamentResult) {

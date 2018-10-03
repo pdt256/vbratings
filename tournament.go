@@ -22,6 +22,7 @@ type TournamentResult struct {
 }
 
 type TournamentRepository interface {
+	AddTournament(tournament Tournament)
 	AddTournamentResult(tournamentResult TournamentResult)
 	GetAllTournamentResults() []TournamentResult
 }

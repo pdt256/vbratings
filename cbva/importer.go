@@ -33,7 +33,7 @@ func NewImporter(
 }
 
 func (i *Importer) ImportAllTournaments() (int, int) {
-	postData := `{"AgeType":"","Gender":"","Divisions":null,"Location":"","SortBy":"","IsDesc":"true","PageNumber":1,"PageSize":2000}`
+	postData := `{"AgeType":"","Gender":"","Divisions":null,"Location":"","SortBy":"","IsDesc":"true","StartDate":"1990-01-01T08:00:00.000Z","PageNumber":1,"PageSize":2000}`
 	req, _ := http.NewRequest("POST", "https://cbva.com/Results/SearchTournamentResult", bytes.NewReader([]byte(postData)))
 	req.Header.Add("Content-Type", "application/json")
 	client := &http.Client{}
@@ -45,8 +45,8 @@ func (i *Importer) ImportAllTournaments() (int, int) {
 
 	totalMatches := 0
 	totalPlayers := 0
-	for _, tournament := range tournaments {
-		nMatches, nPlayers := i.ImportTournament(tournament.Id)
+	for _, cbvaTournament := range tournaments {
+		nMatches, nPlayers := i.ImportTournament(cbvaTournament)
 
 		totalMatches += nMatches
 		totalPlayers += nPlayers
@@ -55,8 +55,8 @@ func (i *Importer) ImportAllTournaments() (int, int) {
 	return totalMatches, totalPlayers
 }
 
-func (i *Importer) ImportTournament(tournamentId string) (int, int) {
-	postData := fmt.Sprintf(`{"id":"%s"}`, tournamentId)
+func (i *Importer) ImportTournament(cbvaTournament Tournament) (int, int) {
+	postData := fmt.Sprintf(`{"id":"%s"}`, cbvaTournament.Id)
 	req, _ := http.NewRequest("POST", "https://cbva.com/Results/GetTournamentTeamResult", bytes.NewReader([]byte(postData)))
 	req.Header.Add("Content-Type", "application/json")
 	client := &http.Client{}
@@ -64,8 +64,19 @@ func (i *Importer) ImportTournament(tournamentId string) (int, int) {
 	checkError(err)
 	defer tournamentResponse.Body.Close()
 
+	tournament := vbratings.Tournament{
+		Id:       i.uuidGenerator.NewV4(),
+		Date:     cbvaTournament.Date,
+		Rating:   cbvaTournament.Rating,
+		Gender:   cbvaTournament.Gender,
+		Location: cbvaTournament.Location,
+	}
+	i.tournamentRepository.AddTournament(tournament)
+
+	i.cbvaRepository.AddTournamentId(tournament.Id, cbvaTournament.Id)
+
 	fmt.Print(".")
-	return i.ImportTournamentResults(tournamentResponse.Body, tournamentId)
+	return i.ImportTournamentResults(tournamentResponse.Body, tournament.Id)
 }
 
 func (i *Importer) ImportTournamentResults(reader io.Reader, tournamentId string) (int, int) {
@@ -80,7 +91,7 @@ func (i *Importer) ImportTournamentResults(reader io.Reader, tournamentId string
 		totalPlayers += player1Created + player2Created
 
 		tournamentResult := vbratings.TournamentResult{
-			Id:           uuid.NewService().NewV4(),
+			Id:           i.uuidGenerator.NewV4(),
 			Player1Id:    player1Id,
 			Player2Id:    player2Id,
 			EarnedFinish: cbvaTournamentResult.EarnedFinish,
@@ -88,6 +99,7 @@ func (i *Importer) ImportTournamentResults(reader io.Reader, tournamentId string
 		}
 
 		i.tournamentRepository.AddTournamentResult(tournamentResult)
+
 		totalResults++
 	}
 

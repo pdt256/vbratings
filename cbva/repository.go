@@ -9,6 +9,7 @@ import (
 type Repository interface {
 	GetPlayerId(name string) (string, error)
 	AddPlayerId(playerId string, cbvaName string) error
+	AddTournamentId(tournamentid string, cbvaTournamentId string) error
 }
 
 var PlayerNotFoundError = errors.New("CBVA player rating not found")
@@ -26,13 +27,21 @@ func NewSqliteRepository(db *sql.DB) *sqliteRepository {
 var _ Repository = (*sqliteRepository)(nil)
 
 func (r *sqliteRepository) migrateDB() {
-	sqlStmt := `CREATE TABLE IF NOT EXISTS cbva_player (
+	sqlStmt1 := `CREATE TABLE IF NOT EXISTS cbva_player (
 			playerId TEXT NOT NULL
 			,cbvaName TEXT NOT NULL
 		);`
 
-	_, createError := r.db.Exec(sqlStmt)
-	checkError(createError)
+	_, err1 := r.db.Exec(sqlStmt1)
+	checkError(err1)
+
+	sqlStmt2 := `CREATE TABLE IF NOT EXISTS cbva_tournament (
+			tournamentId TEXT NOT NULL
+			,cbvaTournamentId TEXT NOT NULL
+		);`
+
+	_, err2 := r.db.Exec(sqlStmt2)
+	checkError(err2)
 }
 
 func (r *sqliteRepository) GetPlayerId(cbvaName string) (string, error) {
@@ -54,6 +63,20 @@ func (r *sqliteRepository) AddPlayerId(playerId string, cbvaName string) error {
 		"INSERT INTO cbva_player(playerId, cbvaName) VALUES ($1, $2)",
 		playerId,
 		cbvaName,
+	)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
+}
+
+func (r *sqliteRepository) AddTournamentId(tournamentid string, cbvaTournamentId string) error {
+	_, err := r.db.Exec(
+		"INSERT INTO cbva_tournament(tournamentId, cbvaTournamentId) VALUES ($1, $2)",
+		tournamentid,
+		cbvaTournamentId,
 	)
 	if err != nil {
 		log.Println(err)
@@ -95,6 +118,10 @@ func (r *cacheRepository) GetPlayerId(cbvaName string) (string, error) {
 func (r *cacheRepository) AddPlayerId(playerId string, cbvaName string) error {
 	r.players[cbvaName] = playerId
 	return r.repository.AddPlayerId(playerId, cbvaName)
+}
+
+func (r *cacheRepository) AddTournamentId(tournamentId string, cbvaTournamentId string) error {
+	return r.repository.AddTournamentId(tournamentId, cbvaTournamentId)
 }
 
 func NewRepositoryWithCaching(db *sql.DB) Repository {

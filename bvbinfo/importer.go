@@ -86,7 +86,7 @@ func (i *Importer) ImportMatches(reader io.Reader) (int, int) {
 	totalMatches := 0
 	totalPlayers := 0
 	for _, bvbInfoMatch := range matches {
-		id := uuid.NewService().NewV4()
+		id := i.uuidGenerator.NewV4()
 
 		playerAId, playerACreated := i.getPlayerIdFromBvbInfoPlayer(bvbInfoMatch.PlayerA)
 		playerBId, playerBCreated := i.getPlayerIdFromBvbInfoPlayer(bvbInfoMatch.PlayerB)
