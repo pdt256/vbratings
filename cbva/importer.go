@@ -32,27 +32,41 @@ func NewImporter(
 	}
 }
 
-func (i *Importer) ImportAllTournaments() (int, int) {
-	postData := `{"AgeType":"","Gender":"","Divisions":null,"Location":"","SortBy":"","IsDesc":"true","StartDate":"1990-01-01T08:00:00.000Z","PageNumber":1,"PageSize":2000}`
-	req, _ := http.NewRequest("POST", "https://cbva.com/Results/SearchTournamentResult", bytes.NewReader([]byte(postData)))
-	req.Header.Add("Content-Type", "application/json")
-	client := &http.Client{}
-	tournamentsResponse, err := client.Do(req)
-	checkError(err)
-	defer tournamentsResponse.Body.Close()
-
-	tournaments := GetTournaments(tournamentsResponse.Body)
-
-	totalMatches := 0
+func (i *Importer) ImportAllTournaments() (int, int, int) {
+	totalTournaments := 0
+	totalResults := 0
 	totalPlayers := 0
-	for _, cbvaTournament := range tournaments {
-		nMatches, nPlayers := i.ImportTournament(cbvaTournament)
 
-		totalMatches += nMatches
-		totalPlayers += nPlayers
+	page := 1
+
+	for {
+		postData := fmt.Sprintf(`{"AgeType":"","Gender":"","Divisions":null,"Location":"","SortBy":"","IsDesc":"true","StartDate":"1990-01-01T08:00:00.000Z","PageNumber":%d,"PageSize":2000}`, page)
+		req, _ := http.NewRequest("POST", "https://cbva.com/Results/SearchTournamentResult", bytes.NewReader([]byte(postData)))
+		req.Header.Add("Content-Type", "application/json")
+		client := &http.Client{}
+		tournamentsResponse, err := client.Do(req)
+		checkError(err)
+
+		tournaments := GetTournaments(tournamentsResponse.Body)
+
+		for _, cbvaTournament := range tournaments {
+			nMatches, nPlayers := i.ImportTournament(cbvaTournament)
+
+			totalTournaments++
+			totalResults += nMatches
+			totalPlayers += nPlayers
+		}
+
+		tournamentsResponse.Body.Close()
+
+		if len(tournaments) == 0 {
+			break
+		}
+
+		page++
 	}
 
-	return totalMatches, totalPlayers
+	return totalTournaments, totalResults, totalPlayers
 }
 
 func (i *Importer) ImportTournament(cbvaTournament Tournament) (int, int) {

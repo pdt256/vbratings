@@ -32,7 +32,8 @@ func main() {
 	)
 
 	fmt.Println("Importing Tournaments")
-	totalResults, totalPlayers := importer.ImportAllTournaments()
-	fmt.Printf("\n%d tournament results imported\n", totalResults)
+	totalTournaments, totalResults, totalPlayers := importer.ImportAllTournaments()
+	fmt.Printf("\n%d tournaments imported\n", totalTournaments)
+	fmt.Printf("%d tournament results imported\n", totalResults)
 	fmt.Printf("%d players imported\n", totalPlayers)
 }

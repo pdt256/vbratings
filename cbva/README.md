@@ -17,8 +17,9 @@ Importing Tournaments
 ...............................................................................
 ...............................................................................
 ...............................................................................
-5197 tournament results imported
-4220 players imported
+10913 tournaments imported
+68505 tournament results imported
+24885 players imported
 ```
 
 ## License
