@@ -11,3 +11,5 @@ getTournament() {
 
 getTournament A14CC0CB1B90719A "2018-09-23-marine-street-mens-aa.json"
 getTournament D718CFD486CD14D6 "2018-09-01-hermosa-mens-open.json"
+
+curl -s 'https://cbva.com/Results/SearchTournamentResult' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' --data-binary '{"AgeType":"","Gender":"","Divisions":null,"Location":"","SortBy":"","IsDesc":"true","PageNumber":1,"PageSize":10}' --compressed > ${DIR}/10-tournaments-list.json

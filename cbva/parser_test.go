@@ -70,3 +70,31 @@ func Test_GetTournamentResults_ReturnsCorrectTournamentResultCounts(t *testing.T
 		})
 	}
 }
+
+func Test_GetTournaments_Handles1Result(t *testing.T) {
+	// Given
+	input := `<div class=\"cbva-btn\"><a class=\"btn btn-info\" href=\"#\" data-id=\"1CA73A1A527D6384\" data-Date=\"09-30-2018\" data-Rating=\"16U\" data-Gender=\"Female\" data-TournamentDirector=\"Sinjin Smith\" data-Location=\"Belmont Shore, Long Beach\" data-toggle=\"modal\" data-target=\"#tournament-result\">View Results</a></div>`
+
+	// When
+	tournaments := cbva.GetTournaments(strings.NewReader(input))
+
+	// Then
+	tournament := tournaments[0]
+	assert.Equal(t, "1CA73A1A527D6384", tournament.Id)
+	assert.Equal(t, "09-30-2018", tournament.Date)
+	assert.Equal(t, "16U", tournament.Rating)
+	assert.Equal(t, "Female", tournament.Gender)
+	assert.Equal(t, "Belmont Shore, Long Beach", tournament.Location)
+}
+
+func Test_GetTournaments_Handles10Results(t *testing.T) {
+	// Given
+	file, err := os.Open("./testdata/10-tournaments-list.json")
+	require.NoError(t, err)
+
+	// When
+	tournaments := cbva.GetTournaments(file)
+
+	// Then
+	assert.Equal(t, 10, len(tournaments))
+}
