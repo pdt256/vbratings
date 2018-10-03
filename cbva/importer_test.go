@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_Importer_ImportMatches(t *testing.T) {
+func Test_Importer_ImportTournamentResults(t *testing.T) {
 	// Given
 	db := sqlite.NewInMemoryDB()
 	tournamentRepository := sqlite.NewTournamentRepository(db)

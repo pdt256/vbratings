@@ -1,8 +1,11 @@
 package cbva
 
 import (
+	"bytes"
+	"fmt"
 	"io"
 	"log"
+	"net/http"
 
 	"github.com/pdt256/vbratings"
 	"github.com/pdt256/vbratings/pkg/uuid"
@@ -27,6 +30,42 @@ func NewImporter(
 		cbvaRepository:       cbvaRepository,
 		uuidGenerator:        uuidGenerator,
 	}
+}
+
+func (i *Importer) ImportAllTournaments() (int, int) {
+	postData := `{"AgeType":"","Gender":"","Divisions":null,"Location":"","SortBy":"","IsDesc":"true","PageNumber":1,"PageSize":2000}`
+	req, _ := http.NewRequest("POST", "https://cbva.com/Results/SearchTournamentResult", bytes.NewReader([]byte(postData)))
+	req.Header.Add("Content-Type", "application/json")
+	client := &http.Client{}
+	tournamentsResponse, err := client.Do(req)
+	checkError(err)
+	defer tournamentsResponse.Body.Close()
+
+	tournaments := GetTournaments(tournamentsResponse.Body)
+
+	totalMatches := 0
+	totalPlayers := 0
+	for _, tournament := range tournaments {
+		nMatches, nPlayers := i.ImportTournament(tournament.Id)
+
+		totalMatches += nMatches
+		totalPlayers += nPlayers
+	}
+
+	return totalMatches, totalPlayers
+}
+
+func (i *Importer) ImportTournament(tournamentId string) (int, int) {
+	postData := fmt.Sprintf(`{"id":"%s"}`, tournamentId)
+	req, _ := http.NewRequest("POST", "https://cbva.com/Results/GetTournamentTeamResult", bytes.NewReader([]byte(postData)))
+	req.Header.Add("Content-Type", "application/json")
+	client := &http.Client{}
+	tournamentResponse, err := client.Do(req)
+	checkError(err)
+	defer tournamentResponse.Body.Close()
+
+	fmt.Print(".")
+	return i.ImportTournamentResults(tournamentResponse.Body)
 }
 
 func (i *Importer) ImportTournamentResults(reader io.Reader) (int, int) {

@@ -1,10 +1,8 @@
 package main
 
 import (
-	"bytes"
 	"flag"
 	"fmt"
-	"net/http"
 	"os"
 
 	"github.com/pdt256/vbratings/cbva"
@@ -26,22 +24,15 @@ func main() {
 	cbvaRepository := cbva.NewSqliteRepository(db)
 	uuidGenerator := uuid.NewService()
 
-	fmt.Println("Importing Tournaments")
-
-	postData := `{"id":"A14CC0CB1B90719A"}`
-	req, _ := http.NewRequest("POST", "https://cbva.com/Results/GetTournamentTeamResult", bytes.NewReader([]byte(postData)))
-	req.Header.Add("Content-Type", "application/json")
-	client := &http.Client{}
-	tournamentResponse, _ := client.Do(req)
-	defer tournamentResponse.Body.Close()
-
 	importer := cbva.NewImporter(
 		tournamentRepository,
 		playerRepository,
 		cbvaRepository,
 		uuidGenerator,
 	)
-	totalResults, totalPlayers := importer.ImportTournamentResults(tournamentResponse.Body)
+
+	fmt.Println("Importing Tournaments")
+	totalResults, totalPlayers := importer.ImportAllTournaments()
 	fmt.Printf("\n%d tournament results imported\n", totalResults)
 	fmt.Printf("%d players imported\n", totalPlayers)
 }
