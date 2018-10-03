@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/pdt256/vbratings/cbva"
+	"github.com/pdt256/vbratings/pkg/uuid"
 	"github.com/pdt256/vbratings/sqlite"
 )
 
@@ -22,6 +23,8 @@ func main() {
 	db := sqlite.NewFileDB(*dbPath)
 	tournamentRepository := sqlite.NewTournamentRepository(db)
 	playerRepository := sqlite.NewPlayerRepository(db)
+	cbvaRepository := cbva.NewSqliteRepository(db)
+	uuidGenerator := uuid.NewService()
 
 	fmt.Println("Importing Tournaments")
 
@@ -32,7 +35,13 @@ func main() {
 	tournamentResponse, _ := client.Do(req)
 	defer tournamentResponse.Body.Close()
 
-	importer := cbva.NewImporter(tournamentRepository, playerRepository)
-	totalTournamentResultsImported := importer.ImportTournamentResults(tournamentResponse.Body)
-	fmt.Printf("\n%d tournament results imported\n", totalTournamentResultsImported)
+	importer := cbva.NewImporter(
+		tournamentRepository,
+		playerRepository,
+		cbvaRepository,
+		uuidGenerator,
+	)
+	totalResults, totalPlayers := importer.ImportTournamentResults(tournamentResponse.Body)
+	fmt.Printf("\n%d tournament results imported\n", totalResults)
+	fmt.Printf("%d players imported\n", totalPlayers)
 }

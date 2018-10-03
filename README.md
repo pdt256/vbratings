@@ -114,6 +114,7 @@ Top 10 male Players in 2018
     from Bvbinfo; so that I can see more accurate player rankings among lower
     rated players.
     - Import results from CBVA
+    - Before adding a new player from BvbInfo or CBVA, search for duplicate name
     - Calculate rankings based on tournament results in addition to match results.
 
 ## License

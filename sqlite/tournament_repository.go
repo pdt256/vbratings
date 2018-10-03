@@ -22,8 +22,8 @@ func NewTournamentRepository(db *sql.DB) *tournamentRepository {
 func (r *tournamentRepository) migrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS tournament_result (
 			id TEXT NOT NULL PRIMARY KEY
-			,player1Name TEXT NOT NULL
-			,player2Name TEXT NOT NULL
+			,player1Id TEXT NOT NULL
+			,player2Id TEXT NOT NULL
 			,earnedFinish INT NOT NULL
 		);`
 
@@ -33,10 +33,10 @@ func (r *tournamentRepository) migrateDB() {
 
 func (r *tournamentRepository) AddTournamentResult(tournamentResult vbratings.TournamentResult, id string) {
 	_, err := r.db.Exec(
-		"INSERT INTO tournament_result(id, player1Name, player2Name, earnedFinish) VALUES ($1, $2, $3, $4)",
+		"INSERT INTO tournament_result(id, player1Id, player2Id, earnedFinish) VALUES ($1, $2, $3, $4)",
 		id,
-		tournamentResult.Player1Name,
-		tournamentResult.Player2Name,
+		tournamentResult.Player1Id,
+		tournamentResult.Player2Id,
 		tournamentResult.EarnedFinish,
 	)
 	checkError(err)
@@ -45,7 +45,7 @@ func (r *tournamentRepository) AddTournamentResult(tournamentResult vbratings.To
 func (r *tournamentRepository) GetAllTournamentResults() []vbratings.TournamentResult {
 	var tournamentResults []vbratings.TournamentResult
 
-	rows, queryErr := r.db.Query("SELECT player1Name, player2Name, earnedFinish FROM tournament_result")
+	rows, queryErr := r.db.Query("SELECT player1Id, player2Id, earnedFinish FROM tournament_result")
 	checkError(queryErr)
 
 	defer rows.Close()
@@ -53,8 +53,8 @@ func (r *tournamentRepository) GetAllTournamentResults() []vbratings.TournamentR
 	for rows.Next() {
 		var tr vbratings.TournamentResult
 		checkError(rows.Scan(
-			&tr.Player1Name,
-			&tr.Player2Name,
+			&tr.Player1Id,
+			&tr.Player2Id,
 			&tr.EarnedFinish,
 		))
 

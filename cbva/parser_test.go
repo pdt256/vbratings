@@ -19,8 +19,8 @@ func Test_GetTournamentResults_Handles1Result(t *testing.T) {
 
 	// Then
 	tournamentResult := tournamentResults[0]
-	assert.Equal(t, "jeff-steffens", tournamentResult.Player1Name)
-	assert.Equal(t, "leo-williams", tournamentResult.Player2Name)
+	assert.Equal(t, "JEFF STEFFENS", tournamentResult.Player1.Name)
+	assert.Equal(t, "Leo Williams", tournamentResult.Player2.Name)
 	assert.Equal(t, 1, tournamentResult.EarnedFinish)
 }
 
@@ -33,16 +33,16 @@ func Test_GetTournamentResults_Handles3Results(t *testing.T) {
 
 	// Then
 	tournamentResult1 := tournamentResults[0]
-	assert.Equal(t, "jeff-steffens", tournamentResult1.Player1Name)
-	assert.Equal(t, "leo-williams", tournamentResult1.Player2Name)
+	assert.Equal(t, "JEFF STEFFENS", tournamentResult1.Player1.Name)
+	assert.Equal(t, "Leo Williams", tournamentResult1.Player2.Name)
 	assert.Equal(t, 1, tournamentResult1.EarnedFinish)
 	tournamentResult2 := tournamentResults[1]
-	assert.Equal(t, "j-j-mosolf", tournamentResult2.Player1Name)
-	assert.Equal(t, "max-states", tournamentResult2.Player2Name)
+	assert.Equal(t, "J.J. MOSOLF", tournamentResult2.Player1.Name)
+	assert.Equal(t, "max states", tournamentResult2.Player2.Name)
 	assert.Equal(t, 2, tournamentResult2.EarnedFinish)
 	tournamentResult3 := tournamentResults[2]
-	assert.Equal(t, "mark-raphael", tournamentResult3.Player1Name)
-	assert.Equal(t, "jamie-isaacs", tournamentResult3.Player2Name)
+	assert.Equal(t, "Mark Raphael", tournamentResult3.Player1.Name)
+	assert.Equal(t, "Jamie Isaacs", tournamentResult3.Player2.Name)
 	assert.Equal(t, 3, tournamentResult3.EarnedFinish)
 }
 

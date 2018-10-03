@@ -6,8 +6,8 @@ import (
 )
 
 type TournamentResult struct {
-	Player1Name  string
-	Player2Name  string
+	Player1Id    string
+	Player2Id    string
 	EarnedFinish int
 }
 

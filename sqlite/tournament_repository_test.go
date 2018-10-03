@@ -12,8 +12,8 @@ import (
 func Test_TournamentRepository_GetAllTournamentResults(t *testing.T) {
 
 	tournamentResult := vbratings.TournamentResult{
-		Player1Name:  "john-doe",
-		Player2Name:  "james-smith",
+		Player1Id:    "john-doe",
+		Player2Id:    "james-smith",
 		EarnedFinish: 1,
 	}
 	db := sqlite.NewInMemoryDB()

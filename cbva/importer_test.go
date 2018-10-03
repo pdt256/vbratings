@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/pdt256/vbratings/cbva"
+	"github.com/pdt256/vbratings/pkg/uuid"
 	"github.com/pdt256/vbratings/sqlite"
 	"github.com/stretchr/testify/assert"
 )
@@ -13,14 +14,23 @@ func Test_Importer_ImportMatches(t *testing.T) {
 	// Given
 	db := sqlite.NewInMemoryDB()
 	tournamentRepository := sqlite.NewTournamentRepository(db)
-	importer := cbva.NewImporter(tournamentRepository, nil)
+	playerRepository := sqlite.NewPlayerRepository(db)
+	cbvaRepository := cbva.NewSqliteRepository(db)
+	uuidGenerator := uuid.NewService()
+	importer := cbva.NewImporter(
+		tournamentRepository,
+		playerRepository,
+		cbvaRepository,
+		uuidGenerator,
+	)
 	reader, _ := os.Open("./testdata/2018-09-23-marine-street-mens-aa.json")
 
 	// When
-	totalImported := importer.ImportTournamentResults(reader)
+	totalResults, totalPlayers := importer.ImportTournamentResults(reader)
 
 	// Then
 	actualTournamentResults := tournamentRepository.GetAllTournamentResults()
 	assert.Equal(t, 15, len(actualTournamentResults))
-	assert.Equal(t, 15, totalImported)
+	assert.Equal(t, 15, totalResults)
+	assert.Equal(t, 30, totalPlayers)
 }

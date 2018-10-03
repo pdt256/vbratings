@@ -5,27 +5,36 @@ import (
 	"io/ioutil"
 	"regexp"
 	"strconv"
-
-	"github.com/pdt256/vbratings"
 )
 
 var tournamentResultRegexp = regexp.MustCompile(`(?sm:EarnedFinish":"([^"]+)".+?Player1_Name":"([^"]+)".+?Player2_Name":"([^"]+)")`)
 
-func GetTournamentResults(reader io.Reader) []vbratings.TournamentResult {
+type TournamentResult struct {
+	Player1      Player
+	Player2      Player
+	EarnedFinish int
+}
+
+type Player struct {
+	Name string
+}
+
+func GetTournamentResults(reader io.Reader) []TournamentResult {
 	bytes, _ := ioutil.ReadAll(reader)
 	body := string(bytes)
 
 	tournamentResultMatches := tournamentResultRegexp.FindAllStringSubmatch(body, -1)
 
-	var tournamentResults []vbratings.TournamentResult
+	var tournamentResults []TournamentResult
 	for _, value := range tournamentResultMatches {
 		earnedFinish, _ := strconv.Atoi(value[1])
-		player1Name := value[2]
-		player2Name := value[3]
-
-		tournamentResults = append(tournamentResults, vbratings.TournamentResult{
-			Player1Name:  vbratings.GetPlayerNameSlug(player1Name),
-			Player2Name:  vbratings.GetPlayerNameSlug(player2Name),
+		tournamentResults = append(tournamentResults, TournamentResult{
+			Player1: Player{
+				Name: value[2],
+			},
+			Player2: Player{
+				Name: value[3],
+			},
 			EarnedFinish: earnedFinish,
 		})
 	}
