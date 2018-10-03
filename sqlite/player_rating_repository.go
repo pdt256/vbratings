@@ -24,7 +24,7 @@ func (r *playerRatingRepository) migrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS player_rating (
 			playerId TEXT NOT NULL
 			,year INT NOT NULL
-			,gender INT NOT NULL
+			,gender TEXT NOT NULL
 			,seedRating INT NOT NULL
 			,rating INT NOT NULL
 			,totalMatches INT NOT NULL
@@ -74,7 +74,7 @@ func (r *playerRatingRepository) GetPlayerRatingByYear(playerId string, year int
 	return &pr, nil
 }
 
-func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender vbratings.Gender, limit int) []vbratings.PlayerAndRating {
+func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender string, limit int) []vbratings.PlayerAndRating {
 	var playerAndRatings []vbratings.PlayerAndRating
 
 	rows, queryErr := r.db.Query(`SELECT

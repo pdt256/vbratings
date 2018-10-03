@@ -59,7 +59,7 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 		Set2:      "21-15",
 		Set3:      "15-7",
 		Year:      2018,
-		Gender:    vbratings.Female,
+		Gender:    "female",
 	}
 	match2 := vbratings.Match{
 		PlayerAId: playerAId,
@@ -71,7 +71,7 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 		Set2:      "21-15",
 		Set3:      "15-7",
 		Year:      2018,
-		Gender:    vbratings.Female,
+		Gender:    "female",
 	}
 	db := sqlite.NewInMemoryDB()
 	matchRepository := sqlite.NewMatchRepository(db)
@@ -93,7 +93,7 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 	assertPlayerRating(t, playerRatingC, 1500, 1469, 2018)
 	assertPlayerRating(t, playerRatingD, 1500, 1469, 2018)
 	assert.Equal(t, 2, playerRatingA.TotalMatches)
-	assert.Equal(t, vbratings.Female, playerRatingA.Gender)
+	assert.Equal(t, "female", playerRatingA.Gender)
 }
 
 func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRating(t *testing.T) {

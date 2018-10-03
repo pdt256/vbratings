@@ -24,13 +24,15 @@ func Test_Importer_ImportTournamentResults(t *testing.T) {
 		uuidGenerator,
 	)
 	reader, _ := os.Open("./testdata/2018-09-23-marine-street-mens-aa.json")
+	tournamentId := "A14CC0CB1B90719A"
 
 	// When
-	totalResults, totalPlayers := importer.ImportTournamentResults(reader)
+	totalResults, totalPlayers := importer.ImportTournamentResults(reader, tournamentId)
 
 	// Then
 	actualTournamentResults := tournamentRepository.GetAllTournamentResults()
 	assert.Equal(t, 15, len(actualTournamentResults))
 	assert.Equal(t, 15, totalResults)
 	assert.Equal(t, 30, totalPlayers)
+	assert.Equal(t, tournamentId, actualTournamentResults[0].TournamentId)
 }

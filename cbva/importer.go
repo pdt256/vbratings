@@ -65,29 +65,29 @@ func (i *Importer) ImportTournament(tournamentId string) (int, int) {
 	defer tournamentResponse.Body.Close()
 
 	fmt.Print(".")
-	return i.ImportTournamentResults(tournamentResponse.Body)
+	return i.ImportTournamentResults(tournamentResponse.Body, tournamentId)
 }
 
-func (i *Importer) ImportTournamentResults(reader io.Reader) (int, int) {
+func (i *Importer) ImportTournamentResults(reader io.Reader, tournamentId string) (int, int) {
 	cbvaTournamentResults := GetTournamentResults(reader)
 
 	totalResults := 0
 	totalPlayers := 0
 	for _, cbvaTournamentResult := range cbvaTournamentResults {
-		id := uuid.NewService().NewV4()
-
 		player1Id, player1Created := i.getPlayerIdFromCBVAPlayer(cbvaTournamentResult.Player1)
 		player2Id, player2Created := i.getPlayerIdFromCBVAPlayer(cbvaTournamentResult.Player2)
 
 		totalPlayers += player1Created + player2Created
 
 		tournamentResult := vbratings.TournamentResult{
+			Id:           uuid.NewService().NewV4(),
 			Player1Id:    player1Id,
 			Player2Id:    player2Id,
 			EarnedFinish: cbvaTournamentResult.EarnedFinish,
+			TournamentId: tournamentId,
 		}
 
-		i.tournamentRepository.AddTournamentResult(tournamentResult, id)
+		i.tournamentRepository.AddTournamentResult(tournamentResult)
 		totalResults++
 	}
 

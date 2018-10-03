@@ -14,7 +14,7 @@ type Match struct {
 	Set2      string
 	Set3      string
 	Year      int
-	Gender    Gender
+	Gender    string
 }
 
 type MatchRepository interface {
@@ -24,27 +24,10 @@ type MatchRepository interface {
 	GetAllMatchesByYear(year int) []Match
 }
 
-type Gender uint
-
-func (gender Gender) String() string {
-	names := [...]string{
-		"Male",
-		"Female",
-		"Code",
-	}
-
-	return names[gender]
-}
-
-const (
-	Male Gender = iota
-	Female
-)
-
-func GenderFromString(input string) Gender {
+func GenderFromString(input string) string {
 	if strings.ToLower(input) == "female" {
-		return Female
+		return "female"
 	}
 
-	return Male
+	return "male"
 }

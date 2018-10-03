@@ -140,7 +140,7 @@ func (pr *PlayerRatingResolver) Year() int32 {
 }
 
 func (pr *PlayerRatingResolver) Gender() string {
-	return pr.playerRating.Gender.String()
+	return pr.playerRating.Gender
 }
 
 func (pr *PlayerRatingResolver) SeedRating() int32 {
