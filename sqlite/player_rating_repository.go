@@ -75,7 +75,7 @@ func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender string, li
 	var playerAndRatings []vbratings.PlayerAndRating
 
 	rows, queryErr := r.db.Query(`SELECT
-		p.id, p.name,
+		p.id, p.name, p.gender,
 		pr.playerId, pr.year, pr.seedRating, pr.rating, pr.totalMatches
 		FROM player_rating AS pr
 		INNER JOIN player AS p ON p.id = pr.playerId
@@ -91,6 +91,7 @@ func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender string, li
 		checkError(rows.Scan(
 			&par.Id,
 			&par.Name,
+			&par.Gender,
 			&par.PlayerId,
 			&par.Year,
 			&par.SeedRating,

@@ -32,7 +32,15 @@ func Test_PlayerRating_GetTopPlayerRatings(t *testing.T) {
 
 	// Then
 	actualTopPlayer := playerAndRatings[0]
-	assert.Equal(t, player1Id, actualTopPlayer.PlayerId)
+	player := actualTopPlayer.Player
+	assert.Equal(t, player1Id, player.Id)
 	assert.Equal(t, "Jane Doe", actualTopPlayer.Name)
-	assert.Equal(t, 2400, actualTopPlayer.Rating)
+	assert.Equal(t, "female", player.Gender)
+
+	playerRating := actualTopPlayer.PlayerRating
+	assert.Equal(t, player1Id, playerRating.PlayerId)
+	assert.Equal(t, 2018, playerRating.Year)
+	assert.Equal(t, 1500, playerRating.SeedRating)
+	assert.Equal(t, 2400, playerRating.Rating)
+	assert.Equal(t, 1, playerRating.TotalMatches)
 }
