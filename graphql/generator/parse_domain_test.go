@@ -134,7 +134,7 @@ func Test_ParseDomain_QueryWithArrayPackageStructReturn(t *testing.T) {
 	domain := domainRoot.Domains[0]
 	query := domain.Queries[0]
 	assert.Equal(t, "testing", query.ReturnTypes[0].Package)
-	assert.Equal(t, "[]discard", query.ReturnTypes[0].Type)
+	assert.Equal(t, "[discard]", query.ReturnTypes[0].Type)
 }
 
 func Test_ParseDomain_CommandWithNoReturn(t *testing.T) {
