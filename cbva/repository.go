@@ -37,7 +37,7 @@ func (r *sqliteRepository) migrateDB() {
 	checkError(err1)
 
 	sqlStmt2 := `CREATE TABLE IF NOT EXISTS cbva_tournament (
-			id TEXT NOT NULL
+			id TEXT NOT NULL PRIMARY KEY
 			,date TEXT NOT NULL
 			,rating TEXT NOT NULL
 			,gender TEXT NOT NULL

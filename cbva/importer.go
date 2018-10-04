@@ -88,7 +88,6 @@ func (i *Importer) ImportTournament(cbvaTournament Tournament) (int, int) {
 	i.tournamentRepository.Create(tournament)
 
 	cbvaTournament.TournamentId = tournament.Id
-	i.cbvaRepository.AddTournament(cbvaTournament)
 
 	fmt.Print(".")
 	return i.ImportTournamentResults(tournamentResponse.Body, cbvaTournament)

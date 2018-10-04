@@ -17,8 +17,8 @@ Importing Matches
 ...............................................................................
 ...............................................................................
 ...............................................................................
-xx total tournaments imported
-94364 total matches imported
+3186 total tournaments imported
+94483 total matches imported
 11375 total players imported
 ```
 
