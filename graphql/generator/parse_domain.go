@@ -100,7 +100,7 @@ func (v *DomainVisitor) Visit(node ast.Node) ast.Visitor {
 							currentUseCase.ReturnTypes,
 							ReturnType{
 								Package: s.X.(*ast.Ident).Name,
-								Type:    fmt.Sprintf("[]%s", s.Sel.Name),
+								Type:    fmt.Sprintf("[%s]", s.Sel.Name),
 							},
 						)
 					case *ast.Ident:

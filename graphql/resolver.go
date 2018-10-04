@@ -21,6 +21,10 @@ func NewResolver(app *app.App) *resolver {
 	return &resolver{app}
 }
 
+func (r *resolver) PlayerQueries() *PlayerQueries {
+	return &PlayerQueries{r.app}
+}
+
 func (r *resolver) PlayerRatingQueries() *PlayerRatingQueries {
 	return &PlayerRatingQueries{r.app}
 }
@@ -34,6 +38,16 @@ func (r *resolver) PlayerRatingCommands() *PlayerRatingCommands {
 }
 
 // Domain Queries
+
+type PlayerQueries struct {
+	app *app.App
+}
+
+func (q *PlayerQueries) GetPlayer(args struct{ Id string }) (*PlayerResolver, error) {
+	player, err := q.app.Player.GetPlayer(args.Id)
+
+	return &PlayerResolver{*player}, err
+}
 
 type PlayerRatingQueries struct {
 	app *app.App
@@ -157,7 +171,15 @@ func getSchemaString() string {
 		}
 
 		type Query {
+			playerQueries: PlayerQueries
 			playerRatingQueries: PlayerRatingQueries
+		}
+
+		type PlayerQueries {
+			# Get Player by id
+			getPlayer(
+				id: String!
+			): Player!
 		}
 
 		type PlayerRatingQueries {
