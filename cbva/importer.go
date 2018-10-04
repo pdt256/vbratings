@@ -79,28 +79,31 @@ func (i *Importer) ImportTournament(cbvaTournament Tournament) (int, int) {
 	defer tournamentResponse.Body.Close()
 
 	tournament := vbratings.Tournament{
-		Id:       i.uuidGenerator.NewV4(),
-		Date:     cbvaTournament.Date,
-		Rating:   cbvaTournament.Rating,
-		Gender:   cbvaTournament.Gender,
-		Location: cbvaTournament.Location,
+		Id:     i.uuidGenerator.NewV4(),
+		Date:   cbvaTournament.Date,
+		Gender: cbvaTournament.Gender,
+		Year:   cbvaTournament.Year(),
+		Name:   cbvaTournament.Location,
 	}
-	i.tournamentRepository.AddTournament(tournament)
+	i.tournamentRepository.Create(tournament)
 
-	i.cbvaRepository.AddTournamentId(tournament.Id, cbvaTournament.Id)
+	cbvaTournament.TournamentId = tournament.Id
+	i.cbvaRepository.AddTournament(cbvaTournament)
 
 	fmt.Print(".")
-	return i.ImportTournamentResults(tournamentResponse.Body, tournament.Id)
+	return i.ImportTournamentResults(tournamentResponse.Body, cbvaTournament)
 }
 
-func (i *Importer) ImportTournamentResults(reader io.Reader, tournamentId string) (int, int) {
+func (i *Importer) ImportTournamentResults(reader io.Reader, tournament Tournament) (int, int) {
 	cbvaTournamentResults := GetTournamentResults(reader)
+
+	i.cbvaRepository.AddTournament(tournament)
 
 	totalResults := 0
 	totalPlayers := 0
 	for _, cbvaTournamentResult := range cbvaTournamentResults {
-		player1Id, player1Created := i.getPlayerIdFromCBVAPlayer(cbvaTournamentResult.Player1)
-		player2Id, player2Created := i.getPlayerIdFromCBVAPlayer(cbvaTournamentResult.Player2)
+		player1Id, player1Created := i.getPlayerIdFromCBVAPlayer(cbvaTournamentResult.Player1, tournament.Gender)
+		player2Id, player2Created := i.getPlayerIdFromCBVAPlayer(cbvaTournamentResult.Player2, tournament.Gender)
 
 		totalPlayers += player1Created + player2Created
 
@@ -109,7 +112,7 @@ func (i *Importer) ImportTournamentResults(reader io.Reader, tournamentId string
 			Player1Id:    player1Id,
 			Player2Id:    player2Id,
 			EarnedFinish: cbvaTournamentResult.EarnedFinish,
-			TournamentId: tournamentId,
+			TournamentId: tournament.TournamentId,
 		}
 
 		i.tournamentRepository.AddTournamentResult(tournamentResult)
@@ -120,7 +123,7 @@ func (i *Importer) ImportTournamentResults(reader io.Reader, tournamentId string
 	return totalResults, totalPlayers
 }
 
-func (i *Importer) getPlayerIdFromCBVAPlayer(player Player) (string, int) {
+func (i *Importer) getPlayerIdFromCBVAPlayer(player Player, gender string) (string, int) {
 	var playerId string
 	playersCreated := 0
 
@@ -129,8 +132,9 @@ func (i *Importer) getPlayerIdFromCBVAPlayer(player Player) (string, int) {
 		playerId = i.uuidGenerator.NewV4()
 
 		newPlayer := vbratings.Player{
-			Id:   playerId,
-			Name: player.Name,
+			Id:     playerId,
+			Name:   player.Name,
+			Gender: gender,
 		}
 
 		createErr := i.playerRepository.Create(newPlayer)

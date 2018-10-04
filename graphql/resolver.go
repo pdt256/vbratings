@@ -66,14 +66,14 @@ type PlayerCommands struct {
 type playerCreateInput struct {
 	Id     string
 	Name   string
-	ImgUrl string
+	Gender string
 }
 
 func (c *PlayerCommands) Create(args playerCreateInput) (bool, error) {
 	return true, c.app.Player.Create(
 		args.Id,
 		args.Name,
-		args.ImgUrl)
+		args.Gender)
 }
 
 type PlayerRatingCommands struct {
@@ -83,7 +83,6 @@ type PlayerRatingCommands struct {
 func (c *PlayerRatingCommands) Create(args struct {
 	PlayerId     string
 	Year         int32
-	Gender       string
 	SeedRating   int32
 	Rating       int32
 	TotalMatches int32
@@ -91,7 +90,6 @@ func (c *PlayerRatingCommands) Create(args struct {
 	return true, c.app.PlayerRating.Create(
 		args.PlayerId,
 		int(args.Year),
-		args.Gender,
 		int(args.SeedRating),
 		int(args.Rating),
 		int(args.TotalMatches))
@@ -123,8 +121,8 @@ func (p *PlayerResolver) Name() string {
 	return p.player.Name
 }
 
-func (p *PlayerResolver) ImgUrl() string {
-	return p.player.ImgUrl
+func (p *PlayerResolver) Gender() string {
+	return p.player.Gender
 }
 
 type PlayerRatingResolver struct {
@@ -137,10 +135,6 @@ func (pr *PlayerRatingResolver) PlayerId() string {
 
 func (pr *PlayerRatingResolver) Year() int32 {
 	return int32(pr.playerRating.Year)
-}
-
-func (pr *PlayerRatingResolver) Gender() string {
-	return pr.playerRating.Gender
 }
 
 func (pr *PlayerRatingResolver) SeedRating() int32 {
@@ -182,9 +176,9 @@ func getSchemaString() string {
 
 		type PlayerCommands {
 			create(
-				Id: String!
+				id: String!
 				name: String!
-				imgUrl: String!
+				gender: String!
 			): Boolean!
 		}
 
@@ -193,7 +187,6 @@ func getSchemaString() string {
 			create(
 				playerId: String!
 				year: Int!
-				gender: String!
 				seedRating: Int!
 				rating: Int!
 				totalMatches: Int!
@@ -203,13 +196,12 @@ func getSchemaString() string {
 		type Player {
 			Id: String!
 			Name: String!
-			ImgUrl: String!
+			Gender: String!
 		}
 
 		type PlayerRating {
 			PlayerId: String!
 			Year: Int!
-			Gender: String!
 			SeedRating: Int!
 			Rating: Int!
 			TotalMatches: Int!			

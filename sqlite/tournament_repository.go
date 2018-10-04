@@ -33,10 +33,10 @@ func (r *tournamentRepository) migrateDB() {
 
 	sqlStmt2 := `CREATE TABLE IF NOT EXISTS tournament (
 			id TEXT NOT NULL PRIMARY KEY
+			,name TEXT NOT NULL
 			,date TEXT NOT NULL
-			,rating TEXT NOT NULL
 			,gender TEXT NOT NULL
-			,location TEXT NOT NULL
+			,year INT NOT NULL
 		);`
 
 	_, err2 := r.db.Exec(sqlStmt2)
@@ -49,14 +49,14 @@ func (r *tournamentRepository) executeStatementSafe(sqlStmt string) {
 
 }
 
-func (r *tournamentRepository) AddTournament(tournament vbratings.Tournament) {
+func (r *tournamentRepository) Create(tournament vbratings.Tournament) {
 	_, err := r.db.Exec(
-		"INSERT INTO tournament(id, date, rating, gender, location) VALUES ($1, $2, $3, $4, $5)",
+		"INSERT INTO tournament(id, name, date, gender, year) VALUES ($1, $2, $3, $4, $5)",
 		tournament.Id,
+		tournament.Name,
 		tournament.Date,
-		tournament.Rating,
 		tournament.Gender,
-		tournament.Location,
+		tournament.Year,
 	)
 	checkError(err)
 }
@@ -96,4 +96,24 @@ func (r *tournamentRepository) GetAllTournamentResults() []vbratings.TournamentR
 	checkError(rows.Err())
 
 	return tournamentResults
+}
+
+func (r *tournamentRepository) GetTournament(id string) (*vbratings.Tournament, error) {
+	var t vbratings.Tournament
+	row := r.db.QueryRow("SELECT id, name, date, gender, year FROM tournament WHERE id = $1", id)
+	err := row.Scan(
+		&t.Id,
+		&t.Name,
+		&t.Date,
+		&t.Gender,
+		&t.Year,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, vbratings.TournamentNotFound
+		}
+		checkError(err)
+	}
+
+	return &t, nil
 }

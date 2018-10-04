@@ -19,8 +19,11 @@ func NewService() *service {
 }
 
 func (service) NewV4() string {
+	return toHex(uuid.NewV4())
+}
+
+func toHex(u uuid.UUID) string {
 	buf := make([]byte, 32)
-	u := uuid.NewV4()
 
 	hex.Encode(buf[:], u[:])
 
@@ -42,6 +45,10 @@ func NewStaticService(ids []string) *staticService {
 }
 
 func (s *staticService) NewV4() string {
+	if s.currentIndex >= len(s.ids) {
+		return toHex(uuid.NewV4())
+	}
+
 	next := s.ids[s.currentIndex]
 
 	s.currentIndex++

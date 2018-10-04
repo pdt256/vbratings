@@ -9,10 +9,11 @@ import (
 type Repository interface {
 	GetPlayerId(name string) (string, error)
 	AddPlayerId(playerId string, cbvaName string) error
-	AddTournamentId(tournamentid string, cbvaTournamentId string) error
+	AddTournament(cbvaTournament Tournament) error
 }
 
-var PlayerNotFoundError = errors.New("CBVA player rating not found")
+var PlayerNotFoundError = errors.New("CBVA player not found")
+var TournamentNotFoundError = errors.New("CBVA tournament not found")
 
 type sqliteRepository struct {
 	db *sql.DB
@@ -36,8 +37,12 @@ func (r *sqliteRepository) migrateDB() {
 	checkError(err1)
 
 	sqlStmt2 := `CREATE TABLE IF NOT EXISTS cbva_tournament (
-			tournamentId TEXT NOT NULL
-			,cbvaTournamentId TEXT NOT NULL
+			id TEXT NOT NULL
+			,date TEXT NOT NULL
+			,rating TEXT NOT NULL
+			,gender TEXT NOT NULL
+			,location TEXT NOT NULL
+			,tournamentId TEXT NOT NULL
 		);`
 
 	_, err2 := r.db.Exec(sqlStmt2)
@@ -72,11 +77,15 @@ func (r *sqliteRepository) AddPlayerId(playerId string, cbvaName string) error {
 	return nil
 }
 
-func (r *sqliteRepository) AddTournamentId(tournamentid string, cbvaTournamentId string) error {
+func (r *sqliteRepository) AddTournament(tournament Tournament) error {
 	_, err := r.db.Exec(
-		"INSERT INTO cbva_tournament(tournamentId, cbvaTournamentId) VALUES ($1, $2)",
-		tournamentid,
-		cbvaTournamentId,
+		"INSERT INTO cbva_tournament(id, date, rating, gender, location, tournamentId) VALUES ($1, $2, $3, $4, $5, $6)",
+		tournament.Id,
+		tournament.Date,
+		tournament.Rating,
+		tournament.Gender,
+		tournament.Location,
+		tournament.TournamentId,
 	)
 	if err != nil {
 		log.Println(err)
@@ -84,6 +93,27 @@ func (r *sqliteRepository) AddTournamentId(tournamentid string, cbvaTournamentId
 	}
 
 	return nil
+}
+
+func (r *sqliteRepository) GetTournament(id string) (*Tournament, error) {
+	var t Tournament
+	row := r.db.QueryRow("SELECT id, date, rating, gender, location, tournamentId FROM cbva_tournament WHERE id = $1", id)
+	err := row.Scan(
+		&t.Id,
+		&t.Date,
+		&t.Rating,
+		&t.Gender,
+		&t.Location,
+		&t.TournamentId,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, TournamentNotFoundError
+		}
+		checkError(err)
+	}
+
+	return &t, nil
 }
 
 type cacheRepository struct {
@@ -120,8 +150,8 @@ func (r *cacheRepository) AddPlayerId(playerId string, cbvaName string) error {
 	return r.repository.AddPlayerId(playerId, cbvaName)
 }
 
-func (r *cacheRepository) AddTournamentId(tournamentId string, cbvaTournamentId string) error {
-	return r.repository.AddTournamentId(tournamentId, cbvaTournamentId)
+func (r *cacheRepository) AddTournament(tournament Tournament) error {
+	return r.repository.AddTournament(tournament)
 }
 
 func NewRepositoryWithCaching(db *sql.DB) Repository {

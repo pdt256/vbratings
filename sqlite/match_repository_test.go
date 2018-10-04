@@ -22,20 +22,20 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	matchRepository := sqlite.NewMatchRepository(db)
 	repository := matchRepository
 	match := vbratings.Match{
-		PlayerAId: playerAId,
-		PlayerBId: playerBId,
-		PlayerCId: playerCId,
-		PlayerDId: playerDId,
-		IsForfeit: true,
-		Year:      2018,
+		Id:           "315ce592a7264cf9bb7b3161126158dd",
+		PlayerAId:    playerAId,
+		PlayerBId:    playerBId,
+		PlayerCId:    playerCId,
+		PlayerDId:    playerDId,
+		IsForfeit:    true,
+		TournamentId: "9f4bc9cf60b147719a0c99a05b214341",
 	}
-	id := "123-abc"
 
 	// When
-	repository.Create(match, id)
+	repository.Create(match)
 
 	// Then
-	actualMatch := repository.Find(id)
+	actualMatch := repository.Find(match.Id)
 	assert.Equal(t, playerAId, actualMatch.PlayerAId)
 	assert.Equal(t, playerBId, actualMatch.PlayerBId)
 	assert.Equal(t, playerCId, actualMatch.PlayerCId)
@@ -44,7 +44,7 @@ func Test_MatchRepository_CreateAndFindForfeit(t *testing.T) {
 	assert.Equal(t, "", actualMatch.Set1)
 	assert.Equal(t, "", actualMatch.Set2)
 	assert.Equal(t, "", actualMatch.Set3)
-	assert.Equal(t, 2018, actualMatch.Year)
+	assert.Equal(t, match.TournamentId, actualMatch.TournamentId)
 }
 
 func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
@@ -52,6 +52,7 @@ func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 	db := sqlite.NewInMemoryDB()
 	repository := sqlite.NewMatchRepository(db)
 	match := vbratings.Match{
+		Id:        "207e3e38e33b44ca8c2a20d99e77c793",
 		PlayerAId: playerAId,
 		PlayerBId: playerBId,
 		PlayerCId: playerCId,
@@ -61,13 +62,12 @@ func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 		Set2:      "21-15",
 		Set3:      "15-7",
 	}
-	id := "123-abc"
 
 	// When
-	repository.Create(match, id)
+	repository.Create(match)
 
 	// Then
-	actualMatch := repository.Find(id)
+	actualMatch := repository.Find(match.Id)
 	assert.Equal(t, playerAId, actualMatch.PlayerAId)
 	assert.Equal(t, playerBId, actualMatch.PlayerBId)
 	assert.Equal(t, playerCId, actualMatch.PlayerCId)
@@ -81,6 +81,7 @@ func Test_MatchRepository_CreateAndFind3SetMatch(t *testing.T) {
 func Test_MatchRepository_GetAllPlayerIds(t *testing.T) {
 	// Given
 	match := vbratings.Match{
+		Id:        "c862981c53844177b3c41c3f89031ef8",
 		PlayerAId: playerAId,
 		PlayerBId: playerBId,
 		PlayerCId: playerCId,
@@ -92,7 +93,7 @@ func Test_MatchRepository_GetAllPlayerIds(t *testing.T) {
 	}
 	db := sqlite.NewInMemoryDB()
 	repository := sqlite.NewMatchRepository(db)
-	repository.Create(match, "a5ddebfd-dc00-4596-b39d-cb1c68f378df")
+	repository.Create(match)
 
 	// When
 	actualPlayerIds := repository.GetAllPlayerIds()

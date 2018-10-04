@@ -9,4 +9,5 @@ curl -s "http://www.bvbinfo.com/Tournament.asp?ID=3333&Process=Matches" -o "$DIR
 curl -s "http://bvbinfo.com/Tournament.asp?ID=3109&Process=Matches" -o "$DIR/2015-avp-manhattan-beach-mens-matches.html"
 curl -s "http://bvbinfo.com/Tournament.asp?ID=2975&Process=Matches" -o "$DIR/2014-avp-st-petersburg-mens-matches.html"
 curl -s "http://www.bvbinfo.com/Tournament.asp?ID=3465&Process=Matches" -o "$DIR/2018-fivb-gstaad-major-mens-matches.html"
+curl -s "http://bvbinfo.com/Tournament.asp?ID=3487&Process=Matches" -o "$DIR/2018-avp-new-york-mens-matches.html"
 curl -s "http://bvbinfo.com/player.asp?ID=1256" -o "$DIR/misty-may-player.html"

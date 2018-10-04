@@ -30,18 +30,17 @@ func (r *matchRepository) migrateDB() {
 			,set1 TEXT NOT NULL
 			,set2 TEXT NOT NULL
 			,set3 TEXT NOT NULL
-			,year INT NOT NULL
-			,gender TEXT NOT NULL
+			,tournamentId TEXT NOT NULL
 		);`
 
 	_, createError := r.db.Exec(sqlStmt)
 	checkError(createError)
 }
 
-func (r *matchRepository) Create(match vbratings.Match, id string) {
+func (r *matchRepository) Create(match vbratings.Match) {
 	_, err := r.db.Exec(
-		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
-		id,
+		"INSERT INTO match(id, playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, tournamentId) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+		match.Id,
 		match.PlayerAId,
 		match.PlayerBId,
 		match.PlayerCId,
@@ -50,15 +49,14 @@ func (r *matchRepository) Create(match vbratings.Match, id string) {
 		match.Set1,
 		match.Set2,
 		match.Set3,
-		match.Year,
-		match.Gender,
+		match.TournamentId,
 	)
 	checkError(err)
 }
 
 func (r *matchRepository) Find(id string) *vbratings.Match {
 	var m vbratings.Match
-	row := r.db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year, gender FROM match WHERE id = $1", id)
+	row := r.db.QueryRow("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, tournamentId FROM match WHERE id = $1", id)
 	checkError(row.Scan(
 		&m.PlayerAId,
 		&m.PlayerBId,
@@ -68,8 +66,7 @@ func (r *matchRepository) Find(id string) *vbratings.Match {
 		&m.Set1,
 		&m.Set2,
 		&m.Set3,
-		&m.Year,
-		&m.Gender,
+		&m.TournamentId,
 	))
 
 	return &m
@@ -102,7 +99,12 @@ func (r *matchRepository) GetAllPlayerIds() []string {
 func (r *matchRepository) GetAllMatchesByYear(year int) []vbratings.Match {
 	var matches []vbratings.Match
 
-	rows, queryErr := r.db.Query("SELECT playerA_id, playerB_id, playerC_id, playerD_id, isForfeit, set1, set2, set3, year, gender FROM match WHERE year = $1", year)
+	rows, queryErr := r.db.Query(`SELECT
+			playerA_id, playerB_id, playerC_id, playerD_id,
+			isForfeit, set1, set2, set3, tournamentId
+		FROM match AS m
+			INNER JOIN tournament AS t ON t.id = m.tournamentId
+		WHERE t.year = $1`, year)
 	checkError(queryErr)
 
 	defer rows.Close()
@@ -118,8 +120,7 @@ func (r *matchRepository) GetAllMatchesByYear(year int) []vbratings.Match {
 			&m.Set1,
 			&m.Set2,
 			&m.Set3,
-			&m.Year,
-			&m.Gender,
+			&m.TournamentId,
 		))
 
 		matches = append(matches, m)

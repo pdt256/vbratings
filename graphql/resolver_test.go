@@ -48,15 +48,15 @@ func Test_Mutation_PlayerCommands_Create(t *testing.T) {
 	configuration := app.NewConfiguration(sqlite.InMemorySharedDbPath)
 	application := app.New(configuration)
 	handler := graphql.NewHandler(application)
-	mutation := `mutation ($id: String!, $name: String!, $imgUrl: String!) {
+	mutation := `mutation ($id: String!, $name: String!, $gender: String!) {
 		playerCommands {
-			create(Id: $id, name: $name, imgUrl: $imgUrl)
+			create(id: $id, name: $name, gender: $gender)
 		}
 	}`
 	variables := `{
 		"id": "b0282573b90a4f1591888820b63906f6",
 		"name": "John Doe",
-		"imgUrl": "http://example.com/1.jpg"
+		"gender": "male"
 	}`
 	request := getRequest(mutation, variables)
 	response := httptest.NewRecorder()

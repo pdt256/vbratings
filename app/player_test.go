@@ -14,7 +14,7 @@ func Test_Player_GetPlayer(t *testing.T) {
 	configuration := app.NewConfiguration(sqlite.InMemorySharedDbPath)
 	application := app.New(configuration)
 	id := "b3a00549f00d4c3e880349526e9ec1e8"
-	err1 := application.Player.Create(id, "Jane Doe", "http://example.com/1.jpg")
+	err1 := application.Player.Create(id, "Jane Doe", "female")
 	require.NoError(t, err1)
 
 	// When
@@ -24,5 +24,5 @@ func Test_Player_GetPlayer(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, id, player.Id)
 	assert.Equal(t, "Jane Doe", player.Name)
-	assert.Equal(t, "http://example.com/1.jpg", player.ImgUrl)
+	assert.Equal(t, "female", player.Gender)
 }

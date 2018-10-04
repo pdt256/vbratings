@@ -12,11 +12,17 @@ var tournamentResultRegexp = regexp.MustCompile(`(?sm:EarnedFinish":"([^"]+)".+?
 var tournamentsRegexp = regexp.MustCompile(`(?sm:data-id=\\"([^\\]+)\\" data-Date=\\"([^\\]+)\\" data-Rating=\\"([^\\]+)\\" data-Gender=\\"([^\\]+)\\".+?data-Location=\\"([^\\]+)\\")`)
 
 type Tournament struct {
-	Id       string
-	Date     string
-	Rating   string
-	Gender   string
-	Location string
+	Id           string
+	Date         string
+	Rating       string
+	Gender       string
+	Location     string
+	TournamentId string
+}
+
+func (t Tournament) Year() int {
+	year, _ := strconv.Atoi(t.Date[len(t.Date)-4:])
+	return year
 }
 
 type TournamentResult struct {

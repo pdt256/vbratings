@@ -20,14 +20,12 @@ func (pr *PlayerRating) GetTopPlayerRatings(year int, gender string, limit int) 
 func (pr *PlayerRating) Create(
 	playerId string,
 	year int,
-	gender string,
 	seedRating int,
 	rating int,
 	totalMatches int) error {
 	playerRating := vbratings.PlayerRating{
 		PlayerId:     playerId,
 		Year:         year,
-		Gender:       gender,
 		SeedRating:   seedRating,
 		Rating:       rating,
 		TotalMatches: totalMatches,

@@ -24,7 +24,6 @@ func (r *playerRatingRepository) migrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS player_rating (
 			playerId TEXT NOT NULL
 			,year INT NOT NULL
-			,gender TEXT NOT NULL
 			,seedRating INT NOT NULL
 			,rating TEXT NOT NULL
 			,totalMatches INT NOT NULL
@@ -36,10 +35,9 @@ func (r *playerRatingRepository) migrateDB() {
 
 func (r *playerRatingRepository) Create(playerRating vbratings.PlayerRating) error {
 	_, err := r.db.Exec(
-		"INSERT OR REPLACE INTO player_rating(playerId, year, gender, seedRating, rating, totalMatches) VALUES ($1, $2, $3, $4, $5, $6)",
+		"INSERT OR REPLACE INTO player_rating(playerId, year, seedRating, rating, totalMatches) VALUES ($1, $2, $3, $4, $5)",
 		playerRating.PlayerId,
 		playerRating.Year,
-		playerRating.Gender,
 		playerRating.SeedRating,
 		playerRating.Rating,
 		playerRating.TotalMatches,
@@ -55,11 +53,10 @@ func (r *playerRatingRepository) Create(playerRating vbratings.PlayerRating) err
 
 func (r *playerRatingRepository) GetPlayerRatingByYear(playerId string, year int) (*vbratings.PlayerRating, error) {
 	var pr vbratings.PlayerRating
-	row := r.db.QueryRow("SELECT playerId, year, gender, seedRating, rating, totalMatches FROM player_rating WHERE playerId = $1 AND year = $2", playerId, year)
+	row := r.db.QueryRow("SELECT playerId, year, seedRating, rating, totalMatches FROM player_rating WHERE playerId = $1 AND year = $2", playerId, year)
 	err := row.Scan(
 		&pr.PlayerId,
 		&pr.Year,
-		&pr.Gender,
 		&pr.SeedRating,
 		&pr.Rating,
 		&pr.TotalMatches,
@@ -78,11 +75,11 @@ func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender string, li
 	var playerAndRatings []vbratings.PlayerAndRating
 
 	rows, queryErr := r.db.Query(`SELECT
-		p.id, p.name, p.imgUrl,
+		p.id, p.name,
 		pr.playerId, pr.year, pr.seedRating, pr.rating, pr.totalMatches
 		FROM player_rating AS pr
 		INNER JOIN player AS p ON p.id = pr.playerId
-		WHERE pr.year = $1 AND pr.gender = $2
+		WHERE pr.year = $1 AND p.gender = $2
 		ORDER BY rating DESC
 		LIMIT $3;`, year, gender, limit)
 	checkError(queryErr)
@@ -94,7 +91,6 @@ func (r *playerRatingRepository) GetTopPlayerRatings(year int, gender string, li
 		checkError(rows.Scan(
 			&par.Id,
 			&par.Name,
-			&par.ImgUrl,
 			&par.PlayerId,
 			&par.Year,
 			&par.SeedRating,

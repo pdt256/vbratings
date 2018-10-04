@@ -7,7 +7,6 @@ import (
 type PlayerRating struct {
 	PlayerId     string
 	Year         int
-	Gender       string
 	SeedRating   int
 	Rating       int
 	TotalMatches int

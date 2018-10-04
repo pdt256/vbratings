@@ -26,7 +26,6 @@ func (c *ratingCalculator) CalculateRatingsByYear(year int) int {
 	duelingCalculator := skill.NewDuelingCalculator(ratingCalculator)
 
 	for _, match := range c.matchRepository.GetAllMatchesByYear(year) {
-
 		playerARating := c.getPlayerRating(match.PlayerAId, year)
 		playerBRating := c.getPlayerRating(match.PlayerBId, year)
 		playerCRating := c.getPlayerRating(match.PlayerCId, year)
@@ -41,11 +40,6 @@ func (c *ratingCalculator) CalculateRatingsByYear(year int) int {
 		playerBRating.Rating = newRatingsA[1]
 		playerCRating.Rating = newRatingsB[0]
 		playerDRating.Rating = newRatingsB[1]
-
-		playerARating.Gender = match.Gender
-		playerBRating.Gender = match.Gender
-		playerCRating.Gender = match.Gender
-		playerDRating.Gender = match.Gender
 
 		playerARating.TotalMatches++
 		playerBRating.TotalMatches++

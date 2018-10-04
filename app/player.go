@@ -12,11 +12,11 @@ type Player struct {
 func (p *Player) Create(
 	id string,
 	name string,
-	imgUrl string) error {
+	gender string) error {
 	player := vbratings.Player{
 		Id:     id,
 		Name:   name,
-		ImgUrl: imgUrl,
+		Gender: gender,
 	}
 	return p.playerRepository.Create(player)
 }

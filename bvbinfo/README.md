@@ -17,8 +17,9 @@ Importing Matches
 ...............................................................................
 ...............................................................................
 ...............................................................................
-94364 totalMatches imported
-11375 totalPlayers imported
+xx total tournaments imported
+94364 total matches imported
+11375 total players imported
 ```
 
 ## License

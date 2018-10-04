@@ -7,7 +7,7 @@ import (
 type Player struct {
 	Id     string
 	Name   string
-	ImgUrl string
+	Gender string
 }
 
 type PlayerRepository interface {

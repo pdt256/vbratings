@@ -16,20 +16,28 @@ var (
 )
 
 func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
+	tournament := vbratings.Tournament{
+		Id:     "1b97c1b593f84566bb932678eaf8a30d",
+		Gender: "male",
+		Year:   2018,
+	}
 	match := vbratings.Match{
-		PlayerAId: playerAId,
-		PlayerBId: playerBId,
-		PlayerCId: playerCId,
-		PlayerDId: playerDId,
-		IsForfeit: false,
-		Set1:      "17-21",
-		Set2:      "21-15",
-		Set3:      "15-7",
-		Year:      2018,
+		Id:           "0b9fb995e28a451fa5aaca68d397c1e0",
+		PlayerAId:    playerAId,
+		PlayerBId:    playerBId,
+		PlayerCId:    playerCId,
+		PlayerDId:    playerDId,
+		IsForfeit:    false,
+		Set1:         "17-21",
+		Set2:         "21-15",
+		Set3:         "15-7",
+		TournamentId: tournament.Id,
 	}
 	db := sqlite.NewInMemoryDB()
+	tournamentRepository := sqlite.NewTournamentRepository(db)
+	tournamentRepository.Create(tournament)
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.Create(match, "123-abc")
+	matchRepository.Create(match)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
@@ -49,34 +57,41 @@ func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
 
 func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPreviousMatch(t *testing.T) {
 	// Given
+	tournament := vbratings.Tournament{
+		Id:     "383cea98af1f40ebbf6fdfd6deec7270",
+		Gender: "female",
+		Year:   2018,
+	}
 	match1 := vbratings.Match{
-		PlayerAId: playerAId,
-		PlayerBId: playerBId,
-		PlayerCId: playerCId,
-		PlayerDId: playerDId,
-		IsForfeit: false,
-		Set1:      "17-21",
-		Set2:      "21-15",
-		Set3:      "15-7",
-		Year:      2018,
-		Gender:    "female",
+		Id:           "bb5ff2b66aba45998fea0d8c0dc8bf52",
+		PlayerAId:    playerAId,
+		PlayerBId:    playerBId,
+		PlayerCId:    playerCId,
+		PlayerDId:    playerDId,
+		IsForfeit:    false,
+		Set1:         "17-21",
+		Set2:         "21-15",
+		Set3:         "15-7",
+		TournamentId: tournament.Id,
 	}
 	match2 := vbratings.Match{
-		PlayerAId: playerAId,
-		PlayerBId: playerBId,
-		PlayerCId: playerCId,
-		PlayerDId: playerDId,
-		IsForfeit: false,
-		Set1:      "17-21",
-		Set2:      "21-15",
-		Set3:      "15-7",
-		Year:      2018,
-		Gender:    "female",
+		Id:           "f87317add92e452f877e6b43e31c0a16",
+		PlayerAId:    playerAId,
+		PlayerBId:    playerBId,
+		PlayerCId:    playerCId,
+		PlayerDId:    playerDId,
+		IsForfeit:    false,
+		Set1:         "17-21",
+		Set2:         "21-15",
+		Set3:         "15-7",
+		TournamentId: tournament.Id,
 	}
 	db := sqlite.NewInMemoryDB()
+	tournamentRepository := sqlite.NewTournamentRepository(db)
+	tournamentRepository.Create(tournament)
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.Create(match1, "match1")
-	matchRepository.Create(match2, "match2")
+	matchRepository.Create(match1)
+	matchRepository.Create(match2)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
 
@@ -93,7 +108,6 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 	assertPlayerRating(t, playerRatingC, 1500, 1469, 2018)
 	assertPlayerRating(t, playerRatingD, 1500, 1469, 2018)
 	assert.Equal(t, 2, playerRatingA.TotalMatches)
-	assert.Equal(t, "female", playerRatingA.Gender)
 }
 
 func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRating(t *testing.T) {
@@ -104,20 +118,28 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRa
 		SeedRating: 1500,
 		Rating:     1600,
 	}
+	tournament := vbratings.Tournament{
+		Id:     "3f955b24ef804c198b9ddcfaf330ff8f",
+		Gender: "male",
+		Year:   2018,
+	}
 	match := vbratings.Match{
-		PlayerAId: playerAId,
-		PlayerBId: playerBId,
-		PlayerCId: playerCId,
-		PlayerDId: playerDId,
-		IsForfeit: false,
-		Set1:      "17-21",
-		Set2:      "21-15",
-		Set3:      "15-7",
-		Year:      2018,
+		Id:           "34d659c28edb4a8b94ea5c39dea32534",
+		PlayerAId:    playerAId,
+		PlayerBId:    playerBId,
+		PlayerCId:    playerCId,
+		PlayerDId:    playerDId,
+		IsForfeit:    false,
+		Set1:         "17-21",
+		Set2:         "21-15",
+		Set3:         "15-7",
+		TournamentId: tournament.Id,
 	}
 	db := sqlite.NewInMemoryDB()
+	tournamentRepository := sqlite.NewTournamentRepository(db)
+	tournamentRepository.Create(tournament)
 	matchRepository := sqlite.NewMatchRepository(db)
-	matchRepository.Create(match, "123-abc")
+	matchRepository.Create(match)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 	playerRatingRepository.Create(playerRating)
 	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)

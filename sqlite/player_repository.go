@@ -24,7 +24,7 @@ func (r *playerRepository) migrateDB() {
 	sqlStmt := `CREATE TABLE IF NOT EXISTS player (
 			id TEXT NOT NULL PRIMARY KEY
 			,name TEXT NOT NULL
-			,imgUrl TEXT NOT NULL
+			,gender TEXT NOT NULL
 		);`
 
 	_, createError := r.db.Exec(sqlStmt)
@@ -33,11 +33,11 @@ func (r *playerRepository) migrateDB() {
 
 func (r *playerRepository) GetPlayer(id string) (*vbratings.Player, error) {
 	var p vbratings.Player
-	row := r.db.QueryRow("SELECT id, name, imgUrl FROM player WHERE id = $1", id)
+	row := r.db.QueryRow("SELECT id, name, gender FROM player WHERE id = $1", id)
 	err := row.Scan(
 		&p.Id,
 		&p.Name,
-		&p.ImgUrl,
+		&p.Gender,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -51,10 +51,10 @@ func (r *playerRepository) GetPlayer(id string) (*vbratings.Player, error) {
 
 func (r *playerRepository) Create(player vbratings.Player) error {
 	_, err := r.db.Exec(
-		"INSERT INTO player(id, name, imgUrl) VALUES ($1, $2, $3)",
+		"INSERT INTO player(id, name, gender) VALUES ($1, $2, $3)",
 		player.Id,
 		player.Name,
-		player.ImgUrl,
+		player.Gender,
 	)
 	if err != nil {
 		log.Println(err)

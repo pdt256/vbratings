@@ -1,6 +1,7 @@
 package bvbinfo
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
 	"regexp"
@@ -20,7 +21,7 @@ var matchRegexp = regexp.MustCompile(`(?m:<br>Match\s\d+:[^?]+` +
 	`(?:` + `(?:\sby\s(Forfeit))` + `|` + `(?:[^?]+(retired))` + `|` + `(?:\s(\d+-\d+),\s(\d+-\d+)(?:,\s(\d+-\d+))?` + `\s\((\d+:\d+)\))` + `)` +
 	`)`)
 
-var tournamentInfoRegexp = regexp.MustCompile(`(?m:clsTournHeader[^<]+<BR>\s+[^,]+,\s([^\r|\n]+))`)
+var tournamentInfoRegexp = regexp.MustCompile(`(?m:clsTournHeader[^>]+>\s+([^<]+)<BR>\s+([^,]+, \d{4}))`)
 var tournamentGenderRegexp = regexp.MustCompile(`(?m:clsTournHeader[^>]+>\s+([^\s]+)\s)`)
 
 type Season struct {
@@ -28,9 +29,18 @@ type Season struct {
 	Year    string
 }
 
-type Tournament struct {
+type TournamentLink struct {
 	Id   int
 	Name string
+}
+
+type Tournament struct {
+	Id           int
+	Name         string
+	Year         int
+	Dates        string
+	Gender       string
+	TournamentId string
 }
 
 type Match struct {
@@ -42,23 +52,27 @@ type Match struct {
 	Set1      string
 	Set2      string
 	Set3      string
-	Year      int
-	Gender    string
 }
 
 type Player struct {
-	Id   int
-	Name string
+	Id       int
+	Name     string
+	ImgUrl   string
+	PlayerId string
 }
 
-func GetMatches(reader io.Reader) []Match {
+func GetMatches(reader io.Reader, tournamentId int) (Tournament, []Match) {
 	bytes, _ := ioutil.ReadAll(reader)
 	body := string(bytes)
 	tournamentInfoMatches := tournamentInfoRegexp.FindAllStringSubmatch(body, -1)
 
+	var dates string
+	var name string
 	var year int
 	if len(tournamentInfoMatches) > 0 {
-		year, _ = strconv.Atoi(tournamentInfoMatches[0][1])
+		name = tournamentInfoMatches[0][1]
+		dates = tournamentInfoMatches[0][2]
+		year, _ = strconv.Atoi(dates[len(dates)-4:])
 	}
 
 	tournamentGenderMatches := tournamentGenderRegexp.FindAllStringSubmatch(body, -1)
@@ -69,6 +83,14 @@ func GetMatches(reader io.Reader) []Match {
 	gender = normalizeGender(gender)
 
 	regexMatches := matchRegexp.FindAllStringSubmatch(body, -1)
+
+	tournament := Tournament{
+		Id:     tournamentId,
+		Name:   name,
+		Year:   year,
+		Dates:  dates,
+		Gender: gender,
+	}
 
 	var matches []Match
 	for _, value := range regexMatches {
@@ -87,31 +109,37 @@ func GetMatches(reader io.Reader) []Match {
 
 		matches = append(matches, Match{
 			PlayerA: Player{
-				Id:   idA,
-				Name: value[2],
+				Id:     idA,
+				Name:   value[2],
+				ImgUrl: getImgUrl(idA),
 			},
 			PlayerB: Player{
-				Id:   idB,
-				Name: value[4],
+				Id:     idB,
+				Name:   value[4],
+				ImgUrl: getImgUrl(idB),
 			},
 			PlayerC: Player{
-				Id:   idC,
-				Name: value[6],
+				Id:     idC,
+				Name:   value[6],
+				ImgUrl: getImgUrl(idC),
 			},
 			PlayerD: Player{
-				Id:   idD,
-				Name: value[8],
+				Id:     idD,
+				Name:   value[8],
+				ImgUrl: getImgUrl(idD),
 			},
 			IsForfeit: isForfeit || isRetired,
 			Set1:      set1,
 			Set2:      set2,
 			Set3:      set3,
-			Year:      year,
-			Gender:    gender,
 		})
 	}
 
-	return matches
+	return tournament, matches
+}
+
+func getImgUrl(bvbId int) string {
+	return fmt.Sprintf("http://bvbinfo.com/images/photos/%d.jpg", bvbId)
 }
 
 func normalizeGender(input string) string {
@@ -123,17 +151,17 @@ func normalizeGender(input string) string {
 	return "male"
 }
 
-func GetTournaments(reader io.Reader) []Tournament {
+func GetTournaments(reader io.Reader) []TournamentLink {
 	bytes, _ := ioutil.ReadAll(reader)
 	regexMatches := tournamentRegexp.FindAllStringSubmatch(string(bytes), -1)
 
-	var tournaments []Tournament
+	var tournamentLinks []TournamentLink
 	for _, value := range regexMatches {
 		id, _ := strconv.Atoi(value[1])
-		tournaments = append(tournaments, Tournament{id, value[2]})
+		tournamentLinks = append(tournamentLinks, TournamentLink{id, value[2]})
 	}
 
-	return tournaments
+	return tournamentLinks
 }
 
 func GetSeasons(reader io.Reader) []Season {

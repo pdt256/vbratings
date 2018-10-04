@@ -19,6 +19,7 @@ func main() {
 	flag.Parse()
 
 	db := sqlite.NewFileDB(*dbPath)
+	tournamentRepository := sqlite.NewTournamentRepository(db)
 	matchRepository := sqlite.NewMatchRepository(db)
 	playerRepository := sqlite.NewPlayerRepository(db)
 	bvbInfoRepository := bvbinfo.NewRepositoryWithCaching(db)
@@ -26,6 +27,7 @@ func main() {
 	uuidGenerator := uuid.NewService()
 
 	importer := bvbinfo.NewImporter(
+		tournamentRepository,
 		matchRepository,
 		playerRepository,
 		bvbInfoRepository,
@@ -33,7 +35,8 @@ func main() {
 	)
 
 	fmt.Println("Importing Matches")
-	totalMatches, totalPlayers := importer.ImportAllSeasons()
-	fmt.Printf("\n%d totalMatches imported\n", totalMatches)
-	fmt.Printf("%d totalPlayers imported\n", totalPlayers)
+	totalTournaments, totalMatches, totalPlayers := importer.ImportAllSeasons()
+	fmt.Printf("\n%d total tournaments imported\n", totalTournaments)
+	fmt.Printf("%d total matches imported\n", totalMatches)
+	fmt.Printf("%d total players imported\n", totalPlayers)
 }
