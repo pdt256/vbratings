@@ -8,7 +8,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.9.0
 	github.com/olekukonko/tablewriter v0.0.0-20180506121414-d4647c9c7a84
 	github.com/opentracing/opentracing-go v1.0.2 // indirect
-	github.com/pdt256/skill v0.0.0-20180902041017-89e0e3fd8060
+	github.com/pdt256/skill v0.0.0-20181017232444-9195c9e10215
 	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/cobra v0.0.3
 	github.com/spf13/pflag v1.0.2 // indirect

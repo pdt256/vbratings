@@ -6,9 +6,10 @@ import (
 	"github.com/pdt256/vbratings"
 	"github.com/pdt256/vbratings/sqlite"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
-var (
+const (
 	playerAId = "98556e2665224abc99c2d07d621befa7"
 	playerBId = "7a30fab9631a442d83b70c9bf1293be8"
 	playerCId = "91f67d94a9a54c91b9f0ee0efc497c28"
@@ -39,12 +40,13 @@ func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
 	matchRepository := sqlite.NewMatchRepository(db)
 	matchRepository.Create(match)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
+	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, tournamentRepository, playerRatingRepository)
 
 	// When
-	ratingCalculator.CalculateRatingsByYear(2018)
+	totalCalculated := ratingCalculator.CalculateRatingsByYearFromMatches(2018)
 
 	// Then
+	assert.Equal(t, 4, totalCalculated)
 	playerRatingA, _ := playerRatingRepository.GetPlayerRatingByYear(playerAId, 2018)
 	playerRatingB, _ := playerRatingRepository.GetPlayerRatingByYear(playerBId, 2018)
 	playerRatingC, _ := playerRatingRepository.GetPlayerRatingByYear(playerCId, 2018)
@@ -93,12 +95,13 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPlayerRatingFromPrev
 	matchRepository.Create(match1)
 	matchRepository.Create(match2)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
-	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
+	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, tournamentRepository, playerRatingRepository)
 
 	// When
-	ratingCalculator.CalculateRatingsByYear(2018)
+	totalCalculated := ratingCalculator.CalculateRatingsByYearFromMatches(2018)
 
 	// Then
+	assert.Equal(t, 4, totalCalculated)
 	playerRatingA, _ := playerRatingRepository.GetPlayerRatingByYear(playerAId, 2018)
 	playerRatingB, _ := playerRatingRepository.GetPlayerRatingByYear(playerBId, 2018)
 	playerRatingC, _ := playerRatingRepository.GetPlayerRatingByYear(playerCId, 2018)
@@ -142,12 +145,13 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRa
 	matchRepository.Create(match)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 	playerRatingRepository.Create(playerRating)
-	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
+	ratingCalculator := vbratings.NewRatingCalculator(matchRepository, tournamentRepository, playerRatingRepository)
 
 	// When
-	ratingCalculator.CalculateRatingsByYear(2018)
+	totalCalculated := ratingCalculator.CalculateRatingsByYearFromMatches(2018)
 
 	// Then
+	assert.Equal(t, 4, totalCalculated)
 	playerRatingA, _ := playerRatingRepository.GetPlayerRatingByYear(playerAId, 2018)
 	playerRatingB, _ := playerRatingRepository.GetPlayerRatingByYear(playerBId, 2018)
 	playerRatingC, _ := playerRatingRepository.GetPlayerRatingByYear(playerCId, 2018)
@@ -156,6 +160,49 @@ func Test_RatingCalculator_CalculateRatingsByYear_SeededWithPreviousYearPlayerRa
 	assertPlayerRating(t, playerRatingB, 1500, 1516, 2018)
 	assertPlayerRating(t, playerRatingC, 1500, 1486, 2018)
 	assertPlayerRating(t, playerRatingD, 1500, 1486, 2018)
+}
+
+func Test_RatingCalculator_CalculateRatingsByYearFromTournamentResults_1TeamWith1EarnedFinish(t *testing.T) {
+	// Given
+	const year = 2018
+	tournament := vbratings.Tournament{
+		Id:   "3366b167a109496db63f43169e4ac1a7",
+		Year: year,
+	}
+
+	result1 := vbratings.TournamentResult{
+		Id:           "e57fd803a81349b69f0e7160fa13e919",
+		Player1Id:    playerAId,
+		Player2Id:    playerBId,
+		EarnedFinish: 1,
+		TournamentId: tournament.Id,
+	}
+
+	db := sqlite.NewInMemoryDB()
+	tournamentRepository := sqlite.NewTournamentRepository(db)
+	tournamentRepository.Create(tournament)
+	tournamentRepository.AddTournamentResult(result1)
+	matchRepository := sqlite.NewMatchRepository(db)
+	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
+	ratingCalculator := vbratings.NewRatingCalculator(
+		matchRepository,
+		tournamentRepository,
+		playerRatingRepository,
+	)
+
+	// When
+	totalCalculated := ratingCalculator.CalculateRatingsByYearFromTournamentResults(year)
+
+	// Then
+	assert.Equal(t, 4, totalCalculated)
+	assertNewRating(t, playerRatingRepository, result1.Player1Id, 1545, year)
+	assertNewRating(t, playerRatingRepository, result1.Player2Id, 1545, year)
+}
+
+func assertNewRating(t *testing.T, playerRatingRepository vbratings.PlayerRatingRepository, playerId string, expectedRating int, expectedYear int) {
+	playerRatingResult, err := playerRatingRepository.GetPlayerRatingByYear(playerId, expectedYear)
+	require.NoError(t, err)
+	assertPlayerRating(t, playerRatingResult, 1500, expectedRating, expectedYear)
 }
 
 func assertPlayerRating(t *testing.T, playerRating *vbratings.PlayerRating, expectedSeedRating int, expectedRating int, expectedYear int) {

@@ -20,6 +20,8 @@ github.com/opentracing/opentracing-go v1.0.2 h1:3jA2P6O1F9UOrWVpwrIo17pu01KWvNWg
 github.com/opentracing/opentracing-go v1.0.2/go.mod h1:UkNAQd3GIcIGf0SeVgPpRdFStlNbqXla1AfSYxPUl2o=
 github.com/pdt256/skill v0.0.0-20180902041017-89e0e3fd8060 h1:xjymgV4dOSC1CeeG12VtHULWcbaW6JPV5LaVRCBQafg=
 github.com/pdt256/skill v0.0.0-20180902041017-89e0e3fd8060/go.mod h1:F8aMZyIvCgbtU+BNfLa70FYgKQPnWus7kHF5vzB4XE4=
+github.com/pdt256/skill v0.0.0-20181017232444-9195c9e10215 h1:CnvNtrUu3BIOGeAH/J7yd8KoJMpFVzjh38aQiY2OA+Q=
+github.com/pdt256/skill v0.0.0-20181017232444-9195c9e10215/go.mod h1:F8aMZyIvCgbtU+BNfLa70FYgKQPnWus7kHF5vzB4XE4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/satori/go.uuid v1.2.0 h1:0uYX9dsZ2yD7q2RtLRtPSdGDWzjeM3TbMJP9utgA0ww=

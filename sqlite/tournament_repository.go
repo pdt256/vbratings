@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/pdt256/vbratings"
@@ -73,8 +74,8 @@ func (r *tournamentRepository) AddTournamentResult(tournamentResult vbratings.To
 	checkError(err)
 }
 
-func (r *tournamentRepository) GetAllTournamentResults() []vbratings.TournamentResult {
-	var tournamentResults []vbratings.TournamentResult
+func (r *tournamentRepository) GetAllTournamentResults() []*vbratings.TournamentResult {
+	var tournamentResults []*vbratings.TournamentResult
 
 	rows, queryErr := r.db.Query("SELECT id, player1Id, player2Id, earnedFinish, tournamentId FROM tournament_result")
 	checkError(queryErr)
@@ -91,11 +92,42 @@ func (r *tournamentRepository) GetAllTournamentResults() []vbratings.TournamentR
 			&tr.TournamentId,
 		))
 
-		tournamentResults = append(tournamentResults, tr)
+		tournamentResults = append(tournamentResults, &tr)
 	}
 	checkError(rows.Err())
 
 	return tournamentResults
+}
+
+func (r *tournamentRepository) GetAllTournamentsAndResultsByYear(year int) []*vbratings.TournamentAndResults {
+
+	tournaments := r.getTournamentsByYear(year)
+	tournamentIds := getTournamentIds(tournaments)
+	tournamentResults := r.getTournamentResultsByTournamentIds(tournamentIds)
+
+	tournamentsAndResults := make([]*vbratings.TournamentAndResults, 0, len(tournaments))
+
+	for _, tournament := range tournaments {
+		tournamentsAndResults = append(
+			tournamentsAndResults,
+			&vbratings.TournamentAndResults{
+				Tournament: tournament,
+				Results:    tournamentResults[tournament.Id],
+			},
+		)
+	}
+
+	return tournamentsAndResults
+}
+
+func getTournamentIds(tournaments []*vbratings.Tournament) []string {
+	var ids []string
+
+	for _, value := range tournaments {
+		ids = append(ids, value.Id)
+	}
+
+	return ids
 }
 
 func (r *tournamentRepository) GetTournament(id string) (*vbratings.Tournament, error) {
@@ -116,4 +148,61 @@ func (r *tournamentRepository) GetTournament(id string) (*vbratings.Tournament, 
 	}
 
 	return &t, nil
+}
+
+func (r *tournamentRepository) getTournamentsByYear(i int) []*vbratings.Tournament {
+	var tournaments []*vbratings.Tournament
+
+	rows, queryErr := r.db.Query("SELECT id, name, date, gender, year FROM tournament")
+	checkError(queryErr)
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var tr vbratings.Tournament
+		checkError(rows.Scan(
+			&tr.Id,
+			&tr.Name,
+			&tr.Date,
+			&tr.Gender,
+			&tr.Year,
+		))
+
+		tournaments = append(tournaments, &tr)
+	}
+	checkError(rows.Err())
+
+	return tournaments
+}
+
+func (r *tournamentRepository) getTournamentResultsByTournamentIds(tournamentIds []string) map[string][]*vbratings.TournamentResult {
+	tournamentsResults := make(map[string][]*vbratings.TournamentResult, len(tournamentIds))
+
+	rows, queryErr := r.db.Query("SELECT id, player1Id, player2Id, earnedFinish, tournamentId FROM tournament_result WHERE tournamentId IN ($1) ORDER BY tournamentId, earnedFinish", getUnsafeSQLStrings(tournamentIds))
+	checkError(queryErr)
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var tr vbratings.TournamentResult
+		checkError(rows.Scan(
+			&tr.Id,
+			&tr.Player1Id,
+			&tr.Player2Id,
+			&tr.EarnedFinish,
+			&tr.TournamentId,
+		))
+
+		tournamentsResults[tr.TournamentId] = append(
+			tournamentsResults[tr.TournamentId],
+			&tr,
+		)
+	}
+	checkError(rows.Err())
+
+	return tournamentsResults
+}
+
+func getUnsafeSQLStrings(ids []string) string {
+	return strings.Join(ids, `","`)
 }

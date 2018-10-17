@@ -21,6 +21,7 @@ func main() {
 
 	db := sqlite.NewFileDB(*dbPath)
 	matchRepository := sqlite.NewMatchRepository(db)
+	tournamentRepository := sqlite.NewTournamentRepository(db)
 	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
 
 	var totalCalculated int
@@ -31,14 +32,14 @@ func main() {
 		}
 
 		for _, singleYear := range years {
-			ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
-			totalCalculated += ratingCalculator.CalculateRatingsByYear(singleYear)
+			ratingCalculator := vbratings.NewRatingCalculator(matchRepository, tournamentRepository, playerRatingRepository)
+			totalCalculated += ratingCalculator.CalculateRatingsByYearFromMatches(singleYear)
 			fmt.Print(".")
 		}
 		fmt.Println()
 	} else {
-		ratingCalculator := vbratings.NewRatingCalculator(matchRepository, playerRatingRepository)
-		totalCalculated = ratingCalculator.CalculateRatingsByYear(*year)
+		ratingCalculator := vbratings.NewRatingCalculator(matchRepository, tournamentRepository, playerRatingRepository)
+		totalCalculated = ratingCalculator.CalculateRatingsByYearFromMatches(*year)
 	}
 
 	fmt.Printf("%d ratings calculated\n", totalCalculated)

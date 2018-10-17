@@ -22,10 +22,17 @@ type TournamentResult struct {
 	EarnedFinish int
 }
 
+type TournamentAndResults struct {
+	Tournament *Tournament
+	Results    []*TournamentResult
+}
+
 type TournamentRepository interface {
+	GetTournament(id string) (*Tournament, error)
 	Create(tournament Tournament)
 	AddTournamentResult(tournamentResult TournamentResult)
-	GetAllTournamentResults() []TournamentResult
+	GetAllTournamentResults() []*TournamentResult
+	GetAllTournamentsAndResultsByYear(year int) []*TournamentAndResults
 }
 
 var slugRegexp = regexp.MustCompile("[^a-z0-9]+")

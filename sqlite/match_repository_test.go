@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var (
+const (
 	playerAId = "98556e2665224abc99c2d07d621befa7"
 	playerBId = "7a30fab9631a442d83b70c9bf1293be8"
 	playerCId = "91f67d94a9a54c91b9f0ee0efc497c28"
