@@ -194,9 +194,58 @@ func Test_RatingCalculator_CalculateRatingsByYearFromTournamentResults_1TeamWith
 	totalCalculated := ratingCalculator.CalculateRatingsByYearFromTournamentResults(year)
 
 	// Then
-	assert.Equal(t, 4, totalCalculated)
+	assert.Equal(t, 2, totalCalculated)
 	assertNewRating(t, playerRatingRepository, result1.Player1Id, 1545, year)
 	assertNewRating(t, playerRatingRepository, result1.Player2Id, 1545, year)
+}
+
+func Test_RatingCalculator_CalculateRatingsByYearFromTournamentResults_2TeamsWith2EarnedFinishes(t *testing.T) {
+	// Given
+	const year = 2018
+	tournament := vbratings.Tournament{
+		Id:   "3366b167a109496db63f43169e4ac1a7",
+		Year: year,
+	}
+
+	result1 := vbratings.TournamentResult{
+		Id:           "e57fd803a81349b69f0e7160fa13e919",
+		Player1Id:    playerAId,
+		Player2Id:    playerBId,
+		EarnedFinish: 1,
+		TournamentId: tournament.Id,
+	}
+
+	result2 := vbratings.TournamentResult{
+		Id:           "d80ad4fe3bc2447abb44388702d0f791",
+		Player1Id:    playerCId,
+		Player2Id:    playerDId,
+		EarnedFinish: 2,
+		TournamentId: tournament.Id,
+	}
+
+	db := sqlite.NewInMemoryDB()
+	tournamentRepository := sqlite.NewTournamentRepository(db)
+	tournamentRepository.Create(tournament)
+	tournamentRepository.AddTournamentResult(result1)
+	tournamentRepository.AddTournamentResult(result2)
+	matchRepository := sqlite.NewMatchRepository(db)
+	playerRatingRepository := sqlite.NewPlayerRatingRepository(db)
+	ratingCalculator := vbratings.NewRatingCalculator(
+		matchRepository,
+		tournamentRepository,
+		playerRatingRepository,
+	)
+
+	// When
+	totalCalculated := ratingCalculator.CalculateRatingsByYearFromTournamentResults(year)
+
+	// Then
+	assert.Equal(t, 4, totalCalculated)
+	assertNewRating(t, playerRatingRepository, result1.Player1Id, 1561, year)
+	assertNewRating(t, playerRatingRepository, result1.Player2Id, 1561, year)
+
+	assertNewRating(t, playerRatingRepository, result2.Player1Id, 1529, year)
+	assertNewRating(t, playerRatingRepository, result2.Player2Id, 1529, year)
 }
 
 func assertNewRating(t *testing.T, playerRatingRepository vbratings.PlayerRatingRepository, playerId string, expectedRating int, expectedYear int) {

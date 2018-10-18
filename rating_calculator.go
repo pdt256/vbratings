@@ -55,36 +55,29 @@ func (c *ratingCalculator) CalculateRatingsByYearFromMatches(year int) int {
 		playerCRating.TotalMatches++
 		playerDRating.TotalMatches++
 
-		c.playerRatings[match.PlayerAId] = playerARating
-		c.playerRatings[match.PlayerBId] = playerBRating
-		c.playerRatings[match.PlayerCId] = playerCRating
-		c.playerRatings[match.PlayerDId] = playerDRating
+		c.updateCachedPlayerRating(playerARating)
+		c.updateCachedPlayerRating(playerBRating)
+		c.updateCachedPlayerRating(playerCRating)
+		c.updateCachedPlayerRating(playerDRating)
 	}
 
-	c.saveAllCachedRatings()
+	totalSavedRatings := c.saveAllCachedRatings()
 
-	return len(c.playerRatings)
+	return totalSavedRatings
 }
 
 func (c *ratingCalculator) CalculateRatingsByYearFromTournamentResults(year int) int {
 	for _, tournamentAndResults := range c.tournamentRepository.GetAllTournamentsAndResultsByYear(year) {
 
 		c.eachTeamBeatsAShadowTeam(tournamentAndResults, year)
+		c.eachTeamBeatsBelowTeam(tournamentAndResults, year)
 
 		// TODO: every team in a single earned finish beats the 2 below teams
-
-		c.saveAllCachedRatings()
 	}
 
-	totalRatingsCalculated := 4
+	totalSavedRatings := c.saveAllCachedRatings()
 
-	return totalRatingsCalculated
-}
-
-func (c *ratingCalculator) saveAllCachedRatings() {
-	for _, playerRating := range c.playerRatings {
-		c.playerRatingRepository.Create(playerRating)
-	}
+	return totalSavedRatings
 }
 
 func (c *ratingCalculator) eachTeamBeatsAShadowTeam(tournamentAndResults *TournamentAndResults, year int) {
@@ -100,16 +93,70 @@ func (c *ratingCalculator) eachTeamBeatsAShadowTeam(tournamentAndResults *Tourna
 	newRatings, _ = c.duelingCalculator.GetNewRatings(newRatings, shadowRatings, 1, 0)
 	newRatings, _ = c.duelingCalculator.GetNewRatings(newRatings, shadowRatings, 1, 0)
 	newRatings, _ = c.duelingCalculator.GetNewRatings(newRatings, shadowRatings, 1, 0)
-	for i, result := range tournamentAndResults.Results {
+
+	i := 0
+	for _, result := range tournamentAndResults.Results {
 		player1Rating := c.getPlayerRating(result.Player1Id, year)
 		player2Rating := c.getPlayerRating(result.Player2Id, year)
 
 		player1Rating.Rating = newRatings[i]
 		player2Rating.Rating = newRatings[i+1]
+		i += 2
 
-		c.playerRatings[result.Player1Id] = player1Rating
-		c.playerRatings[result.Player2Id] = player2Rating
+		c.updateCachedPlayerRating(player1Rating)
+		c.updateCachedPlayerRating(player2Rating)
 	}
+}
+
+func (c *ratingCalculator) eachTeamBeatsBelowTeam(tournamentAndResults *TournamentAndResults, year int) {
+	var teamARatings []int
+	var teamBRatings []int
+	earnedFinishA := 1
+	earnedFinishB := 2
+	for _, result := range tournamentAndResults.Results {
+		player1Rating := c.getPlayerRating(result.Player1Id, year)
+		player2Rating := c.getPlayerRating(result.Player2Id, year)
+
+		if result.EarnedFinish == earnedFinishA {
+			teamARatings = append(teamARatings, player1Rating.Rating, player2Rating.Rating)
+		} else if result.EarnedFinish == earnedFinishB {
+			teamBRatings = append(teamBRatings, player1Rating.Rating, player2Rating.Rating)
+		}
+	}
+
+	if len(teamBRatings) == 0 {
+		return
+	}
+
+	newRatingsA, newRatingsB := c.duelingCalculator.GetNewRatings(teamARatings, teamBRatings, 1, 0)
+
+	aIndex := 0
+	bIndex := 0
+	for _, result := range tournamentAndResults.Results {
+		player1Rating := c.getPlayerRating(result.Player1Id, year)
+		player2Rating := c.getPlayerRating(result.Player2Id, year)
+
+		if result.EarnedFinish == earnedFinishA {
+			player1Rating.Rating = newRatingsA[aIndex]
+			player2Rating.Rating = newRatingsA[aIndex+1]
+			aIndex += 2
+		} else if result.EarnedFinish == earnedFinishB {
+			player1Rating.Rating = newRatingsB[bIndex]
+			player2Rating.Rating = newRatingsB[bIndex+1]
+			bIndex += 2
+		}
+
+		c.updateCachedPlayerRating(player1Rating)
+		c.updateCachedPlayerRating(player2Rating)
+	}
+}
+
+func (c *ratingCalculator) saveAllCachedRatings() int {
+	for _, playerRating := range c.playerRatings {
+		c.playerRatingRepository.Create(playerRating)
+	}
+
+	return len(c.playerRatings)
 }
 
 func (c *ratingCalculator) getPlayerRating(playerId string, year int) PlayerRating {
@@ -136,4 +183,8 @@ func (c *ratingCalculator) getPlayerRating(playerId string, year int) PlayerRati
 	c.playerRatings[playerId] = *playerRating
 
 	return *playerRating
+}
+
+func (c *ratingCalculator) updateCachedPlayerRating(playerRating PlayerRating) {
+	c.playerRatings[playerRating.PlayerId] = playerRating
 }
