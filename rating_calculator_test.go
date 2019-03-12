@@ -17,6 +17,7 @@ const (
 )
 
 func Test_RatingCalculator_CalculateRatingsByYear_SingleMatch(t *testing.T) {
+	// Given
 	tournament := vbratings.Tournament{
 		Id:     "1b97c1b593f84566bb932678eaf8a30d",
 		Gender: "male",
